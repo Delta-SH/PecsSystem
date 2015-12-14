@@ -1,0 +1,211 @@
+﻿body
+{
+	margin: 0px;
+	padding: 0px;
+	height: 100%;
+	color: #3D3D3D;
+	font: 12px/15px Arial,"Microsoft Yahei","Hiragino Sans GB",sans-serif;
+}
+
+.container-main
+{
+	background-image: url(../../Resources/images/Install/bodybg.gif);
+	background-repeat: repeat-x;
+	background-color: #f4f4f4;
+	text-align: center;
+	padding-top: 10px;
+}
+
+.container-footer
+{
+	margin: auto;
+	width: 700px;
+    color: #8D8D8D;
+}
+
+.container-error
+{
+	padding-top: 10px;
+	margin: auto;
+	width: 629px;
+	text-align: center;
+}
+
+.error-label
+{
+	color: #ff0000;
+	display: block;
+	padding-bottom: 10px;
+	text-align: left;
+}
+
+.wizard-step
+{
+	margin: auto;
+	width: 630px;
+	height: 340px;
+	text-align: left;
+	padding: 10px 10px 10px 10px;
+}
+
+.wizard-step td
+{
+	height: 20px;
+	margin: 0px;
+	padding: 0px;
+}
+
+.modal-panel
+{
+    margin: auto;
+    width: 100%;
+    font-size:9pt;
+	text-align: left;
+	background-color:#EFF3FB;
+}
+
+.modal-panel td
+{
+	margin: 0px;
+	padding: 5px;
+}
+
+.modal-panel .formtitle
+{
+	width: 80px;
+	font-weight: bold;
+}
+
+.header-text
+{
+	font-size: 18px;
+	font-weight:bold;
+	text-align: center;
+	padding-bottom: 10px;
+}
+
+.header-img
+{
+	margin: 20px 0px 10px 0px;
+}
+
+.content
+{
+	padding-top: 10px;
+	margin: auto;
+	width: 629px;
+	text-align: center;
+}
+
+.textbox
+{
+	width: 90%;
+}
+
+.title
+{
+    font-size: 14px;
+	font-weight: bold;
+}
+
+.log
+{
+	width: 600px;
+	height: 100px;
+	margin: 5px auto;
+}
+
+.container-installer
+{
+	margin: auto;
+}
+
+.container-installer .top .left
+{
+	width: 22px;
+	height: 22px;
+	background-image: url(../../Resources/images/Install/topleft.gif);
+	background-position: left top;
+	background-repeat: no-repeat;
+}
+.container-installer .top .center
+{
+	width: 699px;
+	height: 22px;
+	background-image: url(../../Resources/images/Install/top.gif);
+	background-repeat: no-repeat;
+	background-position: top;
+}
+.container-installer .top .right
+{
+	width: 22px;
+	height: 22px;
+	background-image: url(../../Resources/images/Install/topright.gif);
+	background-position: left top;
+	background-repeat: no-repeat;
+}
+
+.container-installer .Middle .left
+{
+	width: 22px;
+	height: 516px;
+	background-image: url(../../Resources/images/Install/left.gif);
+	background-position: left top;
+	background-repeat: no-repeat;
+}
+.container-installer .Middle .center
+{
+	background-image: url(../../Resources/images/Install/bg.gif);
+	background-repeat: repeat-y;
+	background-position: top;
+	text-align: center;
+	vertical-align: top;
+}
+.container-installer .Middle .right
+{
+	width: 22px;
+	height: 516px;
+	background-image: url(../../Resources/images/Install/right.gif);
+	background-repeat: no-repeat;
+	background-position: left top;
+}
+
+.container-installer .Bottom .left
+{
+	width: 22px;
+	height: 22px;
+	background-image: url(../../Resources/images/Install/bottomleft.gif);
+	background-position: left bottom;
+	background-repeat: no-repeat;
+}
+.container-installer .Bottom .center
+{
+	width: 699px;
+	height: 22px;
+	background-image: url(../../Resources/images/Install/bottom.gif);
+	background-repeat: no-repeat;
+	background-position: top;
+}
+.container-installer .Bottom .right
+{
+	width: 22px;
+	height: 22px;
+	background-image: url(../../Resources/images/Install/bottomright.gif);
+	background-position: left bottom;
+	background-repeat: no-repeat;
+}
+
+.modalBackground {
+	background-color:Gray;
+	filter:alpha(opacity=70);
+	opacity:0.7;
+}
+
+.modalPopup {
+	background-color:#ffffdd;
+	border-width:3px;
+	border-style:solid;
+	border-color:Gray;
+	padding:3px;
+	width:250px;
+}

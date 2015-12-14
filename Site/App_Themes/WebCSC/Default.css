@@ -1,0 +1,670 @@
+﻿body 
+{
+	color:#333;
+	font:normal 12px Arial,"Microsoft Yahei","Hiragino Sans GB",sans-serif;
+	background:transparent;
+	margin: auto;
+	padding:0px;
+}
+
+input,select,button,textarea,table
+{
+    color:#333;
+    font:normal 12px Arial,"Microsoft Yahei","Hiragino Sans GB",sans-serif;
+}
+
+img 
+{
+	border:none;
+}
+
+a
+{
+	color:#005590;
+	text-decoration:none
+}
+
+a:hover
+{
+	color:#7777CC;
+}
+/*------------------------------------------Login-------------------------------------------*/
+.L-page 
+{
+	margin:auto;
+	width:720px;
+	height:auto;
+	text-align:center;
+}
+
+.L-header
+{
+	width:100%;
+    height:100px;
+    position:relative
+}
+
+.L-jsTips
+{
+	border:solid 1px #E2C822;
+	background:#FFF9D7;
+	width:100%;
+	height:30px;
+	line-height:30px;
+	margin-top:-15px;
+	position:absolute;
+	top:50%;
+    left:0;
+}
+
+.L-jsTips .words
+{
+    font-size:14px;
+	font-weight:bold;
+	padding-left:20px;
+	background:transparent url(../../Resources/images/Tips/T-Light.png) no-repeat;
+}
+
+.L-ErrorTips
+{
+    overflow:hidden;
+    border:solid 1px #FF8080;
+	background:#FFF2F2;
+	width:100%;
+	height:30px;
+	line-height:30px;
+	margin-top:-15px;
+	position:absolute;
+	top:50%;
+	left:0;
+}
+
+.L-ErrorTips .words
+{
+    font-size:12px;
+	font-weight:bold;
+	padding-left:20px;
+    background:transparent url(../../Resources/images/Tips/T-Cross.png) no-repeat;
+}
+
+.L-content
+{
+	width:100%;
+	height:auto;
+	margin:auto;
+	text-align:left;
+}
+
+.L-TextBoxLoginCss
+{
+	font-size:14px;
+	color: #000;
+	border:solid 1px #838383;
+	width:180px;
+	height:25px;
+	line-height:25px;
+	background:transparent url(../../Resources/images/Login/L-TextBg.png) repeat-x;
+}
+
+.L-TextBoxLoginCss-On
+{
+	border:solid 1px #4E93d9;
+}
+
+.L-BtnLoginCss
+{
+    width:180px;
+	height:35px;
+	border:none;
+	cursor:pointer;
+	color:#FFF;
+	font-size:14px;
+	font-family:Arial,"Microsoft Yahei","Hiragino Sans GB",sans-serif;
+    font-weight:500;
+	background:transparent url(../../Resources/images/Login/L-BtnBg.png) no-repeat;
+    background-position:0px 0px;
+}
+
+.L-BtnLoginCss-On
+{
+    background-position:0px -36px;
+}
+
+.L-BtnLoginCss-Active
+{
+    background-position:0px -72px;
+}
+
+.L-ListLanCss
+{
+	font-size:12px;
+	color: #000;
+	border:solid 1px #838383;
+	width:90px;
+	height:25px;
+}
+
+.L-logintable .L-logo-zh-cn
+{
+	width:410px;
+	height:50px;
+	background:transparent url(../../Resources/images/Login/L-Logo-zh-cn.png) no-repeat;
+}
+
+.L-logintable .L-logo-en-us
+{
+	width:410px;
+	height:50px;
+	background:transparent url(../../Resources/images/Login/L-Logo-en-us.png) no-repeat;
+}
+
+.L-logintable .L-theme
+{
+	width:410px;
+	height:305px;
+	background:transparent url(../../Resources/images/Login/L-theme.png) no-repeat;
+}
+
+.L-logintable .L-login
+{
+	width:300px;
+	height:350px;
+	background:transparent url(../../Resources/images/Login/L-Bg.png) no-repeat;
+}
+
+.L-logintable .L-loginHD
+{
+	width:300px;
+	height:45px;
+	line-height:45px;
+	background:transparent url(../../Resources/images/Login/L-Tips.png) no-repeat;
+}
+
+.L-logintable .L-loginHD em
+{
+	font-size:14px;
+	font-weight:bold;
+	font-style:normal;
+	margin-left:40px;
+}
+
+.L-logintable .L-loginItem
+{
+    width:auto;
+	height:45px;
+    clear:both;
+}
+
+.L-logintable .L-loginItem em
+{
+	font-size:12px;
+	font-weight:bold;
+	font-style:normal;
+	width:50px;
+	height:30px;
+	line-height:30px;
+	float:left;
+}
+
+.L-logintable .L-loginItem .L-ValidateCode
+{
+    cursor: pointer;
+    vertical-align:top;
+}
+
+.L-logintable .L-loginItem a
+{
+	margin-left:30px; 
+	color:#848585;
+	cursor: pointer;
+	text-decoration:none;
+}
+
+.L-logintable .L-loginItem a:hover
+{
+	color:#626262;
+}
+
+.L-logintable .L-loginItem .L-loginVersion
+{
+    color:#848585;
+    margin-top:15px;
+}
+
+.L-logintable .L-footer
+{
+	width:100%;
+	text-align:center;
+	height:60px;
+	line-height:60px;
+	background:#EFEFEF;
+	margin-top:60px;
+}
+
+.L-logintable .L-footer .words
+{
+    font-family:Arial,"Microsoft Yahei","Hiragino Sans GB",sans-serif;
+    font-size:14px;
+	font-weight:bold;
+	font-style:normal;
+    color:#0087DC;
+}
+/*---------------------------------------------End-------------------------------------------*/
+/*---------------------------------------------Master-------------------------------------------*/
+#masterHeader
+{
+	width:100%;
+	height:auto;
+}
+
+#masterContent
+{
+	width:100%;
+	height:auto;
+}
+/*---------------------------------------------End-------------------------------------------*/
+/*---------------------------------------------Header-------------------------------------------*/
+.controlHeader
+{
+	height:86px;
+	width:100%;
+	background:transparent url(../../Resources/images/Header/H-Bg.png) repeat-x;
+	
+}
+
+.HeaderLogo-zh-cn
+{
+	position:relative;
+	height:86px;
+	width:100%;
+	background:url(../../Resources/images/Header/H-Theme-zh-cn.png) no-repeat;
+}
+
+.HeaderLogo-en-us
+{
+	position:relative;
+	height:86px;
+	width:100%;
+	background:url(../../Resources/images/Header/H-Theme-en-us.png) no-repeat;
+}
+
+.HeaderTip
+{
+    position: absolute;
+    right:10px;
+    bottom: 3px;
+    color:#004EA1;
+}
+
+.HeaderTip a
+{
+    color:#004EA1;
+    margin: 0 8px;
+}
+
+.HeaderTip a:hover
+{
+	color:#FF0000;
+}
+/*---------------------------------------------End-------------------------------------------*/
+/*---------------------------------------------Icon-------------------------------------------*/
+.icon-expand-all    { background-image : url(../../Resources/images/Tips/T-Expand.gif) !important; }
+.icon-collapse-all  { background-image : url(../../Resources/images/Tips/T-Collapse.gif) !important; }
+.icon-tree-alarm0  { background-image : url(../../Resources/images/TreeNav/treeAL0.gif) !important; }
+.icon-tree-alarm1  { background-image : url(../../Resources/images/TreeNav/treeAL1.gif) !important; }
+.icon-tree-alarm2  { background-image : url(../../Resources/images/TreeNav/treeAL2.gif) !important; }
+.icon-tree-alarm3  { background-image : url(../../Resources/images/TreeNav/treeAL3.gif) !important; }
+.icon-tree-alarm4  { background-image : url(../../Resources/images/TreeNav/treeAL4.gif) !important; }
+.icon-exclamation { padding-left: 25px !important;background: url(../../Resources/images/Tips/T-Exclamation.png) no-repeat 3px 3px !important; }
+.icon-tick { padding-left: 25px !important; background: url(../../Resources/images/Tips/T-Tick.png) no-repeat 3px 3px !important; }
+.icon-loading  { background-image : url(../../Resources/images/Tips/T-Loading-2.gif) !important; }
+.icon-wdate { background:url(../../Resources/images/Tips/T-DatePicker.gif) no-repeat right !important; }
+.icon-filter { background:url(../../Resources/images/Shared/filter.png) no-repeat right !important; }
+/*---------------------------------------------End-------------------------------------------*/
+/*---------------------------------AlarmBackgroundColor--------------------------------------*/
+.grid-bg-NoAlarm { background-color : Transparent; }
+.grid-bg-Critical { background-color : #FF0000;}
+.grid-bg-Major { background-color : #FFA500; }
+.grid-bg-Minor { background-color : #FFFF00; }
+.grid-bg-Hint { background-color : #87CEEB; }
+.grid-bg-Opevent { background-color : Transparent; }
+.grid-bg-Invalid { background-color : #0000FF; }
+/*---------------------------------------------End-------------------------------------------*/
+/*---------------------------------------------EXT CSS-------------------------------------------*/
+.ext-el-mask-msg div {
+    font-size:12px;
+}
+
+.loading-indicator {
+    font-size:12px;
+}
+
+.x-tab-strip span.x-tab-strip-text {
+	font-size:12px;
+}
+
+.x-form-field {
+    font-size:13px;
+}
+
+.x-form-grow-sizer {
+	font-size:13px;
+}
+
+.x-form-item {
+    font-size:13px;
+}
+
+.x-form-invalid-msg {
+    font-size:12px;
+}
+
+.x-small-editor .x-form-field {
+    font-size:12px;
+}
+
+.ext-webkit .x-small-editor .x-form-field {
+    font-size:12px;
+}
+
+.x-fieldset legend {
+    font-size:12px;
+}
+
+.x-btn{
+	font-size:12px;
+}
+
+.x-btn button{
+    font-size:12px;
+    letter-spacing:2px;
+}
+
+.x-btn-text{
+    height:18px !important;
+}
+
+.x-toolbar td,.x-toolbar span,.x-toolbar input,.x-toolbar div,.x-toolbar select,.x-toolbar label {
+    font-size:12px;
+}
+
+.x-grid3-row td, .x-grid3-summary-row td {
+	font:normal 12px/14px arial, tahoma, helvetica, sans-serif;
+}
+
+.x-grid3-hd-row td {
+	font:normal 12px/16px arial, tahoma, helvetica, sans-serif;
+}
+
+.x-grid3-topbar, .x-grid3-bottombar{
+	font-size:12px;
+}
+
+.x-grid-group-hd div.x-grid-group-title {
+    font-size:12px;
+}
+
+.x-grid-empty {
+    font-size:12px;
+}
+
+.x-dd-drag-ghost{
+	font-size:12px;
+}
+
+.x-tree-node {
+	font-size:12px;
+}
+
+.x-date-middle,.x-date-left,.x-date-right {
+	font-size:12px;
+}
+
+.x-date-inner th {
+    font-size:11px;
+}
+
+.x-date-inner a {
+    font-size:12px;
+}
+
+.x-date-mmenu .x-menu-item {
+	font-size:11px;
+}
+
+.x-date-mp td {
+	font-size:12px;
+}
+
+.x-date-mp-btns button {
+	font-size:12px;
+}
+
+.x-tip .x-tip-mc {
+    font-size:12px;
+}
+
+.x-tip .x-tip-header-text {
+    font-size:12px;
+}
+
+.x-tip .x-tip-body {
+    font-size:12px;
+}
+
+.x-menu-list-item{
+	font-size:12px;
+}
+
+.x-box-mc {
+	font-size: 13px;
+}
+
+.x-box-mc h3 {
+	font-size: 15px;
+}
+
+.x-combo-list {
+    font-size:13px;
+}
+
+.x-combo-list-hd {
+    font-size:12px;
+}
+
+.x-combo-list-small {
+    font-size:12px;
+}
+
+.x-panel-header {
+    font-size: 12px;
+}
+
+.x-panel-tl .x-panel-header {
+    font-size: 12px;
+}
+
+.x-panel-mc {
+    font-size: 12px;
+}
+
+.x-panel-fbar td,.x-panel-fbar span,.x-panel-fbar input,.x-panel-fbar div,.x-panel-fbar select,.x-panel-fbar label{
+    font-size: 12px;
+}
+
+.x-window-tl .x-window-header {
+    font-size: 12px;
+}
+
+.x-window-mc {
+    font-size: 12px;
+}
+
+.x-progress-text {
+    font-size:12px;
+}
+
+.x-list-header-inner div em {
+    font-size: 12px;
+}
+
+.x-list-body dt em {
+    font-size: 12px;
+}
+
+.x-window-dlg .ext-mb-text,
+.x-window-dlg .x-window-header-text {
+    font-size:13px;
+}
+
+.x-window-dlg .ext-mb-textarea {
+    font-size:13px;
+}
+/*---------------------------------------------End-------------------------------------------*/
+/*----------------------------------------Calendar CSS---------------------------------------*/
+.app-header {
+    text-align: center;
+    font-family: arial;
+}
+
+.app-center .x-panel-header {
+    font-size    : 13px;
+    text-align   : center;
+    padding-left : 178px;
+    font-family  : helvetica, arial, sans-serif;
+    color        : #455C6F;
+}
+
+.app-west {
+    border-right : 1px solid #99BBE8;
+}
+
+.app-west .x-panel-body {
+    background : #D0DEF0;
+}
+
+.app-header-content h1 {
+    float     : left;
+    margin    : 8px 5px;
+    font-size : 18px;
+    color     : #455C6F;
+}
+
+#app-logo {
+    float  : left;
+    margin : 5px 10px;
+    width  : 30px;
+}
+
+#app-logo .logo-top,
+#app-logo .logo-bottom {
+    height   : 0;
+    overflow : hidden;
+    margin   : 0 1px;
+    border-color     : #9F2727;
+    border-top-width : 1px;
+    border-top-style : solid;
+}
+
+.ext-border-box #app-logo .logo-top,
+.ext-border-box #app-logo .logo-bottom {
+    height : 1px;
+}
+
+#logo-body {
+    margin       : 0;
+    text-align   : center;
+    overflow     : hidden;
+    border-width : 3px 1px 0;
+    border-style : solid;
+    border-color : #9F2727;
+    background   : #fff;
+    font-weight  : bold;
+    padding      : 1px 0 2px;
+    font-size    : 18px;
+    line-height  : 18px;
+    color        : #455C6F;
+}
+
+#app-msg {
+    color         : #c8a52e;
+    padding       : 2px 10px;
+    font-weight   : bold;
+    font-size     : 13px;
+    border-radius : 3px;
+    -moz-border-radius    : 3px;
+    -webkit-border-radius : 3px;
+}
+
+.event {
+    margin  : 8px 12px;
+    border  : solid 1px #999;
+    background-color : #EFEFEF; 
+}
+
+.event table {
+    width : 100%;
+}
+
+.event caption {
+    color   : #fff;
+    padding : 3px;
+    font-weight      : bold;
+    background-color : #999;
+}
+
+.event th, .event td {
+    padding : 2px 5px;
+}
+
+.event th {
+    width       : 100px;
+    font-weight : bold;
+}
+/*---------------------------------------------End-------------------------------------------*/
+/*-------------------------------------Image DataView CSS------------------------------------*/
+.images-view .x-panel-body{
+    background: white;
+    font: 12px Arial, Helvetica, sans-serif;
+}
+
+.images-view .thumb{
+    background: #dddddd;
+    padding: 3px;
+}
+
+.images-view .thumb img{
+    height: 230px;
+    width: 300px;
+}
+
+.images-view .thumb-wrap{
+    float: left;
+    margin: 4px;
+    margin-right: 0;
+    padding: 5px;
+    text-align:center;
+}
+
+.images-view .thumb-wrap span{
+    display: block;
+    overflow: hidden;
+    text-align: center;
+}
+
+.images-view .x-view-over{
+    border:1px solid #dddddd;
+    background: #efefef;
+    padding: 4px;
+}
+
+.images-view .x-view-selected{
+    background: #eff5fb;
+    border:1px solid #99bbe8;
+    padding: 4px;
+}
+
+.images-view .x-view-selected .thumb{
+    background:transparent;
+}
+/*---------------------------------------------End-------------------------------------------*/

@@ -1,0 +1,559 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Main.master.cs" Inherits="Delta.PECS.WebCSC.Site.Main" %>
+<%@ Register Src="~/Modules/HeaderControl.ascx" TagName="HeaderControl" TagPrefix="uc1" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <title>动力环境监控中心系统</title>
+    <ext:ResourcePlaceHolder ID="ResourcePlaceHolder1" runat="server" Mode="Script" />
+    <ext:ResourcePlaceHolder ID="ResourcePlaceHolder2" runat="server" Mode="Style" />
+    <link rel="shortcut icon" type="image/x-icon" href="../favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="../favicon.ico" />
+    <link rel="bookmark" type="image/x-icon" href="../favicon.ico" />
+    <script type="text/javascript" src="../Resources/js/public.js?v=3.3.0.0"></script>
+    <asp:ContentPlaceHolder ID="head" runat="server"></asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <ext:ResourceManager ID="ResourceManager1" runat="server" DirectMethodNamespace="X" IDMode="Explicit"/>
+    <ext:Viewport ID="MasterViewport" runat="server" Layout="BorderLayout">
+        <Items>
+            <ext:Panel ID="MasterHeaderPanel" runat="server" Header="false" Region="North" Border="false">
+                <Content>
+                    <div id="masterHeader">
+                        <uc1:HeaderControl ID="HeaderControl1" runat="server" />
+                    </div>
+                </Content>
+            </ext:Panel>
+            <ext:Panel ID="MasterBodyPanel" runat="server" Border="false" Header="false" Region="Center">
+                <TopBar>
+                    <ext:Toolbar ID="MasterTopMenusToolbar" runat="server">
+                        <Items>
+                            <ext:SplitButton ID="SystemMenuButton" runat="server" Text="系统(S)" Icon="Computer">
+                                <Menu>
+                                    <ext:Menu ID="SystemMenu" runat="server">
+                                        <Items>
+                                            <ext:MenuItem ID="SystemItem1" runat="server" Text="数据源配置(D)" Icon="DatabaseGear">
+                                                <DirectEvents>
+                                                    <Click OnEvent="ShowDBSettingWindow" />
+                                                </DirectEvents>
+                                            </ext:MenuItem>
+                                            <ext:MenuItem ID="SystemItem2" runat="server" Text="语音配置(S)" Icon="BellSilver">
+                                                <DirectEvents>
+                                                    <Click OnEvent="ShowSpSettingWindow" />
+                                                </DirectEvents>
+                                            </ext:MenuItem>
+                                            <ext:MenuSeparator ID="SystemSeparator1" runat="server" />
+                                            <ext:MenuItem ID="SystemItem3" runat="server" Text="打印/导出(P)" Icon="Printer">
+                                                <Menu>
+                                                    <ext:Menu ID="SystemImportMenu" runat="server">
+                                                        <Items>
+                                                            <ext:MenuItem ID="SystemImportItem1" runat="server" Text="数据视图" Icon="PageExcel">
+                                                                <Listeners>
+                                                                    <Click Handler="#{NodesGridRowItem5}.fireEvent('click');" />
+                                                                </Listeners>
+                                                            </ext:MenuItem>
+                                                            <ext:MenuItem ID="SystemImportItem2" runat="server" Text="活动告警" Icon="PageExcel">
+                                                                <Listeners>
+                                                                    <Click Handler="#{AlarmsGridRowItem5}.fireEvent('click');" />
+                                                                </Listeners>
+                                                            </ext:MenuItem>
+                                                        </Items>
+                                                    </ext:Menu>
+                                                </Menu>
+                                                <Listeners>
+                                                    <Click Handler="return false;" />
+                                                </Listeners>
+                                            </ext:MenuItem>
+                                            <ext:MenuSeparator ID="SystemSeparator2" runat="server" />
+                                            <ext:MenuItem ID="SystemItem4" runat="server" Text="安全退出(X)" Icon="ComputerGo" Href="Logout.aspx" />
+                                        </Items>
+                                    </ext:Menu>
+                                </Menu>
+                                <Listeners>
+                                    <Click Handler="this.menu.show(this.getEl());" />
+                                </Listeners>
+                            </ext:SplitButton>
+                            <ext:ToolbarSeparator ID="ToolbarSeparator1" runat="server"/>
+                            <ext:SplitButton ID="MaintenanceMenuButton" runat="server" Text="维护(M)" Icon="TableEdit">
+                                <Menu>
+                                    <ext:Menu ID="MaintenanceMenu" runat="server">
+                                        <Items>
+                                            <ext:MenuItem ID="MaintenanceMenuItem1" runat="server" Text="Lsc管理" Icon="ChartOrganisation" Href="LSCManager.aspx" HrefTarget="_blank" />
+                                            <ext:MenuSeparator ID="MaintenanceSeparator1" runat="server" />
+                                            <ext:MenuItem ID="MaintenanceMenuItem2" runat="server" Text="工程预约" Icon="TextListBullets">
+                                                <Menu>
+                                                    <ext:Menu ID="ProjectMenu" runat="server">
+                                                        <Items>
+                                                            <ext:MenuItem ID="ProjectMenuItem1" runat="server" Text="工程管理" Icon="TagBlue" Href="ProjectManager.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="ProjectMenuItem2" runat="server" Text="工程报表" Icon="TagBlue" Href="ProjectReport.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="ProjectMenuItem3" runat="server" Text="预约管理" Icon="TagBlue" Href="AppointmentManager.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="ProjectMenuItem4" runat="server" Text="历史预约" Icon="TagBlue" Href="HisAppointments.aspx" HrefTarget="_blank" />
+                                                        </Items>
+                                                    </ext:Menu>
+                                                </Menu>
+                                                <Listeners>
+                                                    <Click Handler="return false;" />
+                                                </Listeners>
+                                            </ext:MenuItem>
+                                            <ext:MenuSeparator ID="MaintenanceSeparator2" runat="server" />
+                                            <ext:MenuItem ID="MaintenanceMenuItem3" runat="server" Text="预警管理" Icon="TextListBullets">
+                                                <Menu>
+                                                    <ext:Menu ID="PreAlarmMenu" runat="server">
+                                                        <Items>
+                                                            <ext:MenuItem ID="PreAlarmMenuItem1" runat="server" Text="趋势预警" Icon="TagRed" Href="TrendAlarmManager.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="PreAlarmMenuItem2" runat="server" Text="负荷预警" Icon="TagRed" Href="LoadAlarmManager.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="PreAlarmMenuItem3" runat="server" Text="频度预警" Icon="TagRed" Href="FrequencyAlarmManager.aspx" HrefTarget="_blank" />
+                                                        </Items>
+                                                    </ext:Menu>
+                                                </Menu>
+                                                <Listeners>
+                                                    <Click Handler="return false;" />
+                                                </Listeners>
+                                            </ext:MenuItem>
+                                            <ext:MenuSeparator ID="MaintenanceSeparator3" runat="server" />
+                                            <ext:MenuItem ID="MaintenanceMenuItem4" runat="server" Text="日历管理" Icon="Calendar" Href="CalendarManager.aspx" HrefTarget="_blank" />
+                                            <ext:MenuSeparator ID="MaintenanceSeparator4" runat="server" />
+                                            <ext:MenuItem ID="MaintenanceMenuItem5" runat="server" Text="报表参数" Icon="TextListBullets">
+                                                <Menu>
+                                                    <ext:Menu ID="ReportSettingMenu" runat="server">
+                                                        <Items>
+                                                            <ext:MenuItem ID="ReportSettingMenuItem1" runat="server" Text="归类统计参数" Icon="PageGear">
+                                                                <DirectEvents>
+                                                                    <Click OnEvent="ShowAlarmsCountSettingWindow" />
+                                                                </DirectEvents>
+                                                            </ext:MenuItem>
+                                                            <ext:MenuItem ID="ReportSettingMenuItem2" runat="server" Text="综合测值参数" Icon="PageGear">
+                                                                <DirectEvents>
+                                                                    <Click OnEvent="ShowNodesCountSettingWindow" />
+                                                                </DirectEvents>
+                                                            </ext:MenuItem>
+                                                            <ext:MenuItem ID="ReportSettingMenuItem3" runat="server" Text="异常告警参数" Icon="PageGear">
+                                                                <DirectEvents>
+                                                                    <Click OnEvent="ShowAlmExceptionSettingWindow" />
+                                                                </DirectEvents>
+                                                            </ext:MenuItem>
+                                                        </Items>
+                                                    </ext:Menu>
+                                                </Menu>
+                                                <Listeners>
+                                                    <Click Handler="return false;" />
+                                                </Listeners>
+                                            </ext:MenuItem>
+                                            <ext:MenuSeparator ID="MaintenanceSeparator5" runat="server" />
+                                            <ext:MenuItem ID="MaintenanceMenuItem6" runat="server" Text="系统日志" Icon="PageWhiteText" Href="SystemLogs.aspx" HrefTarget="_blank" />
+                                            <ext:MenuItem ID="MaintenanceMenuItem7" runat="server" Text="服务日志" Icon="PageWhiteText" Href="ServiceLogs.aspx" HrefTarget="_blank" />
+                                        </Items>
+                                    </ext:Menu>
+                                </Menu>
+                                <Listeners>
+                                    <Click Handler="this.menu.show(this.getEl());" />
+                                </Listeners>
+                            </ext:SplitButton>
+                            <ext:ToolbarSeparator ID="ToolbarSeparator2" runat="server"/>
+                            <ext:SplitButton ID="ToolMenuButton" runat="server" Text="工具(T)" Icon="Cog">
+                                <Menu>
+                                    <ext:Menu ID="ToolMenu" runat="server">
+                                        <Items>
+                                            <ext:MenuItem ID="ToolMenuItem1" runat="server" Text="选定告警确认" Icon="PageLightning">
+                                                <Listeners>
+                                                    <Click Handler="setConfirmAlarm();" />
+                                                </Listeners>
+                                            </ext:MenuItem>
+                                            <ext:MenuItem ID="ToolMenuItem2" runat="server" Text="本页告警确认" Icon="PageLightning">
+                                                <Listeners>
+                                                    <Click Handler="setPageConfirmAlarms();" />
+                                                </Listeners>
+                                            </ext:MenuItem>
+                                            <ext:MenuItem ID="ToolMenuItem3" runat="server" Text="全部告警确认" Icon="PageLightning">
+                                                <Listeners>
+                                                    <Click Handler="setAllConfirmAlarms();" />
+                                                </Listeners>
+                                            </ext:MenuItem>
+                                            <ext:MenuSeparator ID="ToolSeparator1" runat="server" />
+                                            <ext:MenuItem ID="ToolMenuItem4" runat="server" Text="告警定位" Icon="Find">
+                                                <Listeners>
+                                                    <Click Handler="onMenuAlarmsFinderClick();" />
+                                                </Listeners>
+                                            </ext:MenuItem>
+                                        </Items>
+                                    </ext:Menu>
+                                </Menu>
+                                <Listeners>
+                                    <Click Handler="this.menu.show(this.getEl());" />
+                                </Listeners>
+                            </ext:SplitButton>
+                            <ext:ToolbarSeparator ID="ToolbarSeparator3" runat="server"/>
+                            <ext:SplitButton ID="ReportMenuButton" runat="server" Text="报表(R)" Icon="ChartCurve">
+                                <Menu>
+                                    <ext:Menu ID="ReportMenu" runat="server">
+                                        <Items>
+                                            <ext:MenuItem ID="ReportMenuItem1" runat="server" Text="实时测值查询" Icon="ApplicationViewDetail" Href="NodeValues.aspx" HrefTarget="_blank" />
+                                            <ext:MenuItem ID="ReportMenuItem2" runat="server" Text="历史测值查询" Icon="ApplicationViewDetail" Href="HisAIStaticNodes.aspx" HrefTarget="_blank" />
+                                            <ext:MenuSeparator ID="ReportSeparator1" runat="server" />
+                                            <ext:MenuItem ID="ReportMenuItem3" runat="server" Text="历史告警统计" Icon="TextListBullets">
+                                                <Menu>
+                                                    <ext:Menu ID="ReportMenuItem3Menu1" runat="server">
+                                                        <Items>
+                                                            <ext:MenuItem ID="ReportMenuItem3Item1" runat="server" Text="历史告警查询" Icon="ApplicationViewDetail" Href="HisAlarms.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="ReportMenuItem3Item2" runat="server" Text="告警归类统计" Icon="ApplicationViewDetail" Href="HisAlarmsCategory.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="ReportMenuItem3Item3" runat="server" Text="设备告警统计" Icon="ApplicationViewDetail" Href="DevAlmReport.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="ReportMenuItem3Item4" runat="server" Text="告警标准化统计" Icon="ApplicationViewDetail" Href="AlmStandardizationReport.aspx" HrefTarget="_blank" />
+                                                        </Items>
+                                                    </ext:Menu>
+                                                </Menu>
+                                                <Listeners>
+                                                    <Click Handler="return false;" />
+                                                </Listeners>
+                                            </ext:MenuItem>
+                                            <ext:MenuItem ID="ReportMenuItem4" runat="server" Text="异常告警统计" Icon="TextListBullets">
+                                                <Menu>
+                                                    <ext:Menu ID="ReportMenuItem4Menu1" runat="server">
+                                                        <Items>
+                                                            <ext:MenuItem ID="ReportMenuItem4Item1" runat="server" Text="重大故障统计" Icon="ApplicationViewDetail" Href="MajorIncidentReport.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="ReportMenuItem4Item2" runat="server" Text="重要告警统计" Icon="ApplicationViewDetail" Href="ImportantAlmReport.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="ReportMenuItem4Item3" runat="server" Text="超频告警统计" Icon="ApplicationViewDetail" Href="HisAlarmFrequencyReport.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="ReportMenuItem4Item4" runat="server" Text="超短告警统计" Icon="ApplicationViewDetail" Href="HisAlarmMinIntervalReport.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="ReportMenuItem4Item5" runat="server" Text="超长告警统计" Icon="ApplicationViewDetail" Href="HisAlarmMaxIntervalReport.aspx" HrefTarget="_blank" />
+                                                        </Items>
+                                                    </ext:Menu>
+                                                </Menu>
+                                                <Listeners>
+                                                    <Click Handler="return false;" />
+                                                </Listeners>
+                                            </ext:MenuItem>
+                                            <ext:MenuSeparator ID="ReportSeparator2" runat="server" Hidden="true" />
+                                            <ext:MenuItem ID="ReportMenuItem5" runat="server" Text="操作记录" Icon="ApplicationViewDetail" Href="HisOperatingEvents.aspx" HrefTarget="_blank" Hidden="true" />
+                                            <ext:MenuItem ID="ReportMenuItem6" runat="server" Text="门禁记录" Icon="ApplicationViewDetail" Href="HisAccessRecords.aspx" HrefTarget="_blank" Hidden="true" />
+                                            <ext:MenuItem ID="ReportMenuItem7" runat="server" Text="图片管理" Icon="Image" Href="HisPictures.aspx" HrefTarget="_blank" Hidden="true" />
+                                            <ext:MenuSeparator ID="ReportSeparator3" runat="server" />
+                                            <ext:MenuItem ID="ReportMenuItem8" runat="server" Text="历史实时曲线" Icon="ChartCurve" Href="HisRealTimeCurve.aspx" HrefTarget="_blank" />
+                                            <ext:MenuItem ID="ReportMenuItem9" runat="server" Text="历史统计曲线" Icon="ChartCurve" Href="HisCountCurve.aspx" HrefTarget="_blank" />
+                                            <ext:MenuSeparator ID="ReportSeparator4" runat="server" />
+                                            <ext:MenuItem ID="ReportMenuItem10" runat="server" Text="局站统计" Icon="ApplicationViewDetail" Href="StaCount.aspx" HrefTarget="_blank" />
+                                            <ext:MenuItem ID="ReportMenuItem11" runat="server" Text="设备统计" Icon="ApplicationViewDetail" Href="DevCount.aspx" HrefTarget="_blank" />
+                                            <ext:MenuSeparator ID="ReportSeparator5" runat="server" />
+                                            <ext:MenuItem ID="ReportMenuItem12" runat="server" Text="电池放电统计" Icon="ApplicationViewDetail" Href="BatCountReport.aspx" HrefTarget="_blank" />
+                                            <ext:MenuItem ID="ReportMenuItem13" runat="server" Text="油机发电统计" Icon="ApplicationViewDetail" Href="OilEngineReport.aspx" HrefTarget="_blank" />
+                                        </Items>
+                                    </ext:Menu>
+                                </Menu>
+                                <Listeners>
+                                    <Click Handler="this.menu.show(this.getEl());" />
+                                </Listeners>
+                            </ext:SplitButton>
+                            <ext:ToolbarSeparator ID="ToolbarSeparator4" runat="server"/>
+                            <ext:SplitButton ID="OtherMenuButton" runat="server" Text="指标(K)" Icon="ChartBar">
+                                <Menu>
+                                    <ext:Menu ID="OtherMenu" runat="server">
+                                        <Items>
+                                            <ext:MenuItem ID="OtherMenuItem1" runat="server" Text="能耗管理" Icon="ApplicationViewDetail" Href="EnergyReport.aspx" HrefTarget="_blank" Hidden="true" />
+                                            <ext:MenuItem ID="OtherMenuItem2" runat="server" Text="设备性能" Icon="ChartCurve" Href="DevPerformanceReport.aspx" HrefTarget="_blank" />
+                                            <ext:MenuItem ID="OtherMenuItem3" runat="server" Text="设备负载" Icon="ApplicationViewDetail" Href="DevLoadReport.aspx" HrefTarget="_blank" />
+                                            <ext:MenuItem ID="OtherMenuItem4" runat="server" Text="负荷预警" Icon="ApplicationViewDetail" Href="OverloadAlert.aspx" HrefTarget="_blank" />
+                                            <ext:MenuItem ID="OtherMenuItem5" runat="server" Text="告警考核" Icon="ApplicationViewDetail" Href="RReport001.aspx" HrefTarget="_blank" Hidden="true" />
+                                            <ext:MenuSeparator ID="OtherSeparator1" runat="server" />
+                                            <ext:MenuItem ID="OtherMenuItem6" runat="server" Text="局站可用率" Icon="ChartBar" Href="StaAvailabilityReport.aspx" HrefTarget="_blank" />
+                                            <ext:MenuItem ID="OtherMenuItem7" runat="server" Text="监控可用率" Icon="ChartBar" Href="DevAvailabilityReport.aspx" HrefTarget="_blank" />
+
+                                            <%--report0xx.aspx为广西移动定制报表--%>
+                                            <ext:MenuItem ID="OtherMenuItem8" runat="server" Text="健康度指标" Icon="TextListBullets">
+                                                <Menu>
+                                                    <ext:Menu ID="KPIReportMenu0xx" runat="server">
+                                                        <Items>
+                                                            <ext:MenuItem ID="Report001MenuItem" runat="server" Text="直流系统可用度" Icon="ApplicationViewDetail" Href="KPI/report001.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="Report012MenuItem" runat="server" Text="传输机房直流系统可用度" Icon="ApplicationViewDetail" Href="KPI/report012.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="Report002MenuItem" runat="server" Text="交流系统可用度" Icon="ApplicationViewDetail" Href="KPI/report002.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="Report003MenuItem" runat="server" Text="温控系统可用度" Icon="ApplicationViewDetail" Href="KPI/report003.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="Report004MenuItem" runat="server" Text="市电可用度" Icon="ApplicationViewDetail" Href="KPI/report004.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="Report005MenuItem" runat="server" Text="中心机房监控可用度" Icon="ApplicationViewDetail" Href="KPI/report005.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="Report011MenuItem" runat="server" Text="其他站点监控可用度" Icon="ApplicationViewDetail" Href="KPI/report011.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuSeparator ID="ReportMenuSeparator001" runat="server" />
+                                                            <ext:MenuItem ID="Report006MenuItem" runat="server" Text="监控覆盖率" Icon="ApplicationViewDetail" Href="KPI/report006.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="Report014MenuItem" runat="server" Text="站点标识率" Icon="ApplicationViewDetail" Href="KPI/report014.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="Report007MenuItem" runat="server" Text="关键监控测点接入率" Icon="ApplicationViewDetail" Href="KPI/report007.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="Report008MenuItem" runat="server" Text="开关电源带载率" Icon="ApplicationViewDetail" Href="KPI/report008.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="Report009MenuItem" runat="server" Text="温控容量合格率" Icon="ApplicationViewDetail" Href="KPI/report009.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="Report010MenuItem" runat="server" Text="蓄电池核对性放电及时率" Icon="ApplicationViewDetail" Href="KPI/report010.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="Report013MenuItem" runat="server" Text="蓄电池后备时长合格率" Icon="ApplicationViewDetail" Href="KPI/report013.aspx" HrefTarget="_blank" />
+                                                        </Items>
+                                                    </ext:Menu>
+                                                </Menu>
+                                                <Listeners>
+                                                    <Click Handler="return false;" />
+                                                </Listeners>
+                                            </ext:MenuItem>
+                                            <%-- End --%>
+
+                                            <%--report1xx.aspx为河南移动定制报表--%>
+                                            <ext:MenuItem ID="OtherMenuItem9" runat="server" Text="核心机楼健康度" Icon="TextListBullets">
+                                                <Menu>
+                                                    <ext:Menu ID="KPIReportMenu1xx_1" runat="server">
+                                                        <Items>
+                                                            <ext:MenuItem ID="Report101MenuItem" runat="server" Text="高低压配电系统负载率" Icon="ApplicationViewDetail" Href="KPI/report101.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="Report102MenuItem" runat="server" Text="直流不间断系统负载率" Icon="ApplicationViewDetail" Href="KPI/report102.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="Report103MenuItem" runat="server" Text="交流不间断系统负载率" Icon="ApplicationViewDetail" Href="KPI/report103.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuSeparator ID="ReportMenuSeparator101" runat="server" />
+                                                            <ext:MenuItem ID="Report104MenuItem" runat="server" Text="直流不间断系统可用度" Icon="ApplicationViewDetail" Href="KPI/report104.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="Report105MenuItem" runat="server" Text="交流不间断系统可用度" Icon="ApplicationViewDetail" Href="KPI/report105.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="Report106MenuItem" runat="server" Text="温控系统可用度" Icon="ApplicationViewDetail" Href="KPI/report106.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="Report107MenuItem" runat="server" Text="市电可用度" Icon="ApplicationViewDetail" Href="KPI/report107.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="Report108MenuItem" runat="server" Text="监控可用度" Icon="ApplicationViewDetail" Href="KPI/report108.aspx" HrefTarget="_blank" />
+                                                        </Items>
+                                                    </ext:Menu>
+                                                </Menu>
+                                                <Listeners>
+                                                    <Click Handler="return false;" />
+                                                </Listeners>
+                                            </ext:MenuItem>
+                                            <ext:MenuItem ID="OtherMenuItem10" runat="server" Text="其他站点健康度" Icon="TextListBullets">
+                                                <Menu>
+                                                    <ext:Menu ID="KPIReportMenu1xx_2" runat="server">
+                                                        <Items>
+                                                            <ext:MenuItem ID="Report112MenuItem" runat="server" Text="监控覆盖率" Icon="ApplicationViewDetail" Href="KPI/report112.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="Report113MenuItem" runat="server" Text="关键监控测点接入率" Icon="ApplicationViewDetail" Href="KPI/report113.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="Report109MenuItem" runat="server" Text="站点标识率" Icon="ApplicationViewDetail" Href="KPI/report109.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="Report114MenuItem" runat="server" Text="开关电源带载合格率" Icon="ApplicationViewDetail" Href="KPI/report114.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="Report110MenuItem" runat="server" Text="蓄电池后备时长合格率" Icon="ApplicationViewDetail" Href="KPI/report110.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="Report115MenuItem" runat="server" Text="温控容量合格率" Icon="ApplicationViewDetail" Href="KPI/report115.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="Report116MenuItem" runat="server" Text="直流系统可用度" Icon="ApplicationViewDetail" Href="KPI/report116.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="Report111MenuItem" runat="server" Text="监控故障处理及时率" Icon="ApplicationViewDetail" Href="KPI/report111.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="Report117MenuItem" runat="server" Text="蓄电池核对性放电及时率" Icon="ApplicationViewDetail" Href="KPI/report117.aspx" HrefTarget="_blank" />
+                                                        </Items>
+                                                    </ext:Menu>
+                                                </Menu>
+                                                <Listeners>
+                                                    <Click Handler="return false;" />
+                                                </Listeners>
+                                            </ext:MenuItem>
+                                            <%-- End --%>
+
+                                            <ext:MenuSeparator ID="OtherSeparator2" runat="server" />
+                                            <ext:MenuItem ID="OtherMenuItem11" runat="server" Text="系统指标" Icon="ApplicationViewDetail" Href="SysKPI.aspx" HrefTarget="_blank" />
+                                        </Items>
+                                    </ext:Menu>
+                                </Menu>
+                                <Listeners>
+                                    <Click Handler="this.menu.show(this.getEl());" />
+                                </Listeners>
+                            </ext:SplitButton>
+                            <ext:ToolbarSeparator ID="ToolbarSeparator5" runat="server"/>
+                            <ext:SplitButton ID="VideoSplitButton" runat="server" Text="视频(V)" Icon="Film" Hidden="false">
+                                <Menu>
+                                    <ext:Menu ID="VideoMenu" runat="server">
+                                        <Items>
+                                            <ext:MenuItem ID="VideoMenuItem1" runat="server" Text="云视讯平台" Icon="Webcam" Href="Video.aspx" HrefTarget="_blank" />
+                                            <ext:MenuSeparator ID="VideoMenuSeparator1" runat="server" />
+                                            <ext:MenuItem ID="VideoMenuItem2" runat="server" Text="云视讯设置" Icon="WebcamConnect">
+                                                <Listeners>
+                                                    <Click Handler="X.ShowVideoWindow({success: function(result) {VideoFormPanel.clearInvalid();}});" />
+                                                </Listeners>
+                                            </ext:MenuItem>
+                                        </Items>
+                                    </ext:Menu>
+                                </Menu>
+                                <Listeners>
+                                    <Click Handler="this.menu.show(this.getEl());" />
+                                </Listeners>
+                            </ext:SplitButton>
+                            <ext:ToolbarSeparator ID="ToolbarSeparator6" runat="server"/>
+                            <ext:SplitButton ID="ViewMenuButton" runat="server" Text="视图(V)" Icon="Layout">
+                                <Menu>
+                                    <ext:Menu ID="ViewMenu" runat="server">
+                                        <Items>
+                                            <ext:CheckMenuItem ID="ViewMenuItem0" runat="server" Text="标题栏" HideOnClick="false" Checked="true" CheckHandler="function(){if(this.checked){#{MasterHeaderPanel}.show();}else{#{MasterHeaderPanel}.hide();}#{MasterViewport}.doLayout();}" />
+                                            <ext:MenuSeparator ID="ViewSeparator1" runat="server" />
+                                            <ext:CheckMenuItem ID="ViewMenuItem1" runat="server" Text="监控树" HideOnClick="false" Checked="true" CheckHandler="function(){if(this.checked){#{NavPanel}.expand();}else{#{NavPanel}.collapse();}}" />
+                                            <ext:MenuSeparator ID="ViewSeparator2" runat="server" />
+                                            <ext:CheckMenuItem ID="ViewMenuItem2" runat="server" Text="活动告警表" HideOnClick="false" Checked="true" CheckHandler="function(){if(this.checked){#{AlarmsPanel}.expand();}else{#{AlarmsPanel}.collapse();}}" />
+                                            <ext:CheckMenuItem ID="ViewMenuItem3" runat="server" Text="活动告警子表" HideOnClick="false" Checked="false" CheckHandler="function(){if(this.checked){#{SubAlarmsPanel}.expand();}else{#{SubAlarmsPanel}.collapse();}}" />
+                                            <ext:CheckMenuItem ID="ViewMenuItem4" runat="server" Text="活动告警筛选设置栏" HideOnClick="false" Checked="true" CheckHandler="function(){if(this.checked){#{AlarmsToolbars}.show();}else{#{AlarmsToolbars}.hide();}#{MasterViewport}.doLayout();}" />
+                                            <ext:CheckMenuItem ID="ViewMenuItem5" runat="server" Text="显示告警级别色" HideOnClick="false" Checked="true" CheckHandler="function(){#{AlarmsGridPagingToolbar}.doRefresh();}" />
+                                        </Items>
+                                    </ext:Menu>
+                                </Menu>
+                                <Listeners>
+                                    <Click Handler="this.menu.show(this.getEl());" />
+                                </Listeners>
+                            </ext:SplitButton>
+                            <ext:ToolbarSeparator ID="ToolbarSeparator7" runat="server"/>
+                            <ext:SplitButton ID="HelpMenuButton" runat="server" Text="帮助(H)" Icon="Help">
+                                <Menu>
+                                    <ext:Menu ID="HelpMenu" runat="server">
+                                        <Items>
+                                            <ext:MenuItem ID="HelpMenuItem1" runat="server" Text="使用手册" Icon="Book" Href="Resources/doc/WebInstruction.pdf" HrefTarget="_blank" />
+                                            <ext:MenuSeparator ID="HelpSeparator1" runat="server" />
+                                            <ext:MenuItem ID="HelpMenuItem2" runat="server" Text="语言" Icon="PageWhiteFont">
+                                                <Menu>
+                                                    <ext:Menu ID="HelpLanguageMenu" runat="server">
+                                                        <Items>
+                                                            <ext:CheckMenuItem ID="HelpLanguageMenuItem1" runat="server" Text="中文" Group="language" Checked="true">
+                                                                <DirectEvents>
+                                                                    <Click OnEvent="ChangeUICulture">
+                                                                        <ExtraParams>
+                                                                            <ext:Parameter Name="UICulture" Value="zh-CN" />
+                                                                        </ExtraParams>
+                                                                    </Click>
+                                                                </DirectEvents>
+                                                            </ext:CheckMenuItem>
+                                                            <ext:CheckMenuItem ID="HelpLanguageMenuItem2" runat="server" Text="English" Group="language">
+                                                                <DirectEvents>
+                                                                    <Click OnEvent="ChangeUICulture">
+                                                                        <ExtraParams>
+                                                                            <ext:Parameter Name="UICulture" Value="en-US" />
+                                                                        </ExtraParams>
+                                                                    </Click>
+                                                                </DirectEvents>
+                                                            </ext:CheckMenuItem>
+                                                        </Items>
+                                                    </ext:Menu>
+                                                </Menu>
+                                                <Listeners>
+                                                    <Click Handler="return false;" />
+                                                </Listeners>
+                                            </ext:MenuItem>
+                                            <ext:MenuSeparator ID="HelpSeparator2" runat="server" />
+                                            <ext:MenuItem ID="HelpMenuItem3" runat="server" Text="关于" Icon="Information" Handler="function(){#{AboutWindow}.show();}" />
+                                        </Items>
+                                    </ext:Menu>
+                                </Menu>
+                                <Listeners>
+                                    <Click Handler="this.menu.show(this.getEl());" />
+                                </Listeners>
+                            </ext:SplitButton>
+                        </Items>
+                    </ext:Toolbar>
+                </TopBar>
+                <Content>
+                    <div id="masterContent">
+                        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                        </asp:ContentPlaceHolder>
+                    </div>
+                </Content>
+            </ext:Panel>
+        </Items>
+    </ext:Viewport>
+    <ext:Window ID="AboutWindow" runat="server" Icon="Information" Title="关于..." Height="260"
+        Width="400" Collapsible="false" Closable="false" Modal="true" InitCenter="true" Resizable="false"
+        Hidden="true">
+        <Content>
+            <table border="0" cellpadding="0" cellspacing="0" style="width:100%; height:auto;">
+                <tr>
+                    <td height="60px">
+                        <img src="../Resources/images/About/A-Top.png" alt="logo" title="logo" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div style="margin:10px 0 0 10px; font: 13px/15px Arial,'Microsoft Yahei','Hiragino Sans GB',sans-serif;">
+                            动力环境监控中心系统
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div style="margin:0 0 0 10px; font: 12px/15px Arial,'Microsoft Yahei','Hiragino Sans GB',sans-serif;">
+                            <%=System.Web.Configuration.WebConfigurationManager.AppSettings["CurrentVersion"]%>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div style="margin:0 0 0 10px; font: 12px/15px Arial,'Microsoft Yahei','Hiragino Sans GB',sans-serif;">
+                            Delta GreenTech(China) Co., Ltd.<br />
+                            All Rights Reserved&nbsp;&copy;2011-<%= DateTime.Today.Year %>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div style="margin:10px 0 0 10px; font: 12px/15px Arial,'Microsoft Yahei','Hiragino Sans GB',sans-serif;">
+                            <p>本计算机程序受著作权法保护。</p>
+                            <p>未经授权不得擅自复制或传播本程序（或其中任何部分）。</p>
+                            <p>版权所有，侵权必究。</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </Content>
+        <Buttons>
+            <ext:Button ID="DoButton" runat="server" Text="确定">
+                <Listeners>
+                    <Click Handler="#{AboutWindow}.hide();" />
+                </Listeners>
+            </ext:Button>
+        </Buttons>
+    </ext:Window>
+    <ext:Window ID="VideoWindow" runat="server" Width="400" Height="220" Modal="true" Hidden="true" Layout="FitLayout">
+        <Items>
+            <ext:FormPanel ID="VideoFormPanel" runat="server" Header="false" Padding="10" ButtonAlign="Right" MonitorValid="true">
+                <Items>
+                    <ext:TextField ID="VideoIPField" runat="server" FieldLabel="平台地址" AnchorHorizontal="95%" MaxLength="100" AllowBlank="false" EmptyText="示例: http://192.168.1.1" />
+                    <ext:SpinnerField ID="VideoPortField" runat="server" FieldLabel="平台端口" AnchorHorizontal="95%" MinValue="1" MaxValue="65535" AllowDecimals="false" IncrementValue="1" AllowBlank="false"/>
+                    <ext:TextField ID="VideoUIDField" runat="server" FieldLabel="登录账户" AnchorHorizontal="95%" AllowBlank="false" MaxLength="50" />
+                    <ext:TextField ID="VideoPwdField" runat="server" FieldLabel="登录密码" AnchorHorizontal="95%" AllowBlank="false" MaxLength="50" InputType="Password" />
+                </Items>
+                <Buttons>
+                    <ext:Button ID="SaveVideoBtn" runat="server" Text="保存">
+                        <Listeners>
+                            <Click Handler="if (#{VideoFormPanel}.getForm().isValid()) {
+                                #{VideoStatusBar}.setStatus({text: LanguageSet.Saving, iconCls: 'icon-loading'});
+                                X.SaveVideoParamters({
+                                    success : function (result) {
+                                        if(!Ext.isEmpty(result, false)){
+                                            var msg = Ext.util.JSON.decode(result, true);
+                                            if(msg) {
+                                                if(msg.Status == 200){
+                                                    #{VideoStatusBar}.setStatus({text: msg.Msg, iconCls: 'icon-tick'});
+                                                } else{ 
+                                                    #{VideoStatusBar}.setStatus({text: msg.Msg, iconCls: 'icon-exclamation'}); 
+                                                }
+                                            }
+                                        }
+                                    }
+                                });
+                            } else { 
+                                #{VideoStatusBar}.setStatus({text: LanguageSet.ErrorForm, iconCls: 'icon-exclamation'}); 
+                            }" />
+                        </Listeners>
+                    </ext:Button>
+                    <ext:Button ID="CancelVideoBtn" runat="server" Text="取消">
+                        <Listeners>
+                            <Click Handler="#{VideoWindow}.hide();" />
+                        </Listeners>
+                    </ext:Button>
+                </Buttons>
+                <BottomBar>
+                    <ext:StatusBar ID="VideoStatusBar" runat="server" Height="25" />
+                </BottomBar>
+            </ext:FormPanel>
+        </Items>
+    </ext:Window>
+    <ext:Window ID="AlmExceptionParamWindow" runat="server" Icon="TableEdit" Title="异常告警参数配置" Height="240" Width="400" Modal="true" InitCenter="true" Hidden="true" BodyStyle="background:#fff;">
+        <Items>
+            <ext:FormPanel ID="AlmExceptionParamFormPanel" runat="server" Border="false" LabelWidth="180" Padding="10" ButtonAlign="Right" MonitorValid="true">
+                <Items>
+                    <ext:TextField ID="AlmExTextField1" runat="server" FieldLabel="重要告警标识" AnchorHorizontal="95%" MaxLength="100" AllowBlank="false" Text="#ZYGJ" />
+                    <ext:SpinnerField ID="AlmExSpinnerField1" runat="server" FieldLabel="超频告警阈值(次数)" AnchorHorizontal="95%" MinValue="1" AllowDecimals="false" IncrementValue="1" AllowBlank="false" Number="10" />
+                    <ext:SpinnerField ID="AlmExSpinnerField2" runat="server" FieldLabel="超短告警阈值(秒钟)" AnchorHorizontal="95%" MinValue="1" AllowDecimals="false" IncrementValue="1" AllowBlank="false" Number="10"/>
+                    <ext:SpinnerField ID="AlmExSpinnerField3" runat="server" FieldLabel="超长告警阈值(秒钟)" AnchorHorizontal="95%" MinValue="1" AllowDecimals="false" IncrementValue="1" AllowBlank="false" Number="3600"/>
+                    <ext:SpinnerField ID="AlmExSpinnerField4" runat="server" FieldLabel="发现时间异常告警阈值(秒钟)" AnchorHorizontal="95%" MinValue="1" AllowDecimals="false" IncrementValue="1" AllowBlank="false" Number="1800"/>
+                    <ext:SpinnerField ID="AlmExSpinnerField5" runat="server" FieldLabel="清除时间异常告警阈值(秒钟)" AnchorHorizontal="95%" MinValue="1" AllowDecimals="false" IncrementValue="1" AllowBlank="false" Number="1800"/>
+                </Items>
+            </ext:FormPanel>
+        </Items>
+        <Buttons>
+            <ext:Button ID="OkButton" runat="server" Text="确定">
+                <DirectEvents>
+                    <Click Before="return #{AlmExceptionParamFormPanel}.getForm().isValid();" OnEvent="OkButton_Click"/>
+                </DirectEvents>
+            </ext:Button>
+            <ext:Button ID="CancelButton" runat="server" Text="取消">
+                <Listeners>
+                    <Click Handler="#{AlmExceptionParamWindow}.hide();" />
+                </Listeners>
+            </ext:Button>
+        </Buttons>
+    </ext:Window>
+    </form>
+</body>
+</html>
