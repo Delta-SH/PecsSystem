@@ -117,5 +117,7 @@ namespace Delta.PECS.WebCSC.IDAL
         /// Method to get prealarm levels combobox information
         /// </summary>
         Dictionary<string, string> GetPreAlarmLevels();
+
+        Dictionary<int, string> GetAcMessageType(string connectionString);
     }
 }

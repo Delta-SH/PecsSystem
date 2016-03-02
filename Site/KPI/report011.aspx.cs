@@ -290,9 +290,9 @@ namespace Delta.PECS.WebCSC.Site {
                 if(lsc == null) { continue; }
 
                 var stations = otherEntity.GetStations(lsc.LscID, l.Group.GroupID).FindAll(sta => staTypes.ContainsKey(sta.StaTypeID));
-                var alarms = WebUtility.GetUserAlarms(userData).FindAll(alarm => alarm.LscID == lsc.LscID && alarm.StartTime >= fromTime && alarm.StartTime <= toTime && alarmNames.ContainsKey(alarm.AlarmID));
+                var alarms = WebUtility.GetUserAlarms(userData).FindAll(alarm => alarm.LscID == lsc.LscID && alarm.StartTime >= fromTime && alarm.StartTime <= toTime && alarmNames.ContainsKey(alarm.AlarmID) && string.IsNullOrEmpty(alarm.ProjName));
                 alarms.AddRange(alarmEntity.GetHisAlarms(lsc.LscID, lsc.LscName, userData.StandardProtocol, l.Group.GroupNodes, fromTime, toTime).FindAll(alarm => {
-                    return alarmNames.ContainsKey(alarm.AlarmID);
+                    return alarmNames.ContainsKey(alarm.AlarmID) && string.IsNullOrEmpty(alarm.ProjName);
                 }));
 
                 var nalm = from alarm in alarms

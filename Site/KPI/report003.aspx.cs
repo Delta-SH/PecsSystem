@@ -263,7 +263,7 @@ namespace Delta.PECS.WebCSC.Site {
 
             var ndWam = from alarm in alarms
                         join node in nodes on new { alarm.LscID, alarm.NodeID, alarm.NodeType } equals new { node.LscID, node.NodeID, node.NodeType }
-                        where (almNames.Count == 0 || almNames.Any(name => alarm.AlarmName.Contains(name))) && (almIds.Count == 0 || almIds.ContainsKey(alarm.AlarmID.ToString()))
+                        where (almNames.Count == 0 || almNames.Any(name => alarm.AlarmName.Contains(name))) && (almIds.Count == 0 || almIds.ContainsKey(alarm.AlarmID.ToString())) && string.IsNullOrEmpty(alarm.ProjName)
                         select new {
                             Node = node,
                             Alarm = alarm

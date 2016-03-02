@@ -409,5 +409,18 @@ namespace Delta.PECS.WebCSC.SQLServerDAL
             dict.Add("4", "四级预警");
             return dict;
         }
+
+        public Dictionary<int, string> GetAcMessageType(string connectionString) {
+            var dict = new Dictionary<int, string>();
+            SqlHelper.TestConnection(connectionString);
+            using(var rdr = SqlHelper.ExecuteReader(connectionString, CommandType.Text, SqlText.SQL_SELECT_COMBOBOX_GetAcMessageType, null)) {
+                while(rdr.Read()) {
+                    var id = ComUtility.DBNullInt32Handler(rdr["ID"]);
+                    var name = ComUtility.DBNullStringHandler(rdr["Name"]);
+                    dict.Add(id, name);
+                }
+            }
+            return dict;
+        }
     }
 }

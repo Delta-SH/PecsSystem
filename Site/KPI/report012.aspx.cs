@@ -304,7 +304,7 @@ namespace Delta.PECS.WebCSC.Site {
 
                 var nalm = from alarm in alarms
                            join nns in nnodes on new { alarm.NodeID, alarm.NodeType } equals new { nns.NodeID, nns.NodeType }
-                           where (alarm.AlarmLevel == EnmAlarmLevel.Hint) && (almNames.Count == 0 || almNames.Any(name => alarm.AlarmName.Contains(name))) && (almIds.Count == 0 || almIds.ContainsKey(alarm.AlarmID.ToString()))
+                           where (alarm.AlarmLevel == EnmAlarmLevel.Hint) && (almNames.Count == 0 || almNames.Any(name => alarm.AlarmName.Contains(name))) && (almIds.Count == 0 || almIds.ContainsKey(alarm.AlarmID.ToString())) && string.IsNullOrEmpty(alarm.ProjName)
                            select alarm;
 
                 result.Add(new Report012Entity {

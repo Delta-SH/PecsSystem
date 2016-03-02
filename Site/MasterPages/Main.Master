@@ -234,6 +234,7 @@
                                             <ext:MenuSeparator ID="ReportSeparator5" runat="server" />
                                             <ext:MenuItem ID="ReportMenuItem12" runat="server" Text="电池放电统计" Icon="ApplicationViewDetail" Href="BatCountReport.aspx" HrefTarget="_blank" />
                                             <ext:MenuItem ID="ReportMenuItem13" runat="server" Text="油机发电统计" Icon="ApplicationViewDetail" Href="OilEngineReport.aspx" HrefTarget="_blank" />
+                                            <ext:MenuItem ID="ReportMenuItem14" runat="server" Text="门禁事件统计" Icon="ApplicationViewDetail" Href="AcEvents.aspx" HrefTarget="_blank" />
                                         </Items>
                                     </ext:Menu>
                                 </Menu>

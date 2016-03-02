@@ -316,5 +316,37 @@ namespace Delta.PECS.WebCSC.BLL
                 throw;
             }
         }
+
+        public List<AcEventInfo> GetPubAlertEvent(int lscId, string lscName, string connectionString, DateTime fromTime, DateTime toTime) {
+            try {
+                return otherDal.GetPubAlertEvent(lscId, lscName, connectionString, fromTime, toTime);
+            } catch {
+                throw;
+            }
+        }
+
+        public List<AcEventInfo> GetPubGeneralEvent(int lscId, string lscName, string connectionString, DateTime fromTime, DateTime toTime) {
+            try {
+                return otherDal.GetPubGeneralEvent(lscId, lscName, connectionString, fromTime, toTime);
+            } catch {
+                throw;
+            }
+        }
+
+        public List<AcEventInfo> GetPubInvalidCardEvent(int lscId, string lscName, string connectionString, DateTime fromTime, DateTime toTime) {
+            try {
+                return otherDal.GetPubInvalidCardEvent(lscId, lscName, connectionString, fromTime, toTime);
+            } catch {
+                throw;
+            }
+        }
+
+        public List<AcEventInfo> GetPubValidCardEvent(int lscId, string lscName, string connectionString, DateTime fromTime, DateTime toTime) {
+            try {
+                return otherDal.GetPubValidCardEvent(lscId, lscName, connectionString, fromTime, toTime);
+            } catch {
+                throw;
+            }
+        }
     }
 }

@@ -913,5 +913,121 @@ namespace Delta.PECS.WebCSC.SQLServerDAL
             }
             return records;
         }
+
+        public List<AcEventInfo> GetPubAlertEvent(int lscId, string lscName, string connectionString, DateTime fromTime, DateTime toTime) {
+            SqlParameter[] parms = { new SqlParameter("@FromTime", SqlDbType.DateTime),
+                                     new SqlParameter("@ToTime", SqlDbType.DateTime) };
+
+            parms[0].Value = fromTime;
+            parms[1].Value = toTime;
+
+            var records = new List<AcEventInfo>();
+            SqlHelper.TestConnection(connectionString);
+            using(var rdr = SqlHelper.ExecuteReader(connectionString, CommandType.Text, SqlText.SQL_SELECT_OTHER_GetPubAlertEvent, parms)) {
+                while(rdr.Read()) {
+                    records.Add(new AcEventInfo {
+                        LscId = lscId,
+                        LscName = lscName,
+                        NetGroupID = ComUtility.DBNullInt32Handler(rdr["NetGroupID"]),
+                        NetGroupName = ComUtility.DBNullStringHandler(rdr["NetGroupName"]),
+                        PointName = ComUtility.DBNullStringHandler(rdr["PointName"]),
+                        UserID = ComUtility.DBNullStringHandler(rdr["UserID"]),
+                        UserName = ComUtility.DBNullStringHandler(rdr["UserName"]),
+                        Department = ComUtility.DBNullStringHandler(rdr["Department"]),
+                        MessageID = ComUtility.DBNullInt32Handler(rdr["MessageID"]),
+                        Message = ComUtility.DBNullStringHandler(rdr["Message"]),
+                        EventTime = ComUtility.DBNullDateTimeHandler(rdr["EventTime"])
+                    });
+                }
+            }
+            return records;
+        }
+
+        public List<AcEventInfo> GetPubGeneralEvent(int lscId, string lscName, string connectionString, DateTime fromTime, DateTime toTime) {
+            SqlParameter[] parms = { new SqlParameter("@FromTime", SqlDbType.DateTime),
+                                     new SqlParameter("@ToTime", SqlDbType.DateTime) };
+
+            parms[0].Value = fromTime;
+            parms[1].Value = toTime;
+
+            var records = new List<AcEventInfo>();
+            SqlHelper.TestConnection(connectionString);
+            using(var rdr = SqlHelper.ExecuteReader(connectionString, CommandType.Text, SqlText.SQL_SELECT_OTHER_GetPubGeneralEvent, parms)) {
+                while(rdr.Read()) {
+                    records.Add(new AcEventInfo {
+                        LscId = lscId,
+                        LscName = lscName,
+                        NetGroupID = ComUtility.DBNullInt32Handler(rdr["NetGroupID"]),
+                        NetGroupName = ComUtility.DBNullStringHandler(rdr["NetGroupName"]),
+                        PointName = ComUtility.DBNullStringHandler(rdr["PointName"]),
+                        UserID = ComUtility.DBNullStringHandler(rdr["UserID"]),
+                        UserName = ComUtility.DBNullStringHandler(rdr["UserName"]),
+                        Department = ComUtility.DBNullStringHandler(rdr["Department"]),
+                        MessageID = ComUtility.DBNullInt32Handler(rdr["MessageID"]),
+                        Message = ComUtility.DBNullStringHandler(rdr["Message"]),
+                        EventTime = ComUtility.DBNullDateTimeHandler(rdr["EventTime"])
+                    });
+                }
+            }
+            return records;
+        }
+
+        public List<AcEventInfo> GetPubInvalidCardEvent(int lscId, string lscName, string connectionString, DateTime fromTime, DateTime toTime) {
+            SqlParameter[] parms = { new SqlParameter("@FromTime", SqlDbType.DateTime),
+                                     new SqlParameter("@ToTime", SqlDbType.DateTime) };
+
+            parms[0].Value = fromTime;
+            parms[1].Value = toTime;
+
+            var records = new List<AcEventInfo>();
+            SqlHelper.TestConnection(connectionString);
+            using(var rdr = SqlHelper.ExecuteReader(connectionString, CommandType.Text, SqlText.SQL_SELECT_OTHER_GetPubInvalidCardEvent, parms)) {
+                while(rdr.Read()) {
+                    records.Add(new AcEventInfo {
+                        LscId = lscId,
+                        LscName = lscName,
+                        NetGroupID = ComUtility.DBNullInt32Handler(rdr["NetGroupID"]),
+                        NetGroupName = ComUtility.DBNullStringHandler(rdr["NetGroupName"]),
+                        PointName = ComUtility.DBNullStringHandler(rdr["PointName"]),
+                        UserID = ComUtility.DBNullStringHandler(rdr["UserID"]),
+                        UserName = ComUtility.DBNullStringHandler(rdr["UserName"]),
+                        Department = ComUtility.DBNullStringHandler(rdr["Department"]),
+                        MessageID = ComUtility.DBNullInt32Handler(rdr["MessageID"]),
+                        Message = ComUtility.DBNullStringHandler(rdr["Message"]),
+                        EventTime = ComUtility.DBNullDateTimeHandler(rdr["EventTime"])
+                    });
+                }
+            }
+            return records;
+        }
+
+        public List<AcEventInfo> GetPubValidCardEvent(int lscId, string lscName, string connectionString, DateTime fromTime, DateTime toTime) {
+            SqlParameter[] parms = { new SqlParameter("@FromTime", SqlDbType.DateTime),
+                                     new SqlParameter("@ToTime", SqlDbType.DateTime) };
+
+            parms[0].Value = fromTime;
+            parms[1].Value = toTime;
+
+            var records = new List<AcEventInfo>();
+            SqlHelper.TestConnection(connectionString);
+            using(var rdr = SqlHelper.ExecuteReader(connectionString, CommandType.Text, SqlText.SQL_SELECT_OTHER_GetPubValidCardEvent, parms)) {
+                while(rdr.Read()) {
+                    records.Add(new AcEventInfo {
+                        LscId = lscId,
+                        LscName = lscName,
+                        NetGroupID = ComUtility.DBNullInt32Handler(rdr["NetGroupID"]),
+                        NetGroupName = ComUtility.DBNullStringHandler(rdr["NetGroupName"]),
+                        PointName = ComUtility.DBNullStringHandler(rdr["PointName"]),
+                        UserID = ComUtility.DBNullStringHandler(rdr["UserID"]),
+                        UserName = ComUtility.DBNullStringHandler(rdr["UserName"]),
+                        Department = ComUtility.DBNullStringHandler(rdr["Department"]),
+                        MessageID = ComUtility.DBNullInt32Handler(rdr["MessageID"]),
+                        Message = ComUtility.DBNullStringHandler(rdr["Message"]),
+                        EventTime = ComUtility.DBNullDateTimeHandler(rdr["EventTime"])
+                    });
+                }
+            }
+            return records;
+        }
     }
 }

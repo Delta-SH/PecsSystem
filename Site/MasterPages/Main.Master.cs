@@ -25,6 +25,9 @@ namespace Delta.PECS.WebCSC.Site {
                     var hn = WebConfigurationManager.AppSettings["Kpi-HeNan-Enable"];
                     OtherMenuItem9.Visible = 
                     OtherMenuItem10.Visible = hn != null && hn.Trim().Equals("1");
+
+                    var nm = WebConfigurationManager.AppSettings["Menjin-NeiMeng-Enable"];
+                    ReportMenuItem14.Visible = nm != null && nm.Trim().Equals("1");
                 #endregion
 
                 #region 用户权限菜单
@@ -80,6 +83,7 @@ namespace Delta.PECS.WebCSC.Site {
                         ReportSeparator5.Visible = false;
                         ReportMenuItem12.Visible = false;
                         ReportMenuItem13.Visible = false;
+                        ReportMenuItem14.Visible = false;
                         ToolbarSeparator4.Visible = false;
 
                         OtherMenuButton.Visible = false;

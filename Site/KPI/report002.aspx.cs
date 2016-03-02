@@ -343,7 +343,7 @@ namespace Delta.PECS.WebCSC.Site {
 
             var ndWam = from alarm in alarms
                         join node in nodes on new { alarm.LscID, alarm.NodeID, alarm.NodeType } equals new { node.LscID, node.NodeID, node.NodeType }
-                        where (almNames.Count == 0 || almNames.Any(name => alarm.AlarmName.Contains(name))) && (almIds.Count == 0 || almIds.ContainsKey(alarm.AlarmID.ToString()))
+                        where (almNames.Count == 0 || almNames.Any(name => alarm.AlarmName.Contains(name))) && (almIds.Count == 0 || almIds.ContainsKey(alarm.AlarmID.ToString())) && string.IsNullOrEmpty(alarm.ProjName)
                         select new {
                             Node = node,
                             Alarm = alarm
@@ -351,7 +351,7 @@ namespace Delta.PECS.WebCSC.Site {
 
             var pdWam = from alarm in alarms
                         join node in pnodes on new { alarm.LscID, alarm.NodeID, alarm.NodeType } equals new { node.LscID, node.NodeID, node.NodeType }
-                        where (palmNames.Count == 0 || palmNames.Any(name => alarm.AlarmName.Contains(name))) && (palmIds.Count == 0 || palmIds.ContainsKey(alarm.AlarmID.ToString()))
+                        where (palmNames.Count == 0 || palmNames.Any(name => alarm.AlarmName.Contains(name))) && (palmIds.Count == 0 || palmIds.ContainsKey(alarm.AlarmID.ToString())) && string.IsNullOrEmpty(alarm.ProjName)
                         select new {
                             Node = node,
                             Alarm = alarm

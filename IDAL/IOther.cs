@@ -185,5 +185,13 @@ namespace Delta.PECS.WebCSC.IDAL
         List<DscInfo> GetHisDsc(int lscId, DateTime beginTime, DateTime endTime);
 
         List<SubDevInfo> GetSubDev(int lscId, string lscName, string connectionString);
+
+        List<AcEventInfo> GetPubAlertEvent(int lscId, string lscName, string connectionString, DateTime fromTime, DateTime toTime);
+
+        List<AcEventInfo> GetPubGeneralEvent(int lscId, string lscName, string connectionString, DateTime fromTime, DateTime toTime);
+
+        List<AcEventInfo> GetPubInvalidCardEvent(int lscId, string lscName, string connectionString, DateTime fromTime, DateTime toTime);
+
+        List<AcEventInfo> GetPubValidCardEvent(int lscId, string lscName, string connectionString, DateTime fromTime, DateTime toTime);
     }
 }

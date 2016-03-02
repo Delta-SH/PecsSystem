@@ -705,6 +705,8 @@ namespace Delta.PECS.WebCSC.DBUtility
         ORDER BY AN.[ID];";
         public const string SQL_SELECT_COMBOBOX_GETALLALARMNAMES = @"
         SELECT [ID] AS [AlarmID], [AlarmName] FROM [dbo].[TC_AlarmName] ORDER BY [ID];";
+        public const string SQL_SELECT_COMBOBOX_GetAcMessageType = @"SELECT [MessageID] AS [ID],[Content] AS [Name] FROM [dbo].[NK_PubEventID] ORDER BY [MessageID];";
+
         //Alarm SQL Text
         public const string SQL_SELECT_ALARM_GETHISALARMS = @"
         DECLARE @tpDate DATETIME, 
@@ -1701,6 +1703,34 @@ namespace Delta.PECS.WebCSC.DBUtility
 
         EXECUTE sp_executesql @SQL;";
         public const string SQL_SELECT_OTHER_GETSUBDEV = @"SELECT [DevID],[Rate],[AlarmLevel],[EventValue],[RateStr],[EventValue1],[EventValue2],[EventValue3],[EventValue4],[AicID],[DevCapacity] FROM [dbo].[TM_SubDev];";
+        public const string SQL_SELECT_OTHER_GetPubAlertEvent = @"
+        SELECT PAE.*,LNG.[NetGroupName],LNP.[PointName],PEI.[Content] AS [Message],PUI.[UserName],PUI.[Department] FROM [dbo].[NK_PubAlertEvent] PAE 
+        INNER JOIN [dbo].[NK_LwsNetGroup] LNG ON PAE.[NetGroupID] = LNG.[NetGroupID]
+        LEFT OUTER JOIN [dbo].[NK_PubEventID] PEI ON PAE.[MessageID] = PEI.[MessageID]
+        LEFT OUTER JOIN [dbo].[NK_PubUserInfo] PUI ON PAE.[UserID] = PUI.[UserID] AND PAE.[NetGroupID] = PUI.[NetGroupID]
+        LEFT OUTER JOIN [dbo].[NK_LwsNetPoint] LNP ON PAE.[NetGroupID] = LNP.[NetGroupID] AND PAE.[SubPointID] = LNP.[SubPointID] AND PAE.[ControlMachineAddress] = LNP.[ControlMachineAddress] AND PAE.[PointAddress] = LNP.[PointAddress]
+        WHERE PAE.[NetGroupID] = 0 AND PAE.[EventTime] BETWEEN @FromTime AND @ToTime ORDER BY PAE.[EventTime] DESC;";
+        public const string SQL_SELECT_OTHER_GetPubGeneralEvent = @"
+        SELECT PAE.*,LNG.[NetGroupName],LNP.[PointName],PEI.[Content] AS [Message],PUI.[UserName],PUI.[Department] FROM [dbo].[NK_PubGeneralEvent] PAE 
+        INNER JOIN [dbo].[NK_LwsNetGroup] LNG ON PAE.[NetGroupID] = LNG.[NetGroupID]
+        LEFT OUTER JOIN [dbo].[NK_PubEventID] PEI ON PAE.[MessageID] = PEI.[MessageID]
+        LEFT OUTER JOIN [dbo].[NK_PubUserInfo] PUI ON PAE.[UserID] = PUI.[UserID] AND PAE.[NetGroupID] = PUI.[NetGroupID]
+        LEFT OUTER JOIN [dbo].[NK_LwsNetPoint] LNP ON PAE.[NetGroupID] = LNP.[NetGroupID] AND PAE.[SubPointID] = LNP.[SubPointID] AND PAE.[ControlMachineAddress] = LNP.[ControlMachineAddress] AND PAE.[PointAddress] = LNP.[PointAddress]
+        WHERE PAE.[NetGroupID] = 0 AND PAE.[EventTime] BETWEEN @FromTime AND @ToTime ORDER BY PAE.[EventTime] DESC;";
+        public const string SQL_SELECT_OTHER_GetPubInvalidCardEvent = @"
+        SELECT PAE.*,LNG.[NetGroupName],LNP.[PointName],PEI.[Content] AS [Message],PUI.[UserName],PUI.[Department] FROM [dbo].[NK_PubInvalidCardEvent] PAE 
+        INNER JOIN [dbo].[NK_LwsNetGroup] LNG ON PAE.[NetGroupID] = LNG.[NetGroupID]
+        LEFT OUTER JOIN [dbo].[NK_PubEventID] PEI ON PAE.[MessageID] = PEI.[MessageID]
+        LEFT OUTER JOIN [dbo].[NK_PubUserInfo] PUI ON PAE.[UserID] = PUI.[UserID] AND PAE.[NetGroupID] = PUI.[NetGroupID]
+        LEFT OUTER JOIN [dbo].[NK_LwsNetPoint] LNP ON PAE.[NetGroupID] = LNP.[NetGroupID] AND PAE.[SubPointID] = LNP.[SubPointID] AND PAE.[ControlMachineAddress] = LNP.[ControlMachineAddress] AND PAE.[PointAddress] = LNP.[PointAddress]
+        WHERE PAE.[NetGroupID] = 0 AND PAE.[EventTime] BETWEEN @FromTime AND @ToTime ORDER BY PAE.[EventTime] DESC;";
+        public const string SQL_SELECT_OTHER_GetPubValidCardEvent = @"
+        SELECT PAE.*,LNG.[NetGroupName],LNP.[PointName],PEI.[Content] AS [Message],PUI.[UserName],PUI.[Department] FROM [dbo].[NK_PubValidCardEvent] PAE 
+        INNER JOIN [dbo].[NK_LwsNetGroup] LNG ON PAE.[NetGroupID] = LNG.[NetGroupID]
+        LEFT OUTER JOIN [dbo].[NK_PubEventID] PEI ON PAE.[MessageID] = PEI.[MessageID]
+        LEFT OUTER JOIN [dbo].[NK_PubUserInfo] PUI ON PAE.[UserID] = PUI.[UserID] AND PAE.[NetGroupID] = PUI.[NetGroupID]
+        LEFT OUTER JOIN [dbo].[NK_LwsNetPoint] LNP ON PAE.[NetGroupID] = LNP.[NetGroupID] AND PAE.[SubPointID] = LNP.[SubPointID] AND PAE.[ControlMachineAddress] = LNP.[ControlMachineAddress] AND PAE.[PointAddress] = LNP.[PointAddress]
+        WHERE PAE.[NetGroupID] = 0 AND PAE.[EventTime] BETWEEN @FromTime AND @ToTime ORDER BY PAE.[EventTime] DESC;";
         //Log SQL Text
         public const string SQL_INSERT_LOG_ADDSYSLOGS = @"INSERT INTO [dbo].[TH_SysLog]([EventTime],[EventLevel],[EventType],[Message],[Url],[ClientIP],[Operator]) VALUES(@EventTime,@EventLevel,@EventType,@Message,@Url,@ClientIP,@Operator);";
         //PreAlarm SQL Text

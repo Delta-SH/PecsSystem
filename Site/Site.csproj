@@ -93,6 +93,7 @@
     <Reference Include="System.Web.Mobile" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AcEvents.aspx" />
     <Content Include="ACSFilterSetting.aspx" />
     <Content Include="ActiveAlarms.aspx" />
     <Content Include="ACVFilterSetting.aspx" />
@@ -354,6 +355,13 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AcEvents.aspx.cs">
+      <DependentUpon>AcEvents.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AcEvents.aspx.designer.cs">
+      <DependentUpon>AcEvents.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ACSFilterSetting.aspx.cs">
       <DependentUpon>ACSFilterSetting.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

@@ -218,5 +218,9 @@ namespace Delta.PECS.WebCSC.BLL
                 throw;
             }
         }
+
+        public Dictionary<int, string> GetAcMessageType(string connectionString) {
+            return comboboxDal.GetAcMessageType(connectionString);
+        }
     }
 }

@@ -293,9 +293,9 @@ namespace Delta.PECS.WebCSC.Site {
             var result = new List<Report005Entity>();
             foreach (var lsc in lscs) {
                 var fsuCnt = otherEntity.GetStationFSUCnt(lsc.LscID, lsc.Group.GroupID, alarmIds, split).FindAll(fc => staTypes.ContainsKey(fc.StaTypeID));
-                var alarms = WebUtility.GetUserAlarms(userData).FindAll(alarm => alarm.LscID == lsc.LscID && alarm.StartTime >= fromTime && alarm.StartTime <= toTime && alarmNames.ContainsKey(alarm.AlarmID));
+                var alarms = WebUtility.GetUserAlarms(userData).FindAll(alarm => alarm.LscID == lsc.LscID && alarm.StartTime >= fromTime && alarm.StartTime <= toTime && alarmNames.ContainsKey(alarm.AlarmID) && string.IsNullOrEmpty(alarm.ProjName));
                 alarms.AddRange(alarmEntity.GetHisAlarms(lsc.LscID, lsc.LscName, userData.StandardProtocol, lsc.Group.GroupNodes, fromTime, toTime).FindAll(alarm => {
-                    return alarmNames.ContainsKey(alarm.AlarmID);
+                    return alarmNames.ContainsKey(alarm.AlarmID) && string.IsNullOrEmpty(alarm.ProjName);
                 }));
 
                 var temp = from alarm in alarms

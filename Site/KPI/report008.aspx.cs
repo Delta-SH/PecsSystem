@@ -232,16 +232,16 @@ namespace Delta.PECS.WebCSC.Site {
             var otherEntity = new BOther();
             var result = new List<Report008Entity>();
             foreach(var lsc in lscs) {
-                var devs = otherEntity.GetDevices(lsc.LscID, lsc.Group.GroupID).FindAll(d => devTypes.ContainsKey(d.DevTypeID));
-                var dscs = otherEntity.GetHisDsc(lsc.LscID, fromTime, toTime).FindAll(d => d.ModuleNum != 0 && d.RatedCurrent != 0 && d.LoadCurrent / (d.ModuleNum * d.RatedCurrent) < 0.65);
-                var hgdv = from dev in devs
-                           join ds in dscs on dev.DevID equals ds.DevID
-                           select dev;
+                var devs = otherEntity.GetDevices(lsc.LscID).FindAll(d => devTypes.ContainsKey(d.DevTypeID));
+                var dscs = otherEntity.GetHisDsc(lsc.LscID, fromTime, toTime).FindAll(d => d.ModuleNum != 0 && d.RatedCurrent != 0 && (d.LoadCurrent / (d.ModuleNum * d.RatedCurrent)) < 0.65);
+                var hgdv = (from dev in devs
+                            join ds in dscs on dev.DevID equals ds.DevID
+                            select dev).ToList();
 
                 result.Add(new Report008Entity {
                     LscID = lsc.LscID,
                     LscName = lsc.LscName,
-                    ThisCount = hgdv.Count(),
+                    ThisCount = hgdv.Count,
                     LastCount = devs.Count
                 });
             }
