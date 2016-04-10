@@ -192,6 +192,35 @@ namespace Delta.PECS.WebCSC.Site {
         }
 
         /// <summary>
+        /// Show Group Nodes Display Window
+        /// </summary>
+        protected void ShowGroupNodeDisplayWindow(object sender, DirectEventArgs e) {
+            try {
+                GroupNodeDisplayFormPanel.Reset();
+                var parms = new BUser().GetSysParams(50000001);
+                if(parms.Count > 0) {
+                    var param1 = parms.Find(p => p.ParaData == 0);
+                    if(param1 != null && param1.ParaDisplay != null && !string.IsNullOrEmpty(param1.ParaDisplay.Trim())) {
+                        var displays = Newtonsoft.Json.JsonConvert.DeserializeObject<List<IDValuePair<string, int>>>(param1.ParaDisplay);
+                        if(displays!=null && displays.Count > 0) {
+                            var current = displays.Find(d => d.ID.Equals(Page.User.Identity.Name, StringComparison.CurrentCultureIgnoreCase));
+                            if(current != null) {
+                                middisplay.Checked = (current.Value & 1) > 0;
+                                stafeaturesdisplay.Checked = (current.Value & 2) > 0;
+                                statypedisplay.Checked = (current.Value & 4) > 0;
+                            }
+                        }
+                    }
+                }
+
+                GroupNodeDisplayWindow.Show();
+            } catch(Exception err) {
+                WebUtility.WriteLog(EnmSysLogLevel.Error, EnmSysLogType.Exception, err.ToString(), Page.User.Identity.Name);
+                WebUtility.ShowMessage(EnmErrType.Error, err.Message);
+            }
+        }
+
+        /// <summary>
         /// Show Alarm Count Setting Window
         /// </summary>
         protected void ShowAlarmsCountSettingWindow(object sender, DirectEventArgs e) {
@@ -402,6 +431,54 @@ namespace Delta.PECS.WebCSC.Site {
                 new BUser().UpdateSysParams(new List<SysParamInfo>() { param1, param2, param3, param4, param5, param6 });
                 WebUtility.ShowMessage(EnmErrType.Info, "数据保存完成");
             } catch (Exception err) {
+                WebUtility.WriteLog(EnmSysLogLevel.Error, EnmSysLogType.Exception, err.ToString(), Page.User.Identity.Name);
+                WebUtility.ShowMessage(EnmErrType.Error, err.Message);
+            }
+        }
+
+        /// <summary>
+        /// Setting Button Click
+        /// </summary>
+        protected void SettingButton_Click(object sender, DirectEventArgs e) {
+            try {
+                var value = 0;
+                if(middisplay.Checked)
+                    value += int.Parse(middisplay.InputValue);
+                if(stafeaturesdisplay.Checked)
+                    value += int.Parse(stafeaturesdisplay.InputValue);
+                if(statypedisplay.Checked)
+                    value += int.Parse(statypedisplay.InputValue);
+
+                var current = new IDValuePair<string, int>(Page.User.Identity.Name, value);
+                var param1 = new BUser().GetSysParams(50000001).Find(p => p.ParaData == 0);
+                if(param1 == null) {
+                    param1 = new SysParamInfo() {
+                        ID = 14,
+                        ParaCode = 50000001,
+                        ParaData = 0,
+                        ParaDisplay = null,
+                        Note = "用户Profile"
+                    };
+                }
+
+                var displays = new List<IDValuePair<string, int>>() { current };
+                if(param1.ParaDisplay != null 
+                    && !string.IsNullOrEmpty(param1.ParaDisplay.Trim())) {
+                    var existings = Newtonsoft.Json.JsonConvert.DeserializeObject<List<IDValuePair<string, int>>>(param1.ParaDisplay);
+                    if(existings != null) {
+                        foreach(var et in existings) {
+                            if(et.ID.Equals(current.ID, StringComparison.CurrentCultureIgnoreCase))
+                                continue;
+
+                            displays.Add(et);
+                        }
+                    }
+                }
+
+                param1.ParaDisplay = Newtonsoft.Json.JsonConvert.SerializeObject(displays);
+                new BUser().UpdateSysParams(new List<SysParamInfo>() { param1 });
+                WebUtility.ShowMessage(EnmErrType.Info, "数据保存完成");
+            } catch(Exception err) {
                 WebUtility.WriteLog(EnmSysLogLevel.Error, EnmSysLogType.Exception, err.ToString(), Page.User.Identity.Name);
                 WebUtility.ShowMessage(EnmErrType.Error, err.Message);
             }

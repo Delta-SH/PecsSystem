@@ -174,8 +174,8 @@ namespace Delta.PECS.WebCSC.SQLServerDAL
                 SqlParameter[] parms = { new SqlParameter("@ID", SqlDbType.Int),
                                          new SqlParameter("@ParaCode", SqlDbType.Int),
                                          new SqlParameter("@ParaData", SqlDbType.Int),
-                                         new SqlParameter("@ParaDisplay", SqlDbType.NVarChar,50),
-                                         new SqlParameter("@Note", SqlDbType.NText) };
+                                         new SqlParameter("@ParaDisplay", SqlDbType.VarChar),
+                                         new SqlParameter("@Note", SqlDbType.VarChar) };
 
                 using (var conn = new SqlConnection(SqlHelper.ConnectionStringLocalTransaction)) {
                     conn.Open();

@@ -113,21 +113,26 @@
                                             <ext:MenuSeparator ID="MaintenanceSeparator3" runat="server" />
                                             <ext:MenuItem ID="MaintenanceMenuItem4" runat="server" Text="日历管理" Icon="Calendar" Href="CalendarManager.aspx" HrefTarget="_blank" />
                                             <ext:MenuSeparator ID="MaintenanceSeparator4" runat="server" />
-                                            <ext:MenuItem ID="MaintenanceMenuItem5" runat="server" Text="报表参数" Icon="TextListBullets">
+                                            <ext:MenuItem ID="MaintenanceMenuItem5" runat="server" Text="系统参数" Icon="TextListBullets">
                                                 <Menu>
                                                     <ext:Menu ID="ReportSettingMenu" runat="server">
                                                         <Items>
-                                                            <ext:MenuItem ID="ReportSettingMenuItem1" runat="server" Text="归类统计参数" Icon="PageGear">
+                                                            <ext:MenuItem ID="ReportSettingMenuItem1" runat="server" Text="群组节点参数" Icon="PageGear">
+                                                                <DirectEvents>
+                                                                    <Click OnEvent="ShowGroupNodeDisplayWindow" />
+                                                                </DirectEvents>
+                                                            </ext:MenuItem>
+                                                            <ext:MenuItem ID="ReportSettingMenuItem2" runat="server" Text="归类统计参数" Icon="PageGear">
                                                                 <DirectEvents>
                                                                     <Click OnEvent="ShowAlarmsCountSettingWindow" />
                                                                 </DirectEvents>
                                                             </ext:MenuItem>
-                                                            <ext:MenuItem ID="ReportSettingMenuItem2" runat="server" Text="综合测值参数" Icon="PageGear">
+                                                            <ext:MenuItem ID="ReportSettingMenuItem3" runat="server" Text="综合测值参数" Icon="PageGear">
                                                                 <DirectEvents>
                                                                     <Click OnEvent="ShowNodesCountSettingWindow" />
                                                                 </DirectEvents>
                                                             </ext:MenuItem>
-                                                            <ext:MenuItem ID="ReportSettingMenuItem3" runat="server" Text="异常告警参数" Icon="PageGear">
+                                                            <ext:MenuItem ID="ReportSettingMenuItem4" runat="server" Text="异常告警参数" Icon="PageGear">
                                                                 <DirectEvents>
                                                                     <Click OnEvent="ShowAlmExceptionSettingWindow" />
                                                                 </DirectEvents>
@@ -551,6 +556,33 @@
             <ext:Button ID="CancelButton" runat="server" Text="取消">
                 <Listeners>
                     <Click Handler="#{AlmExceptionParamWindow}.hide();" />
+                </Listeners>
+            </ext:Button>
+        </Buttons>
+    </ext:Window>
+    <ext:Window ID="GroupNodeDisplayWindow" runat="server" Icon="TableEdit" Title="群组节点参数配置" Height="220" Width="320" Modal="true" InitCenter="true" CloseAction="Hide" Hidden="true" BodyStyle="background:#fff;">
+        <Items>
+            <ext:FormPanel ID="GroupNodeDisplayFormPanel" runat="server" Border="false" LabelWidth="100" Padding="10" ButtonAlign="Right" MonitorValid="true">
+                <Items>
+                    <ext:CheckboxGroup ID="DisplayCheckboxGroup" runat="server" ColumnsNumber="1" FieldLabel="局站节点参数">
+                        <Items>
+                            <ext:Checkbox ID="middisplay" runat="server" BoxLabel="显示局站MID" InputValue="1" />
+                            <ext:Checkbox ID="stafeaturesdisplay" runat="server" BoxLabel="显示局站特征" InputValue="2"  />
+                            <ext:Checkbox ID="statypedisplay" runat="server" BoxLabel="显示局站类型" InputValue="4"  />
+                        </Items>
+                    </ext:CheckboxGroup>
+                </Items>
+            </ext:FormPanel>
+        </Items>
+        <Buttons>
+            <ext:Button ID="SettingButton" runat="server" Text="确定">
+                <DirectEvents>
+                    <Click Before="return #{GroupNodeDisplayFormPanel}.getForm().isValid();" OnEvent="SettingButton_Click"/>
+                </DirectEvents>
+            </ext:Button>
+            <ext:Button ID="CloseButton" runat="server" Text="取消">
+                <Listeners>
+                    <Click Handler="#{GroupNodeDisplayWindow}.hide();" />
                 </Listeners>
             </ext:Button>
         </Buttons>

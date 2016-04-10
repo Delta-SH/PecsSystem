@@ -300,7 +300,7 @@ namespace Delta.PECS.WebCSC.Site {
                              select node;
 
                 var alarms = WebUtility.GetUserAlarms(userData).FindAll(alarm => alarm.LscID == lsc.LscID && alarm.StartTime >= fromTime && alarm.StartTime <= toTime);
-                alarms.AddRange(alarmEntity.GetHisAlarms(lsc.LscID, lsc.LscName, userData.StandardProtocol, lsc.Group.GroupNodes, fromTime, toTime));
+                    alarms.AddRange(alarmEntity.GetHisAlarms(lsc.LscID, lsc.LscName, userData.StandardProtocol, lsc.Group.GroupNodes, fromTime, toTime));
 
                 var nalm = from alarm in alarms
                            join nns in nnodes on new { alarm.NodeID, alarm.NodeType } equals new { nns.NodeID, nns.NodeType }

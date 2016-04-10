@@ -152,7 +152,7 @@ namespace Delta.PECS.WebCSC.Site {
                 foreach (var gti in groupNodes) {
                     if (gti.NodeType == EnmNodeType.Dev) {
                         var node = new Ext.Net.TreeNode();
-                        node.Text = WebUtility.GetGroupTreeName(gti);
+                        node.Text = WebUtility.GetGroupTreeName(gti, Page.User.Identity.Name);
                         node.NodeID = String.Format("{0}&{1}", lscId, gti.NodeID);
                         node.IconCls = WebUtility.GetTreeIcon(gti.Status);
                         node.CustomAttributes.Add(new ConfigItem("TreeNodeType", ((int)gti.NodeType).ToString(), ParameterMode.Raw));
@@ -160,7 +160,7 @@ namespace Delta.PECS.WebCSC.Site {
                         e.Nodes.Add(node);
                     } else {
                         var node = new AsyncTreeNode();
-                        node.Text = WebUtility.GetGroupTreeName(gti);
+                        node.Text = WebUtility.GetGroupTreeName(gti, Page.User.Identity.Name);
                         node.NodeID = String.Format("{0}&{1}", lscId, gti.NodeID);
                         node.IconCls = WebUtility.GetTreeIcon(gti.Status);
                         node.CustomAttributes.Add(new ConfigItem("TreeNodeType", ((int)gti.NodeType).ToString(), ParameterMode.Raw));
@@ -196,7 +196,7 @@ namespace Delta.PECS.WebCSC.Site {
                 foreach (var udg in groupNodes) {
                     if (udg.NodeType == EnmNodeType.Dev) {
                         var node = new Ext.Net.TreeNode();
-                        node.Text = WebUtility.GetGroupTreeName(udg);
+                        node.Text = WebUtility.GetGroupTreeName(udg, Page.User.Identity.Name);
                         node.NodeID = String.Format("{0}&{1}&{2}", udg.LscID, udg.UDGroupID, udg.NodeID);
                         node.IconCls = WebUtility.GetTreeIcon(udg.Status);
                         node.CustomAttributes.Add(new ConfigItem("TreeNodeType", ((int)udg.NodeType).ToString(), ParameterMode.Raw));
@@ -204,7 +204,7 @@ namespace Delta.PECS.WebCSC.Site {
                         e.Nodes.Add(node);
                     } else {
                         var node = new AsyncTreeNode();
-                        node.Text = WebUtility.GetGroupTreeName(udg);
+                        node.Text = WebUtility.GetGroupTreeName(udg, Page.User.Identity.Name);
                         node.NodeID = String.Format("{0}&{1}&{2}", udg.LscID, udg.UDGroupID, udg.NodeID);
                         node.IconCls = WebUtility.GetTreeIcon(udg.Status);
                         node.CustomAttributes.Add(new ConfigItem("TreeNodeType", ((int)udg.NodeType).ToString(), ParameterMode.Raw));
@@ -695,12 +695,37 @@ namespace Delta.PECS.WebCSC.Site {
                     Value = ni.Value,
                     ValueName = WebUtility.GetNodeValue(ni),
                     Datetime = WebUtility.GetDateString(ni.DateTime),
-                    Status = (int)ni.Status
+                    Status = (int)ni.Status,
+                    CamUrl = this.GetCamUrl(ni.AuxSet)
                 });
             }
 
             store.DataSource = nodeObjs;
             store.DataBind();
+        }
+
+        /// <summary>
+        /// eg. #cam:http://www.baidu.com;
+        /// </summary>
+        private string GetCamUrl(string auxset) {
+            if(auxset == null)
+                return string.Empty;
+
+            auxset = auxset.ToLower().Trim();
+            if(string.IsNullOrEmpty(auxset))
+                return string.Empty;
+
+            var start =  auxset.IndexOf("#cam:");
+            if(start == -1)
+                return string.Empty;
+
+            var end = auxset.IndexOf(";", start);
+            if(end == -1)
+                auxset = auxset.Substring(start);
+            else
+                auxset = auxset.Substring(start, end - start);
+
+            return auxset.Substring(5);
         }
 
         /// <summary>

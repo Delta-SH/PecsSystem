@@ -146,8 +146,8 @@
     <Content Include="Home.aspx" />
     <Content Include="ImportantAlmReport.aspx" />
     <Content Include="Install\Installer.aspx" />
-    <Content Include="Install\Scripts\V3.3.0.0 Build151001\WebCSC_his_upgrade.sql" />
-    <Content Include="Install\Scripts\V3.3.0.0 Build151001\WebCSC_upgrade.sql" />
+    <Content Include="Install\Scripts\V3.5.0.0 Build160401\WebCSC_his_upgrade.sql" />
+    <Content Include="Install\Scripts\V3.5.0.0 Build160401\WebCSC_upgrade.sql" />
     <Content Include="Install\Scripts\WebCSC_createData.sql" />
     <Content Include="Install\Scripts\WebCSC_createDatabase.sql" />
     <Content Include="Install\Scripts\WebCSC_createHisData.sql" />

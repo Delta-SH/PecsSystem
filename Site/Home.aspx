@@ -184,6 +184,7 @@
                                             <ext:RecordField Name="ValueName" Type="String" />
                                             <ext:RecordField Name="Datetime" Type="String" />
                                             <ext:RecordField Name="Status" Type="Int" />
+                                            <ext:RecordField Name="CamUrl" Type="String" />
                                         </Fields>
                                     </ext:JsonReader>
                                 </Reader>
@@ -208,6 +209,9 @@
                                         </ext:ImageCommand>
                                         <ext:ImageCommand CommandName="Set" Icon="CogEdit" Text="设置">
                                             <ToolTip Text="遥调参数值设置" />
+                                        </ext:ImageCommand>
+                                        <ext:ImageCommand CommandName="Cam" Icon="Webcam" Text="视频">
+                                            <ToolTip Text="远程视频" />
                                         </ext:ImageCommand>
                                     </Commands>
                                     <PrepareCommand Fn="prepareCommand" />
@@ -251,6 +255,7 @@
                                             <ext:RecordField Name="ValueName" Type="String" />
                                             <ext:RecordField Name="Datetime" Type="String" />
                                             <ext:RecordField Name="Status" Type="Int" />
+                                            <ext:RecordField Name="CamUrl" Type="String" />
                                         </Fields>
                                     </ext:JsonReader>
                                 </Reader>
@@ -307,6 +312,7 @@
                                             <ext:RecordField Name="ValueName" Type="String" />
                                             <ext:RecordField Name="Datetime" Type="String" />
                                             <ext:RecordField Name="Status" Type="Int" />
+                                            <ext:RecordField Name="CamUrl" Type="String" />
                                         </Fields>
                                     </ext:JsonReader>
                                 </Reader>
@@ -370,6 +376,7 @@
                                             <ext:RecordField Name="ValueName" Type="String" />
                                             <ext:RecordField Name="Datetime" Type="String" />
                                             <ext:RecordField Name="Status" Type="Int" />
+                                            <ext:RecordField Name="CamUrl" Type="String" />
                                         </Fields>
                                     </ext:JsonReader>
                                 </Reader>
@@ -426,6 +433,7 @@
                                             <ext:RecordField Name="ValueName" Type="String" />
                                             <ext:RecordField Name="Datetime" Type="String" />
                                             <ext:RecordField Name="Status" Type="Int" />
+                                            <ext:RecordField Name="CamUrl" Type="String" />
                                         </Fields>
                                     </ext:JsonReader>
                                 </Reader>

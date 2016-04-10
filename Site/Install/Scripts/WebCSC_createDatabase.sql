@@ -1226,8 +1226,8 @@ CREATE TABLE [dbo].[TM_SysParam](
 	[ID] [int] NOT NULL,
 	[ParaCode] [numeric](8, 0) NOT NULL,
 	[ParaData] [int] NULL,
-	[ParaDisplay] [nvarchar](50) NULL,
-	[Note] [ntext] NULL,
+	[ParaDisplay] [varchar](max) NULL,
+	[Note] [varchar](max) NULL,
  CONSTRAINT [PK_TM_SysParam] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC

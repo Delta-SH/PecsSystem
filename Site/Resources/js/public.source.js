@@ -259,10 +259,19 @@ var prepareCommand = function(grid, command, record, row) {
             command.hideMode = "display";
             break;
     }
+
+    if (command.command === "Cam") {
+        command.hidden = Ext.isEmpty(record.data.CamUrl);
+        command.hideMode = "display";
+    }
 };
 
-var onNodesGridTabPanelCmdClick = function(command, record, rowIndex, colIndex) {
-    X.Home.ShowControlWindow(command, record.data.LscID, record.data.NodeID, record.data.NodeType, record.data.NodeName);
+var onNodesGridTabPanelCmdClick = function (command, record, rowIndex, colIndex) {
+    if (command === "Cam") {
+        window.open(record.data.CamUrl, '_blank')
+    } else {
+        X.Home.ShowControlWindow(command, record.data.LscID, record.data.NodeID, record.data.NodeType, record.data.NodeName);
+    }
 };
 
 var activeTreeTab = function(el) {

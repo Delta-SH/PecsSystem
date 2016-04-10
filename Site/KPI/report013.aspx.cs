@@ -242,7 +242,7 @@ namespace Delta.PECS.WebCSC.Site {
                            group bat by bat.DevID into g
                            select new {
                                DevID = g.Key,
-                               Interval = g.Min(t => t.LastTime) * 24 * 60
+                               Interval = g.Max(t => t.LastTime) * 24 * 60
                            };
 
                 var rdev = from fv in fdev
