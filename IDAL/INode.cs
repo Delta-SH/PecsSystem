@@ -126,5 +126,7 @@ namespace Delta.PECS.WebCSC.IDAL
         List<HisDIVInfo> GetHisDIV(Int32 lscId, Int32[] nodeIds, DateTime fromTime, DateTime toTime);
 
         List<HisAIVInfo> GetMaxHisAIV(Int32 lscId, DateTime fromTime, DateTime toTime);
+
+        List<ElecMeterInfo> GetElecMeters(string connectionString, LscInfo lsc, DateTime startDate, DateTime endDate);
     }
 }

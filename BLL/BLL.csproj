@@ -60,6 +60,10 @@
       <Project>{EF80BA4E-8A6E-4C82-84BA-42F76B5F0037}</Project>
       <Name>DALFactory</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DBUtility\DBUtility.csproj">
+      <Project>{1e6fecfc-ed22-424a-8051-a445ce466620}</Project>
+      <Name>DBUtility</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IDAL\IDAL.csproj">
       <Project>{17AB7FC1-D3D4-44A8-B84E-7086F3772DF7}</Project>
       <Name>IDAL</Name>

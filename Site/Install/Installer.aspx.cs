@@ -546,6 +546,7 @@ namespace Delta.PECS.WebCSC.Site {
                 } else {
                     wzdInstaller.ActiveStepIndex = this.wzdInstaller.WizardSteps.IndexOf(this.stpConnectionString);
                     lblErrorConnMessage.Text = String.Format("此安装无法更新服务器上的ConnectionStrings.config配置文件，这可能由于修改此文件的系统权限被限制。请用记事本打开服务器上的ConnectionStrings.config配置文件，手动添加以下信息到 &lt;connectionStrings&gt;&lt;/connectionStrings&gt;节点之内: <br/><b>&lt;clear /&gt;<br/>&lt;add name=\"{0}\" connectionString=\"{1}\" /&gt;<br/>&lt;add name=\"{2}\" connectionString=\"{3}\" /&gt;</b><br/>", SqlHelper.ConnectionStringLocalName, ConnectionString, SqlHelper.HisConnectionStringLocalName, HisConnectionString);
+                    lblErrorConnMessage.Visible = true;
                 }
             } else if (this.wzdInstaller.ActiveStepIndex == this.wzdInstaller.WizardSteps.IndexOf(this.stpConnectionString)) {
                 if (InstallerHelper.ConnectionString != ConnectionString || InstallerHelper.HisConnectionString != HisConnectionString) {

@@ -2582,3 +2582,663 @@ var OilEngineReport = {
         }
     }
 };
+
+var Energy001 = {
+    chartPie: null,
+    chartBar: null,
+    PieOption: {
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b}: {c} ({d}%)"
+        },
+        legend: {
+            orient: 'vertical',
+            left: 'left',
+            top: 'center',
+            data: ['能耗']
+        },
+        series: [
+            {
+                name: '电量分类占比',
+                type: 'pie',
+                radius: ['50%', '80%'],
+                avoidLabelOverlap: false,
+                label: {
+                    normal: {
+                        show: false,
+                        position: 'center'
+                    },
+                    emphasis: {
+                        show: true,
+                        textStyle: {
+                            fontSize: '15',
+                            fontWeight: 'bold'
+                        }
+                    }
+                },
+                labelLine: {
+                    normal: {
+                        show: false
+                    }
+                },
+                data: [
+                    { name: '能耗', value: 0 }
+                ]
+            }
+        ]
+    },
+    BarOption: {
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow'
+            }
+        },
+        grid: {
+            top: 20,
+            left: 0,
+            right: 5,
+            bottom: 5,
+            containLabel: true
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: ['能耗'],
+                splitLine: { show: false }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value'
+            }
+        ],
+        series: [
+            {
+                name: '能耗',
+                type: 'bar',
+                stack: 'one',
+                data: [0]
+            }
+        ]
+    },
+    syncValue: function (value) {
+        var tree = this.component;
+        if (tree.rendered) {
+            X.energy001.InitRangeNodes({
+                success: function (result) {
+                    if (!Ext.isEmpty(result, false)) {
+                        var nodes = Ext.util.JSON.decode(result, true);
+                        if (nodes && nodes.length > 0) {
+                            tree.initChildren(nodes);
+                        } else {
+                            tree.getRootNode().removeChildren();
+                        }
+                    }
+                },
+                eventMask: {
+                    showMask: true,
+                    target: "customtarget",
+                    customTarget: tree
+                }
+            });
+        }
+    },
+    itemClick: function (node, e) {
+        this.dropDownField.setValue(node.id, node.text, false);
+        this.dropDownField.collapse();
+    },
+    cellDblClick: function (el, rowIndex, columnIndex, e) {
+        var column = el.getColumnModel().config[columnIndex];
+        if (column.dblClickEnabled != "1") { return false; }
+
+        var record = el.store.getAt(rowIndex);
+        if (record) {
+            var key = record.data.Key;
+            var title = record.data.Current;
+            var auxset = column.dataIndex;
+
+            X.energy001.ShowCellDetail(key, auxset, title);
+        }
+    },
+    initChart: function () {
+        this.chartPie = echarts.init(document.getElementById("PieChart"), 'shine');
+        this.chartPie.setOption(this.PieOption);
+
+        this.chartBar = echarts.init(document.getElementById("BarChart"), 'shine');
+        this.chartBar.setOption(this.BarOption);
+    },
+    refreshChart: function () {
+        X.energy001.GetCharts({
+            success: function (result) {
+                if (!Ext.isEmpty(result, false)) {
+                    var data = Ext.util.JSON.decode(result, true);
+                    if (data) {
+                        var legend = [];
+                        var series = [];
+                        data.Pie.forEach(function (item) {
+                            legend.push(item.name);
+                            series.push(item);
+                        });
+                        Energy001.PieOption.legend.data = legend;
+                        Energy001.PieOption.series[0].data = series;
+                        Energy001.chartPie.setOption(Energy001.PieOption, true);
+
+                        var xaxis = [];
+                        var series2 = [];
+                        data.Bar.forEach(function (item) {
+                            xaxis.push(item.name);
+                            for (var i = 0; i < item.values.length; i++) {
+                                var val = item.values[i];
+                                if (series2.length > i)
+                                    series2[i].data.push(val.value);
+                                else
+                                    series2.push({ name: val.name, type: 'bar', stack: 'one', data: [val.value] });
+                            }
+                        });
+                        Energy001.BarOption.xAxis[0].data = xaxis;
+                        Energy001.BarOption.series = series2;
+                        Energy001.chartBar.setOption(Energy001.BarOption, true);
+                    }
+                }
+            },
+            failure: function(message) {
+                Ext.Msg.alert(LanguageSet.SystemError, msg);
+            }
+        });
+    }
+};
+
+var Energy002 = {
+    chartLine: null,
+    LineOption: {
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            data: []
+        },
+        grid: {
+            top: 30,
+            left: 5,
+            right: 10,
+            bottom: 5,
+            containLabel: true
+        },
+        xAxis: [{
+            type: 'category',
+            data: []
+        }],
+        yAxis: [{
+            type: 'value',
+            axisLabel: {
+                formatter: '{value} kWh'
+            }
+        }],
+        series: [
+        ]
+    },
+    syncValue: function (value) {
+        var tree = this.component;
+        if (tree.rendered) {
+            X.energy002.InitRangeNodes({
+                success: function (result) {
+                    if (!Ext.isEmpty(result, false)) {
+                        var nodes = Ext.util.JSON.decode(result, true);
+                        if (nodes && nodes.length > 0) {
+                            tree.initChildren(nodes);
+                        } else {
+                            tree.getRootNode().removeChildren();
+                        }
+                    }
+                },
+                eventMask: {
+                    showMask: true,
+                    target: "customtarget",
+                    customTarget: tree
+                }
+            });
+        }
+    },
+    itemClick: function (node, e) {
+        this.dropDownField.setValue(node.id, node.text, false);
+        this.dropDownField.collapse();
+    },
+    cellDblClick: function (el, rowIndex, columnIndex, e) {
+    },
+    initChart: function () {
+        this.chartLine = echarts.init(document.getElementById("LineChart"), 'shine');
+        this.chartLine.setOption(this.LineOption);
+    },
+    refreshChart: function () {
+        X.energy002.GetCharts({
+            success: function (result) {
+                if (!Ext.isEmpty(result, false)) {
+                    var data = Ext.util.JSON.decode(result, true);
+                    if (data) {
+                        var legend = [];
+                        data.Series.forEach(function (item) {
+                            legend.push(item.name);
+                        });
+                        Energy002.LineOption.legend.data = legend;
+                        Energy002.LineOption.series = data.Series;
+                        Energy002.LineOption.xAxis[0].data = data.xAxis;
+                        Energy002.chartLine.setOption(Energy002.LineOption, true);
+                    }
+                }
+            },
+            failure: function (message) {
+                Ext.Msg.alert(LanguageSet.SystemError, msg);
+            }
+        });
+    }
+};
+
+var Energy003 = {
+    chartBar: null,
+    BarOption: {
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow'
+            }
+        },
+        legend: {
+            data: ['当前时段', '去年同期']
+        },
+        grid: {
+            top: 30,
+            left: 5,
+            right: 5,
+            bottom: 5,
+            containLabel: true
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: []
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                axisLabel: {
+                    formatter: '{value} kWh'
+                }
+            }
+        ],
+        series: [
+            {
+                name: '当前时段',
+                type: 'bar',
+                data: []
+            },
+            {
+                name: '去年同期',
+                type: 'bar',
+                data: []
+            }
+        ]
+    },
+    syncValue: function (value) {
+        var tree = this.component;
+        if (tree.rendered) {
+            X.energy003.InitRangeNodes({
+                success: function (result) {
+                    if (!Ext.isEmpty(result, false)) {
+                        var nodes = Ext.util.JSON.decode(result, true);
+                        if (nodes && nodes.length > 0) {
+                            tree.initChildren(nodes);
+                        } else {
+                            tree.getRootNode().removeChildren();
+                        }
+                    }
+                },
+                eventMask: {
+                    showMask: true,
+                    target: "customtarget",
+                    customTarget: tree
+                }
+            });
+        }
+    },
+    itemClick: function (node, e) {
+        this.dropDownField.setValue(node.id, node.text, false);
+        this.dropDownField.collapse();
+    },
+    cellDblClick: function (el, rowIndex, columnIndex, e) {
+    },
+    initChart: function () {
+        this.chartBar = echarts.init(document.getElementById("BarChart"), 'shine');
+        this.chartBar.setOption(this.BarOption);
+    },
+    refreshChart: function () {
+        X.energy003.GetCharts({
+            success: function (result) {
+                if (!Ext.isEmpty(result, false)) {
+                    var data = Ext.util.JSON.decode(result, true);
+                    if (data) {
+                        var xaxis = [], series0 = [], series1 = [];
+                        data.Data.forEach(function (item) {
+                            xaxis.push(item.name);
+                            series0.push(item.value);
+                            series1.push(item.tvalue);
+                        });
+                        Energy003.BarOption.xAxis[0].data = xaxis;
+                        Energy003.BarOption.series[0].data = series0;
+                        Energy003.BarOption.series[1].data = series1;
+                        Energy003.chartBar.setOption(Energy003.BarOption, true);
+                    }
+                }
+            },
+            failure: function (message) {
+                Ext.Msg.alert(LanguageSet.SystemError, msg);
+            }
+        });
+    }
+};
+
+var Energy004 = {
+    chartBar: null,
+    BarOption: {
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow'
+            }
+        },
+        legend: {
+            data: ['当前时段', '前一时段']
+        },
+        grid: {
+            top: 30,
+            left: 5,
+            right: 5,
+            bottom: 5,
+            containLabel: true
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: []
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                axisLabel: {
+                    formatter: '{value} kWh'
+                }
+            }
+        ],
+        series: [
+            {
+                name: '当前时段',
+                type: 'bar',
+                data: []
+            },
+            {
+                name: '前一时段',
+                type: 'bar',
+                data: []
+            }
+        ]
+    },
+    syncValue: function (value) {
+        var tree = this.component;
+        if (tree.rendered) {
+            X.energy004.InitRangeNodes({
+                success: function (result) {
+                    if (!Ext.isEmpty(result, false)) {
+                        var nodes = Ext.util.JSON.decode(result, true);
+                        if (nodes && nodes.length > 0) {
+                            tree.initChildren(nodes);
+                        } else {
+                            tree.getRootNode().removeChildren();
+                        }
+                    }
+                },
+                eventMask: {
+                    showMask: true,
+                    target: "customtarget",
+                    customTarget: tree
+                }
+            });
+        }
+    },
+    itemClick: function (node, e) {
+        this.dropDownField.setValue(node.id, node.text, false);
+        this.dropDownField.collapse();
+    },
+    cellDblClick: function (el, rowIndex, columnIndex, e) {
+    },
+    initChart: function () {
+        this.chartBar = echarts.init(document.getElementById("BarChart"), 'shine');
+        this.chartBar.setOption(this.BarOption);
+    },
+    refreshChart: function () {
+        X.energy004.GetCharts({
+            success: function (result) {
+                if (!Ext.isEmpty(result, false)) {
+                    var data = Ext.util.JSON.decode(result, true);
+                    if (data) {
+                        var xaxis = [], series0 = [], series1 = [];
+                        data.Data.forEach(function (item) {
+                            xaxis.push(item.name);
+                            series0.push(item.value);
+                            series1.push(item.hvalue);
+                        });
+                        Energy004.BarOption.xAxis[0].data = xaxis;
+                        Energy004.BarOption.series[0].data = series0;
+                        Energy004.BarOption.series[1].data = series1;
+                        Energy004.chartBar.setOption(Energy004.BarOption, true);
+                    }
+                }
+            },
+            failure: function (message) {
+                Ext.Msg.alert(LanguageSet.SystemError, msg);
+            }
+        });
+    }
+};
+
+var Energy005 = {
+    chartBar: null,
+    BarOption: {
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow'
+            }
+        },
+        legend: {
+            data: []
+        },
+        grid: {
+            top: 30,
+            left: 5,
+            right: 5,
+            bottom: 5,
+            containLabel: true
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: []
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value'
+            }
+        ],
+        series: [
+        ]
+    },
+    syncValue: function (value) {
+        var tree = this.component;
+        if (tree.rendered) {
+            X.energy005.InitRangeNodes({
+                success: function (result) {
+                    if (!Ext.isEmpty(result, false)) {
+                        var nodes = Ext.util.JSON.decode(result, true);
+                        if (nodes && nodes.length > 0) {
+                            tree.initChildren(nodes);
+                        } else {
+                            tree.getRootNode().removeChildren();
+                        }
+                    }
+                },
+                eventMask: {
+                    showMask: true,
+                    target: "customtarget",
+                    customTarget: tree
+                }
+            });
+        }
+    },
+    getValues: function (tree) {
+        var ids = [], selNodes = tree.getChecked();
+        Ext.each(selNodes, function (node) {
+            ids.push(node.id);
+        });
+        return ids.join(";");
+    },
+    getTexts: function (tree) {
+        var texts = [], selNodes = tree.getChecked();
+        Ext.each(selNodes, function (node) {
+            texts.push(node.text);
+        });
+        return texts.join(";");
+    },
+    checkChanged: function (node, checked) {
+        var values = this.getChecked();
+        if (values.length > 2) {
+            if (this.checkChangeLock) return false;
+
+            this.checkChangeLock = true;
+            node.ui.toggleCheck(false);
+            this.checkChangeLock = false;
+            return false;
+        }
+        this.dropDownField.setValue(Energy005.getValues(this), Energy005.getTexts(this), false);
+    },
+    cellDblClick: function (el, rowIndex, columnIndex, e) {
+    },
+    initChart: function () {
+        this.chartBar = echarts.init(document.getElementById("BarChart"), 'shine');
+        this.chartBar.setOption(this.BarOption);
+    },
+    refreshChart: function () {
+        X.energy005.GetCharts({
+            success: function (result) {
+                if (!Ext.isEmpty(result, false)) {
+                    var data = Ext.util.JSON.decode(result, true);
+                    if (data) {
+                        var legend = [];
+                        data.Series.forEach(function (item) {
+                            legend.push(item.name);
+                        });
+                        Energy005.BarOption.legend.data = legend;
+                        Energy005.BarOption.xAxis[0].data = data.xAxis;
+                        Energy005.BarOption.series = data.Series;
+                        Energy005.chartBar.setOption(Energy005.BarOption, true);
+                    }
+                }
+            },
+            failure: function (message) {
+                Ext.Msg.alert(LanguageSet.SystemError, msg);
+            }
+        });
+    }
+};
+
+var Energy006 = {
+    chartLine: null,
+    LineOption: {
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow'
+            }
+        },
+        legend: {
+            data: ['PUE']
+        },
+        grid: {
+            top: 30,
+            left: 5,
+            right: 10,
+            bottom: 5,
+            containLabel: true
+        },
+        xAxis: [{
+            type: 'category',
+            data: []
+        }],
+        yAxis: [{
+            type: 'value'
+        }],
+        series: [
+            {
+                name: 'PUE',
+                type: 'bar',
+                data: []
+            }
+        ]
+    },
+    syncValue: function (value) {
+        var tree = this.component;
+        if (tree.rendered) {
+            X.energy006.InitRangeNodes({
+                success: function (result) {
+                    if (!Ext.isEmpty(result, false)) {
+                        var nodes = Ext.util.JSON.decode(result, true);
+                        if (nodes && nodes.length > 0) {
+                            tree.initChildren(nodes);
+                        } else {
+                            tree.getRootNode().removeChildren();
+                        }
+                    }
+                },
+                eventMask: {
+                    showMask: true,
+                    target: "customtarget",
+                    customTarget: tree
+                }
+            });
+        }
+    },
+    itemClick: function (node, e) {
+        this.dropDownField.setValue(node.id, node.text, false);
+        this.dropDownField.collapse();
+    },
+    cellDblClick: function (el, rowIndex, columnIndex, e) {
+    },
+    initChart: function () {
+        this.chartLine = echarts.init(document.getElementById("LineChart"), 'shine');
+        this.chartLine.setOption(this.LineOption);
+    },
+    refreshChart: function () {
+        X.energy006.GetCharts({
+            success: function (result) {
+                if (!Ext.isEmpty(result, false)) {
+                    var data = Ext.util.JSON.decode(result, true);
+                    if (data) {
+                        var xaxis = [],series = [];
+                        data.Data.forEach(function (item) {
+                            xaxis.push(item.name);
+                            series.push(item.value);
+                        });
+                        Energy006.LineOption.xAxis[0].data = xaxis;
+                        Energy006.LineOption.series[0].data = series;
+                        Energy006.chartLine.setOption(Energy006.LineOption, true);
+                    }
+                }
+            },
+            failure: function (message) {
+                Ext.Msg.alert(LanguageSet.SystemError, msg);
+            }
+        });
+    }
+};

@@ -913,6 +913,78 @@ namespace Delta.PECS.WebCSC.Site {
         protected global::Ext.Net.MenuItem OtherMenuItem5;
         
         /// <summary>
+        /// OtherMenuItem201 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::Ext.Net.MenuItem OtherMenuItem201;
+        
+        /// <summary>
+        /// OtherMenuItem201xx 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::Ext.Net.Menu OtherMenuItem201xx;
+        
+        /// <summary>
+        /// OtherMenuItem20101 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::Ext.Net.MenuItem OtherMenuItem20101;
+        
+        /// <summary>
+        /// OtherMenuItem20102 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::Ext.Net.MenuItem OtherMenuItem20102;
+        
+        /// <summary>
+        /// OtherMenuItem20103 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::Ext.Net.MenuItem OtherMenuItem20103;
+        
+        /// <summary>
+        /// OtherMenuItem20104 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::Ext.Net.MenuItem OtherMenuItem20104;
+        
+        /// <summary>
+        /// OtherMenuItem20105 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::Ext.Net.MenuItem OtherMenuItem20105;
+        
+        /// <summary>
+        /// OtherMenuItem20106 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::Ext.Net.MenuItem OtherMenuItem20106;
+        
+        /// <summary>
         /// OtherSeparator1 控件。
         /// </summary>
         /// <remarks>

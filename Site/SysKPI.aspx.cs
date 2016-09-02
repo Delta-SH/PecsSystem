@@ -1481,18 +1481,11 @@ namespace Delta.PECS.WebCSC.Site {
                 var alarms = new List<AlarmInfo>();
                 var devCnt = new List<StationCntInfo>();
                 foreach (var lscUser in userData.LscUsers) {
-                    var aAlarms = WebUtility.GetUserAlarms(userData).FindAll(alarm => {
-                        return alarm.LscID == lscUser.LscID && alarm.StartTime >= fromTime && alarm.StartTime <= toTime
-                            && toTime.Subtract(alarm.StartTime).TotalSeconds >= FaultLast11.Number * 60
-                            && (AlarmDevComboBox11.SelectedIndex == 0 || alarm.AlarmDeviceType.Equals(AlarmDevComboBox11.SelectedItem.Text));
-                    });
-
-                    var hAlarms = new BAlarm().GetHisAlarms(lscUser.LscID, lscUser.LscName, userData.StandardProtocol, lscUser.Group.GroupNodes, fromTime, toTime).FindAll(alarm => {
+                    var alms = new BAlarm().GetHisAlarms(lscUser.LscID, lscUser.LscName, userData.StandardProtocol, lscUser.Group.GroupNodes, fromTime, toTime).FindAll(alarm => {
                         return (AlarmDevComboBox11.SelectedIndex == 0 || alarm.AlarmDeviceType.Equals(AlarmDevComboBox11.SelectedItem.Text));
                     });
 
-                    alarms.AddRange(aAlarms);
-                    alarms.AddRange(hAlarms);
+                    alarms.AddRange(alms);
 
                     var staCnt = new BOther().GetStationNodeCnt(lscUser.LscID, lscUser.Group.GroupID, AlarmDevComboBox11.SelectedIndex == 0 ? WebUtility.DefaultInt32 : Int32.Parse(AlarmDevComboBox11.SelectedItem.Value));
                     devCnt.AddRange(from s in staCnt
@@ -1513,7 +1506,7 @@ namespace Delta.PECS.WebCSC.Site {
                                select new {
                                    LscID = g.Key.LscID,
                                    CntAlarms = g.ToList(),
-                                   AlarmLast = g.Sum(a => a.EndTime == WebUtility.DefaultDateTime ? DateTime.Now.Subtract(a.StartTime).TotalSeconds : a.EndTime.Subtract(a.StartTime).TotalSeconds)
+                                   AlarmLast = g.Sum(a => a.EndTime.Subtract(a.StartTime).TotalSeconds)
                                };
 
                 records = (from lc in devCnt
@@ -1539,14 +1532,6 @@ namespace Delta.PECS.WebCSC.Site {
                 var lscUser = userData.LscUsers.Find(lu => { return lu.LscID == lscId; });
                 if (lscUser == null) { return null; }
 
-                var aAlarms = WebUtility.GetUserAlarms(userData).FindAll(alarm => {
-                    return alarm.LscID == lscId && alarm.StartTime >= fromTime && alarm.StartTime <= toTime
-                        && toTime.Subtract(alarm.StartTime).TotalSeconds >= FaultLast11.Number * 60
-                        && (Area2ComboBox11.SelectedIndex == 0 || alarm.Area2Name.Equals(Area2ComboBox11.SelectedItem.Text))
-                        && (Area3ComboBox11.SelectedIndex == 0 || alarm.Area3Name.Equals(Area3ComboBox11.SelectedItem.Text))
-                        && (AlarmDevComboBox11.SelectedIndex == 0 || alarm.AlarmDeviceType.Equals(AlarmDevComboBox11.SelectedItem.Text));
-                });
-
                 var alarmEntity = new BAlarm();
                 var hAlarms = alarmEntity.GetHisAlarms(lscId, lscName, userData.StandardProtocol, lscUser.Group.GroupNodes, fromTime, toTime).FindAll(alarm => {
                     return (Area2ComboBox11.SelectedIndex == 0 || alarm.Area2Name.Equals(Area2ComboBox11.SelectedItem.Text))
@@ -1554,7 +1539,6 @@ namespace Delta.PECS.WebCSC.Site {
                         && (AlarmDevComboBox11.SelectedIndex == 0 || alarm.AlarmDeviceType.Equals(AlarmDevComboBox11.SelectedItem.Text));
                 });
 
-                hAlarms.AddRange(aAlarms);
                 var alarmCnt = from alarm in hAlarms
                                group alarm by new { alarm.Area2Name, alarm.Area3Name } into g
                                select new {
@@ -1564,7 +1548,7 @@ namespace Delta.PECS.WebCSC.Site {
                                    Area2Name = g.Key.Area2Name,
                                    Area3Name = g.Key.Area3Name,
                                    CntAlarms = g.ToList(),
-                                   AlarmLast = g.Sum(a => a.EndTime == WebUtility.DefaultDateTime ? DateTime.Now.Subtract(a.StartTime).TotalSeconds : a.EndTime.Subtract(a.StartTime).TotalSeconds)
+                                   AlarmLast = g.Sum(a => a.EndTime.Subtract(a.StartTime).TotalSeconds)
                                };
 
                 var otherEntity = new BOther();
@@ -1620,24 +1604,18 @@ namespace Delta.PECS.WebCSC.Site {
             if (LscsComboBox21.SelectedIndex == 0) {
                 var alarms = new List<AlarmInfo>();
                 foreach (var lscUser in userData.LscUsers) {
-                    var aAlarms = WebUtility.GetUserAlarms(userData).FindAll(alarm => {
-                        return alarm.LscID == lscUser.LscID && alarm.StartTime >= fromTime && alarm.StartTime <= toTime
-                            && (AlarmDevComboBox21.SelectedIndex == 0 || alarm.AlarmDeviceType.Equals(AlarmDevComboBox21.SelectedItem.Text));
+                    var halms = new BAlarm().GetHisAlarms(lscUser.LscID, lscUser.LscName, userData.StandardProtocol, lscUser.Group.GroupNodes, fromTime, toTime).FindAll(alarm => {
+                        return (AlarmDevComboBox21.SelectedIndex == 0 || alarm.AlarmDeviceType.Equals(AlarmDevComboBox21.SelectedItem.Text)) && alarm.EndTime.Subtract(alarm.StartTime).TotalSeconds > 10 * 60;
                     });
 
-                    var hAlarms = new BAlarm().GetHisAlarms(lscUser.LscID, lscUser.LscName, userData.StandardProtocol, lscUser.Group.GroupNodes, fromTime, toTime).FindAll(alarm => {
-                        return (AlarmDevComboBox21.SelectedIndex == 0 || alarm.AlarmDeviceType.Equals(AlarmDevComboBox21.SelectedItem.Text));
-                    });
-
-                    alarms.AddRange(aAlarms);
-                    alarms.AddRange(hAlarms);
+                    alarms.AddRange(halms);
                 }
 
                 var alarmCnt = from alarm in alarms
                                group alarm by new { alarm.LscID } into g
                                select new {
                                    LscID = g.Key.LscID,
-                                   CntAlarms = g.Where(alarm => (alarm.EndTime == WebUtility.DefaultDateTime ? DateTime.Now.Subtract(alarm.StartTime).TotalSeconds : alarm.EndTime.Subtract(alarm.StartTime).TotalSeconds) > FaultLast21.Number * 60).ToList(),
+                                   CntAlarms = g.Where(alarm => alarm.EndTime.Subtract(alarm.StartTime).TotalSeconds > FaultLast21.Number * 60).ToList(),
                                    TotalAlarms = g.ToList()
                                };
 
@@ -1662,21 +1640,13 @@ namespace Delta.PECS.WebCSC.Site {
                 var lscUser = userData.LscUsers.Find(lu => { return lu.LscID == lscId; });
                 if (lscUser == null) { return null; }
 
-                var aAlarms = WebUtility.GetUserAlarms(userData).FindAll(alarm => {
-                    return alarm.LscID == lscId && alarm.StartTime >= fromTime && alarm.StartTime <= toTime
-                        && (Area2ComboBox21.SelectedIndex == 0 || alarm.Area2Name.Equals(Area2ComboBox21.SelectedItem.Text))
-                        && (Area3ComboBox21.SelectedIndex == 0 || alarm.Area3Name.Equals(Area3ComboBox21.SelectedItem.Text))
-                        && (AlarmDevComboBox21.SelectedIndex == 0 || alarm.AlarmDeviceType.Equals(AlarmDevComboBox21.SelectedItem.Text));
-                });
-
-                var alarmEntity = new BAlarm();
-                var hAlarms = alarmEntity.GetHisAlarms(lscId, lscName, userData.StandardProtocol, lscUser.Group.GroupNodes, fromTime, toTime).FindAll(alarm => {
+                var hAlarms = new BAlarm().GetHisAlarms(lscId, lscName, userData.StandardProtocol, lscUser.Group.GroupNodes, fromTime, toTime).FindAll(alarm => {
                     return (Area2ComboBox21.SelectedIndex == 0 || alarm.Area2Name.Equals(Area2ComboBox21.SelectedItem.Text))
                         && (Area3ComboBox21.SelectedIndex == 0 || alarm.Area3Name.Equals(Area3ComboBox21.SelectedItem.Text))
-                        && (AlarmDevComboBox21.SelectedIndex == 0 || alarm.AlarmDeviceType.Equals(AlarmDevComboBox21.SelectedItem.Text));
+                        && (AlarmDevComboBox21.SelectedIndex == 0 || alarm.AlarmDeviceType.Equals(AlarmDevComboBox21.SelectedItem.Text))
+                        && alarm.EndTime.Subtract(alarm.StartTime).TotalSeconds > 10 * 60;
                 });
 
-                hAlarms.AddRange(aAlarms);
                 var alarmCnt = from alarm in hAlarms
                                group alarm by new { alarm.Area2Name, alarm.Area3Name } into g
                                select new {
@@ -1685,7 +1655,7 @@ namespace Delta.PECS.WebCSC.Site {
                                    Area1Name = g.First().Area1Name,
                                    Area2Name = g.Key.Area2Name,
                                    Area3Name = g.Key.Area3Name,
-                                   CntAlarms = g.Where(alarm => (alarm.EndTime == WebUtility.DefaultDateTime ? DateTime.Now.Subtract(alarm.StartTime).TotalSeconds : alarm.EndTime.Subtract(alarm.StartTime).TotalSeconds) > FaultLast21.Number * 60).ToList(),
+                                   CntAlarms = g.Where(alarm => alarm.EndTime.Subtract(alarm.StartTime).TotalSeconds > FaultLast21.Number * 60).ToList(),
                                    TotalAlarms = g.ToList()
                                };
 
@@ -1725,16 +1695,10 @@ namespace Delta.PECS.WebCSC.Site {
             if (LscsComboBox31.SelectedIndex == 0) {
                 var alarms = new List<AlarmInfo>();
                 foreach (var lscUser in userData.LscUsers) {
-                    var aAlarms = WebUtility.GetUserAlarms(userData).FindAll(alarm => {
-                        return alarm.LscID == lscUser.LscID && alarm.StartTime >= fromTime && alarm.StartTime <= toTime
-                            && (AlarmDevComboBox31.SelectedIndex == 0 || alarm.AlarmDeviceType.Equals(AlarmDevComboBox31.SelectedItem.Text));
-                    });
-
                     var hAlarms = new BAlarm().GetHisAlarms(lscUser.LscID, lscUser.LscName, userData.StandardProtocol, lscUser.Group.GroupNodes, fromTime, toTime).FindAll(alarm => {
                         return (AlarmDevComboBox31.SelectedIndex == 0 || alarm.AlarmDeviceType.Equals(AlarmDevComboBox31.SelectedItem.Text));
                     });
 
-                    alarms.AddRange(aAlarms);
                     alarms.AddRange(hAlarms);
                 }
 
@@ -1771,14 +1735,6 @@ namespace Delta.PECS.WebCSC.Site {
                 var lscUser = userData.LscUsers.Find(lu => { return lu.LscID == lscId; });
                 if (lscUser == null) { return null; }
 
-
-                var aAlarms = WebUtility.GetUserAlarms(userData).FindAll(alarm => {
-                    return alarm.LscID == lscId && alarm.StartTime >= fromTime && alarm.StartTime <= toTime
-                        && (Area2ComboBox31.SelectedIndex == 0 || alarm.Area2Name.Equals(Area2ComboBox31.SelectedItem.Text))
-                        && (Area3ComboBox31.SelectedIndex == 0 || alarm.Area3Name.Equals(Area3ComboBox31.SelectedItem.Text))
-                        && (AlarmDevComboBox31.SelectedIndex == 0 || alarm.AlarmDeviceType.Equals(AlarmDevComboBox31.SelectedItem.Text));
-                });
-
                 var alarmEntity = new BAlarm();
                 var hAlarms = alarmEntity.GetHisAlarms(lscId, lscName, userData.StandardProtocol, lscUser.Group.GroupNodes, fromTime, toTime).FindAll(alarm => {
                     return (Area2ComboBox31.SelectedIndex == 0 || alarm.Area2Name.Equals(Area2ComboBox31.SelectedItem.Text))
@@ -1786,7 +1742,6 @@ namespace Delta.PECS.WebCSC.Site {
                            && (AlarmDevComboBox31.SelectedIndex == 0 || alarm.AlarmDeviceType.Equals(AlarmDevComboBox31.SelectedItem.Text));
                 });
 
-                hAlarms.AddRange(aAlarms);
                 var alarmCnt = from alarm in hAlarms
                                group alarm by new { alarm.Area2Name, alarm.Area3Name } into g
                                select new {
@@ -1839,17 +1794,10 @@ namespace Delta.PECS.WebCSC.Site {
             if (LscsComboBox41.SelectedIndex == 0) {
                 var alarms = new List<AlarmInfo>();
                 foreach (var lscUser in userData.LscUsers) {
-                    var aAlarms = WebUtility.GetUserAlarms(userData).FindAll(alarm => {
-                        return alarm.LscID == lscUser.LscID && alarm.StartTime >= fromTime && alarm.StartTime <= toTime
-                            && (AlarmDevComboBox41.SelectedIndex == 0 || alarm.AlarmDeviceType.Equals(AlarmDevComboBox41.SelectedItem.Text));
-                    });
-
                     var alarmEntity = new BAlarm();
                     var hAlarms = alarmEntity.GetHisAlarms(lscUser.LscID, lscUser.LscName, userData.StandardProtocol, lscUser.Group.GroupNodes, fromTime, toTime).FindAll(alarm => {
                         return (AlarmDevComboBox41.SelectedIndex == 0 || alarm.AlarmDeviceType.Equals(AlarmDevComboBox41.SelectedItem.Text));
                     });
-
-                    alarms.AddRange(aAlarms);
                     alarms.AddRange(hAlarms);
                 }
 
@@ -1886,14 +1834,6 @@ namespace Delta.PECS.WebCSC.Site {
                 var lscUser = userData.LscUsers.Find(lu => { return lu.LscID == lscId; });
                 if (lscUser == null) { return null; }
 
-
-                var aAlarms = WebUtility.GetUserAlarms(userData).FindAll(alarm => {
-                    return alarm.LscID == lscId && alarm.StartTime >= fromTime && alarm.StartTime <= toTime
-                        && (Area2ComboBox41.SelectedIndex == 0 || alarm.Area2Name.Equals(Area2ComboBox41.SelectedItem.Text))
-                        && (Area3ComboBox41.SelectedIndex == 0 || alarm.Area3Name.Equals(Area3ComboBox41.SelectedItem.Text))
-                        && (AlarmDevComboBox41.SelectedIndex == 0 || alarm.AlarmDeviceType.Equals(AlarmDevComboBox41.SelectedItem.Text));
-                });
-
                 var alarmEntity = new BAlarm();
                 var hAlarms = alarmEntity.GetHisAlarms(lscId, lscName, userData.StandardProtocol, lscUser.Group.GroupNodes, fromTime, toTime).FindAll(alarm => {
                     return (Area2ComboBox41.SelectedIndex == 0 || alarm.Area2Name.Equals(Area2ComboBox41.SelectedItem.Text))
@@ -1901,7 +1841,6 @@ namespace Delta.PECS.WebCSC.Site {
                            && (AlarmDevComboBox41.SelectedIndex == 0 || alarm.AlarmDeviceType.Equals(AlarmDevComboBox41.SelectedItem.Text));
                 });
 
-                hAlarms.AddRange(aAlarms);
                 var alarmCnt = from alarm in hAlarms
                                group alarm by new { alarm.Area2Name, alarm.Area3Name } into g
                                select new {
@@ -1955,15 +1894,6 @@ namespace Delta.PECS.WebCSC.Site {
                 var alarms = new List<AlarmInfo>();
                 foreach (var lscUser in userData.LscUsers) {
                     alarms.AddRange(
-                        WebUtility.GetUserAlarms(userData).FindAll(alarm => {
-                            return alarm.LscID == lscUser.LscID
-                                && alarm.StartTime >= fromTime
-                                && alarm.StartTime <= toTime
-                                && (AlarmDevComboBox51.SelectedIndex == 0 || alarm.AlarmDeviceType.Equals(AlarmDevComboBox51.SelectedItem.Text));
-                        })
-                    );
-
-                    alarms.AddRange(
                         new BAlarm().GetHisAlarms(lscUser.LscID, lscUser.LscName, userData.StandardProtocol, lscUser.Group.GroupNodes, fromTime, toTime).FindAll(alarm => {
                             return (AlarmDevComboBox51.SelectedIndex == 0 || alarm.AlarmDeviceType.Equals(AlarmDevComboBox51.SelectedItem.Text));
                         })
@@ -2000,13 +1930,6 @@ namespace Delta.PECS.WebCSC.Site {
                 var lscUser = userData.LscUsers.Find(lu => { return lu.LscID == lscId; });
                 if (lscUser == null) { return null; }
 
-                var aAlarms = WebUtility.GetUserAlarms(userData).FindAll(alarm => {
-                    return alarm.LscID == lscId && alarm.StartTime >= fromTime && alarm.StartTime <= toTime
-                        && (Area2ComboBox51.SelectedIndex == 0 || alarm.Area2Name.Equals(Area2ComboBox51.SelectedItem.Text))
-                        && (Area3ComboBox51.SelectedIndex == 0 || alarm.Area3Name.Equals(Area3ComboBox51.SelectedItem.Text))
-                        && (AlarmDevComboBox51.SelectedIndex == 0 || alarm.AlarmDeviceType.Equals(AlarmDevComboBox51.SelectedItem.Text));
-                });
-
                 var alarmEntity = new BAlarm();
                 var hAlarms = alarmEntity.GetHisAlarms(lscId, lscName, userData.StandardProtocol, lscUser.Group.GroupNodes, fromTime, toTime).FindAll(alarm => {
                     return (Area2ComboBox51.SelectedIndex == 0 || alarm.Area2Name.Equals(Area2ComboBox51.SelectedItem.Text))
@@ -2014,7 +1937,6 @@ namespace Delta.PECS.WebCSC.Site {
                            && (AlarmDevComboBox51.SelectedIndex == 0 || alarm.AlarmDeviceType.Equals(AlarmDevComboBox51.SelectedItem.Text));
                 });
 
-                hAlarms.AddRange(aAlarms);
                 var alarmCnt = from alarm in hAlarms
                                group alarm by new { alarm.Area2Name, alarm.Area3Name } into g
                                select new {

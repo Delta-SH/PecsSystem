@@ -40,5 +40,6 @@ var LanguageSet = {
     StaWndName: "局站详单",
     DevWndName: "设备详单",
     SystemTip: "系统提示",
+    SystemError: "系统错误",
     SearchTip: "未找到指定内容:<br/>{0}"
 };

@@ -444,4 +444,13 @@ namespace Delta.PECS.WebCSC.Model
         StationType,
         AreaType
     }
+
+    /// <summary>
+    /// EnmPeriod
+    /// </summary>
+    public enum EnmPeriod {
+        Month,
+        Week,
+        Day
+    }
 }

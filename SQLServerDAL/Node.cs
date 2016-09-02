@@ -93,20 +93,22 @@ namespace Delta.PECS.WebCSC.SQLServerDAL
             var uxfilter = false;
             var dtfilter = false;
             if (nodeNames != null && nodeNames.Length > 0) {
+                var _nodeNames = new string[nodeNames.Length];
                 for (var i = 0; i < nodeNames.Length; i++) {
-                    nodeNames[i] = String.Format("SELECT '%{0}%' AS [NodeName]", nodeNames[i]);
+                    _nodeNames[i] = String.Format("SELECT '%{0}%' AS [NodeName]", nodeNames[i]);
                 }
 
-                sqlText.AppendFormat(@"NodeNames AS ( {0} ),", String.Join(" UNION ALL ", nodeNames));
+                sqlText.AppendFormat(@"NodeNames AS ( {0} ),", String.Join(" UNION ALL ", _nodeNames));
                 ndfilter = true;
             }
 
             if (auxSets != null && auxSets.Length > 0) {
+                var _auxSets = new string[auxSets.Length];
                 for (var i = 0; i < auxSets.Length; i++) {
-                    auxSets[i] = String.Format("SELECT '%{0}%' AS [AuxSet]", auxSets[i]);
+                    _auxSets[i] = String.Format("SELECT '%{0}%' AS [AuxSet]", auxSets[i]);
                 }
 
-                sqlText.AppendFormat(@"AuxSets AS ( {0} ),", String.Join(" UNION ALL ", auxSets));
+                sqlText.AppendFormat(@"AuxSets AS ( {0} ),", String.Join(" UNION ALL ", _auxSets));
                 uxfilter = true;
             }
 
@@ -1362,6 +1364,28 @@ namespace Delta.PECS.WebCSC.SQLServerDAL
                 }
             }
             return nodes;
+        }
+
+        public List<ElecMeterInfo> GetElecMeters(string connectionString, LscInfo lsc, DateTime startDate, DateTime endDate) {
+            SqlParameter[] parms = { new SqlParameter("@StartDate", SqlDbType.DateTime),
+                                     new SqlParameter("@EndDate", SqlDbType.DateTime) };
+
+            parms[0].Value = startDate;
+            parms[1].Value = endDate;
+
+            var values = new List<ElecMeterInfo>();
+            SqlHelper.TestConnection(connectionString);
+            using(var rdr = SqlHelper.ExecuteReader(connectionString, CommandType.Text, SqlText.Sql_ElecMeter_GetElecMeters, parms)) {
+                while(rdr.Read()) {
+                    values.Add(new ElecMeterInfo {
+                        LscId = lsc.LscID,
+                        NodeId = ComUtility.DBNullInt32Handler(rdr["NodeId"]),
+                        Value = ComUtility.DBNullFloatHandler(rdr["Value"]),
+                        UpdateTime = ComUtility.DBNullDateTimeHandler(rdr["UpdateTime"])
+                    });
+                }
+            }
+            return values;
         }
     }
 }

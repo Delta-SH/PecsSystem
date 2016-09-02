@@ -5,14 +5,13 @@ using System.Text;
 using Delta.PECS.WebCSC.Model;
 using Delta.PECS.WebCSC.IDAL;
 using Delta.PECS.WebCSC.DALFactory;
+using Delta.PECS.WebCSC.DBUtility;
 
-namespace Delta.PECS.WebCSC.BLL
-{
+namespace Delta.PECS.WebCSC.BLL {
     /// <summary>
     /// A business componet to get nodes
     /// </summary>
-    public class BNode
-    {
+    public class BNode {
         // Get an instance of the Node using the DALFactory
         private static readonly INode nodeDal = DataAccess.CreateNode();
 
@@ -208,6 +207,58 @@ namespace Delta.PECS.WebCSC.BLL
             } catch {
                 throw;
             }
+        }
+
+        public List<ElecMeterInfo> GetElecMeters(int lscId, DateTime startDate, DateTime endDate) {
+            var lsc = new BLsc().GetLsc(lscId);
+            if(lsc == null) return new List<ElecMeterInfo>();
+
+            var connectionString = SqlHelper.CreateConnectionString(false, lsc.HisDBServer, lsc.HisDBPort, lsc.HisDBName, lsc.HisDBUID, lsc.HisDBPwd, 120);
+            return nodeDal.GetElecMeters(connectionString, lsc, startDate, endDate);
+        }
+
+        public List<ElecValueInfo> GetElecValues(int lscId, DateTime startDate, DateTime endDate, EnmPeriod period) {
+            var result = new List<ElecValueInfo>();
+
+            var values = this.GetElecMeters(lscId, startDate, endDate);
+            if(values.Count > 0) {
+                if(period == EnmPeriod.Day) {
+                    var eachValues = values.GroupBy(v => new { v.NodeId, Start = v.UpdateTime.Date });
+                    foreach(var eValue in eachValues) {
+                        result.Add(new ElecValueInfo {
+                            LscId = lscId,
+                            NodeId = eValue.Key.NodeId,
+                            Value = eValue.Sum(v => v.Value),
+                            Start = eValue.Key.Start,
+                            End = eValue.Key.Start
+                        });
+                    }
+                } else if(period == EnmPeriod.Week) {
+                    var eachValues = values.GroupBy(v => new { v.NodeId, Start = v.UpdateTime.Date.AddDays(-1 * (((int)v.UpdateTime.DayOfWeek + 6) % 7)) });
+                    foreach(var eValue in eachValues) {
+                        result.Add(new ElecValueInfo {
+                            LscId = lscId,
+                            NodeId = eValue.Key.NodeId,
+                            Value = eValue.Sum(v => v.Value),
+                            Start = eValue.Key.Start,
+                            End = eValue.Key.Start.AddDays(6)
+                        });
+                    }
+                } else if(period == EnmPeriod.Month) {
+                    var eachValues = values.GroupBy(v => new { v.NodeId, Start = new DateTime(v.UpdateTime.Year, v.UpdateTime.Month, 1) });
+                    foreach(var eValue in eachValues) {
+                        result.Add(new ElecValueInfo {
+                            LscId = lscId,
+                            NodeId = eValue.Key.NodeId,
+                            Value = eValue.Sum(v => v.Value),
+                            Start = eValue.Key.Start,
+                            End = eValue.Key.Start.AddMonths(1).AddDays(-1)
+                        });
+                    }
+                }
+            }
+
+            return result;
         }
     }
 }

@@ -2121,5 +2121,44 @@ namespace Delta.PECS.WebCSC.DBUtility
             INSERT INTO [dbo].[TM_Projects]([ProjectId],[ProjectName],[BeginTime],[EndTime],[Responsible],[ContactPhone],[Company],[Comment],[Enabled]) VALUES(@ProjectId,@ProjectName,@BeginTime,@EndTime,@Responsible,@ContactPhone,@Company,@Comment,@Enabled);
         END";
         public const string Sql_Appointment_Delete_Project = @"DELETE FROM [dbo].[TM_Projects] WHERE [ProjectId] = @ProjectId;";
+
+        //ElecMeter
+        public const string Sql_ElecMeter_GetElecMeters = @"
+        DECLARE @tpDate DATETIME, 
+                @tbName NVARCHAR(255),
+                @tableCnt INT = 0,
+                @SQL NVARCHAR(MAX) = N'';
+
+        SET @tpDate = @StartDate;
+        SET @tbName= N'[dbo].[TH_ElecMeter]';
+        WHILE(DATEDIFF(MM,@tpDate,@EndDate)>=0)
+        BEGIN
+            SET @tbName= N'[dbo].[TH_ElecMeter' + CONVERT(VARCHAR(6),@tpDate,112) + N']';
+            IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(@tbName) AND type in (N'U'))
+            BEGIN
+                IF(@tableCnt > 0)
+                BEGIN
+                    SET @SQL += N' 
+                    UNION ALL 
+                    ';
+                END
+			
+                SET @SQL += N'SELECT * FROM ' + @tbName + N' WHERE [UpdateTime] >= ''' + CONVERT(NVARCHAR(20),@StartDate,120) + N''' AND [UpdateTime] <= ''' + CONVERT(NVARCHAR(20),@EndDate,120) + N'''';
+                SET @tableCnt += 1;
+            END
+    
+            SET @tpDate = DATEADD(MM,1,@tpDate);
+        END
+
+        IF(@tableCnt > 0)
+        BEGIN
+            SET @SQL = N';WITH tpData AS
+            (
+                ' + @SQL + N'
+            )
+            SELECT [NodeID],MAX([vValue]) - MIN([vValue]) AS [Value],CAST(CONVERT(VARCHAR(10),[UpdateTime],120) AS DATETIME) AS [UpdateTime] FROM tpData GROUP BY [NodeID],CONVERT(VARCHAR(10),[UpdateTime],120) ORDER BY [UpdateTime];';
+        END
+
+        EXECUTE sp_executesql @SQL;";
     }
 }

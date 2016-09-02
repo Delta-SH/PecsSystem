@@ -126,6 +126,13 @@
     <Content Include="DivWnd.aspx" />
     <Content Include="Download.aspx" />
     <Content Include="EnergyReport.aspx" />
+    <Content Include="Energy\Details\Detail001.aspx" />
+    <Content Include="Energy\energy001.aspx" />
+    <Content Include="Energy\energy002.aspx" />
+    <Content Include="Energy\energy003.aspx" />
+    <Content Include="Energy\energy004.aspx" />
+    <Content Include="Energy\energy005.aspx" />
+    <Content Include="Energy\energy006.aspx" />
     <Content Include="ErrorPage.htm" />
     <Content Include="favicon.ico" />
     <Content Include="FileNotFound.htm" />
@@ -216,6 +223,8 @@
     <Content Include="Resources\amstockcharts\style.css" />
     <Content Include="Resources\css\baidu.map.css" />
     <Content Include="Resources\css\baidu.map.source.css" />
+    <Content Include="Resources\echarts\echarts.common.min.js" />
+    <Content Include="Resources\echarts\shine.js" />
     <Content Include="Resources\icon\128X128.ico" />
     <Content Include="Resources\icon\16X16.ico" />
     <Content Include="Resources\icon\32X32.ico" />
@@ -338,6 +347,7 @@
     <Content Include="ServiceLogs.aspx" />
     <Content Include="Speaker.aspx" />
     <Content Include="SpeechSetting.aspx" />
+    <Content Include="SsoClient.aspx" />
     <Content Include="StaAvailabilityReport.aspx" />
     <Content Include="StaCount.aspx" />
     <Content Include="StaWnd.aspx" />
@@ -531,6 +541,55 @@
     </Compile>
     <Compile Include="EnergyReport.aspx.designer.cs">
       <DependentUpon>EnergyReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Energy\Details\Detail001.aspx.cs">
+      <DependentUpon>Detail001.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Energy\Details\Detail001.aspx.designer.cs">
+      <DependentUpon>Detail001.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Energy\energy001.aspx.cs">
+      <DependentUpon>energy001.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Energy\energy001.aspx.designer.cs">
+      <DependentUpon>energy001.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Energy\energy002.aspx.cs">
+      <DependentUpon>energy002.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Energy\energy002.aspx.designer.cs">
+      <DependentUpon>energy002.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Energy\energy003.aspx.cs">
+      <DependentUpon>energy003.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Energy\energy003.aspx.designer.cs">
+      <DependentUpon>energy003.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Energy\energy004.aspx.cs">
+      <DependentUpon>energy004.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Energy\energy004.aspx.designer.cs">
+      <DependentUpon>energy004.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Energy\energy005.aspx.cs">
+      <DependentUpon>energy005.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Energy\energy005.aspx.designer.cs">
+      <DependentUpon>energy005.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Energy\energy006.aspx.cs">
+      <DependentUpon>energy006.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Energy\energy006.aspx.designer.cs">
+      <DependentUpon>energy006.aspx</DependentUpon>
     </Compile>
     <Compile Include="FrequencyAlarmManager.aspx.cs">
       <DependentUpon>FrequencyAlarmManager.aspx</DependentUpon>
@@ -1004,6 +1063,13 @@
     </Compile>
     <Compile Include="SpeechSetting.aspx.designer.cs">
       <DependentUpon>SpeechSetting.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SsoClient.aspx.cs">
+      <DependentUpon>SsoClient.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SsoClient.aspx.designer.cs">
+      <DependentUpon>SsoClient.aspx</DependentUpon>
     </Compile>
     <Compile Include="StaAvailabilityReport.aspx.cs">
       <DependentUpon>StaAvailabilityReport.aspx</DependentUpon>

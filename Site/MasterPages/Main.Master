@@ -257,6 +257,23 @@
                                             <ext:MenuItem ID="OtherMenuItem3" runat="server" Text="设备负载" Icon="ApplicationViewDetail" Href="DevLoadReport.aspx" HrefTarget="_blank" />
                                             <ext:MenuItem ID="OtherMenuItem4" runat="server" Text="负荷预警" Icon="ApplicationViewDetail" Href="OverloadAlert.aspx" HrefTarget="_blank" />
                                             <ext:MenuItem ID="OtherMenuItem5" runat="server" Text="告警考核" Icon="ApplicationViewDetail" Href="RReport001.aspx" HrefTarget="_blank" Hidden="true" />
+                                            <ext:MenuItem ID="OtherMenuItem201" runat="server" Text="能耗统计指标" Icon="ChartPie">
+                                                <Menu>
+                                                    <ext:Menu ID="OtherMenuItem201xx" runat="server">
+                                                        <Items>
+                                                            <ext:MenuItem ID="OtherMenuItem20101" runat="server" Text="电量分类统计" Icon="ApplicationViewDetail" Href="Energy/energy001.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="OtherMenuItem20102" runat="server" Text="用电趋势分析" Icon="ApplicationViewDetail" Href="Energy/energy002.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="OtherMenuItem20103" runat="server" Text="电量同址同比" Icon="ApplicationViewDetail" Href="Energy/energy003.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="OtherMenuItem20104" runat="server" Text="电量同址环比" Icon="ApplicationViewDetail" Href="Energy/energy004.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="OtherMenuItem20105" runat="server" Text="机房电量对比" Icon="ApplicationViewDetail" Href="Energy/energy005.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="OtherMenuItem20106" runat="server" Text="机房PUE值统计" Icon="ApplicationViewDetail" Href="Energy/energy006.aspx" HrefTarget="_blank" />
+                                                        </Items>
+                                                    </ext:Menu>
+                                                </Menu>
+                                                <Listeners>
+                                                    <Click Handler="return false;" />
+                                                </Listeners>
+                                            </ext:MenuItem>
                                             <ext:MenuSeparator ID="OtherSeparator1" runat="server" />
                                             <ext:MenuItem ID="OtherMenuItem6" runat="server" Text="局站可用率" Icon="ChartBar" Href="StaAvailabilityReport.aspx" HrefTarget="_blank" />
                                             <ext:MenuItem ID="OtherMenuItem7" runat="server" Text="监控可用率" Icon="ChartBar" Href="DevAvailabilityReport.aspx" HrefTarget="_blank" />
