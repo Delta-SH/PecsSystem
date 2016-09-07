@@ -91,7 +91,7 @@ namespace Delta.PECS.WebCSC.DBUtility
                 if (!String.IsNullOrEmpty(filePath)) {
                     filePath = filePath.Trim();
                     if (!Directory.Exists(filePath)) { Directory.CreateDirectory(filePath); }
-                    query = String.Format(@"CREATE DATABASE [{0}] ON PRIMARY (NAME = N'{0}',FILENAME = N'{1}\{0}.mdf',SIZE = 3072KB,MAXSIZE = UNLIMITED,FILEGROWTH = 1024KB) LOG ON (NAME = N'{0}_log',FILENAME = N'{1}\{0}_log.ldf',SIZE = 1024KB,MAXSIZE = 2048GB,FILEGROWTH = 10%)", databaseName, filePath);
+                    query = String.Format(@"CREATE DATABASE [{0}] ON PRIMARY (NAME = N'{0}',FILENAME = N'{1}\{0}.mdf') LOG ON (NAME = N'{0}_log',FILENAME = N'{1}\{0}_log.ldf')", databaseName, filePath);
                 }
 
                 using (var conn = new SqlConnection(connectionString)) {
