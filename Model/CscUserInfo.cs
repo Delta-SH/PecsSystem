@@ -19,7 +19,7 @@ namespace Delta.PECS.WebCSC.Model
         /// <summary>
         /// UID
         /// </summary>
-        public string UID { get; set; }
+        public string Uid { get; set; }
 
         /// <summary>
         /// Super
@@ -52,8 +52,8 @@ namespace Delta.PECS.WebCSC.Model
         public List<SysParamInfo> SysParams { get; set; }
 
         /// <summary>
-        /// UpdateTime
+        /// ExpiredTime
         /// </summary>
-        public DateTime UpdateTime { get; set; }
+        public DateTime ExpiredTime { get; set; }
     }
 }

@@ -9,18 +9,10 @@ using System.Web.Security;
 namespace Delta.PECS.WebCSC.Site {
     public partial class Default : System.Web.UI.Page {
         protected void Page_Load(object sender, EventArgs e) {
-            if (Page.User.Identity.IsAuthenticated) {
-                try {
-                    if (WebUtility.FirstNavMaps())
-                        Response.Redirect("~/NavMaps.aspx", false);
-                    else
-                        Response.Redirect("~/Home.aspx", false);
-                } catch { 
-                    Response.Redirect("~/Home.aspx", false); 
-                }
-            } else { 
-                FormsAuthentication.RedirectToLoginPage(); 
-            }
+            if(WebUtility.FirstNavMaps())
+                Response.Redirect("~/NavMaps.aspx", false);
+            else
+                Response.Redirect("~/Home.aspx", false);
         }
     }
 }

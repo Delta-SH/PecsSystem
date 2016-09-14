@@ -1717,12 +1717,9 @@ namespace Delta.PECS.WebCSC.Site {
         public static void ClearInvalidCaches() {
             var keys = new List<string>(UserData.Keys);
             foreach (var key in keys) {
-                if (UserData.ContainsKey(key)) {
-                    var userData = UserData[key];
-                    if (userData.UpdateTime.AddSeconds(CacheTimeout) < DateTime.Now) {
-                        ClearUserCaches(userData);
-                    }
-                }
+                if(!UserData.ContainsKey(key)) continue;
+                if(DateTime.Now > UserData[key].ExpiredTime)
+                    ClearUserCaches(key);
             }
         }
 
@@ -1730,19 +1727,16 @@ namespace Delta.PECS.WebCSC.Site {
         /// Method to clear user caches
         /// </summary>
         /// <param name="cscUser">cscUser</param>
-        public static void ClearUserCaches(CscUserInfo userData) {
-            if (userData != null) {
-                var enumerator = HttpRuntime.Cache.GetEnumerator();
-                while (enumerator.MoveNext()) {
-                    var cacheKey = enumerator.Key.ToString();
-                    if (cacheKey.StartsWith(userData.Identifier)) {
-                        HttpRuntime.Cache.Remove(cacheKey);
-                    }
-                }
-                if (UserData.ContainsKey(userData.Identifier)) {
-                    UserData.Remove(userData.Identifier);
-                }
+        public static void ClearUserCaches(string key) {
+            var enumerator = HttpRuntime.Cache.GetEnumerator();
+            while(enumerator.MoveNext()) {
+                var cacheKey = enumerator.Key.ToString();
+                if(cacheKey.StartsWith(key))
+                    HttpRuntime.Cache.Remove(cacheKey);
             }
+
+            if(UserData.ContainsKey(key))
+                UserData.Remove(key);
         }
 
         /// <summary>
@@ -1763,7 +1757,7 @@ namespace Delta.PECS.WebCSC.Site {
         /// <param name="userData">userData</param>
         /// <param name="cacheKey">cacheKey</param>
         public static string GetCacheKeyName(CscUserInfo userData, string cacheKey) {
-            if (userData != null) { return String.Format("{0}-{1}", userData.Identifier, cacheKey); }
+            if (userData != null) return String.Format("{0}-{1}", userData.Identifier, cacheKey);
             return String.Empty;
         }
 
@@ -1895,6 +1889,11 @@ namespace Delta.PECS.WebCSC.Site {
             return val;
         }
 
+        /// <summary>
+        /// Gets the node names
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <returns></returns>
         public static int GetGroupNodeDisplayValue(string uid) {
             var values = 0;
             var parms = new BUser().GetSysParams(50000001);

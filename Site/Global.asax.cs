@@ -29,6 +29,8 @@ namespace Delta.PECS.WebCSC.Site {
         /// Session Start
         /// </summary>
         protected void Session_Start(object sender, EventArgs e) {
+            HttpContext.Current.Session["Status"] = "200Ok";
+            WebUtility.ClearInvalidCaches();
         }
 
         /// <summary>
@@ -71,18 +73,14 @@ namespace Delta.PECS.WebCSC.Site {
         /// <summary>
         /// Application AuthenticateRequest
         /// </summary>
-        protected void Application_AuthenticateRequest(object sender, EventArgs e) {
+        protected void Application_AcquireRequestState(object sender, EventArgs e) {
             try {
-                if (HttpContext.Current != null) {
+                if(HttpContext.Current != null && HttpContext.Current.Session != null) {
                     var thisPage = HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Path);
                     if (thisPage.ToLower().EndsWith("ping.ashx")) {
-                        var authCookie = HttpContext.Current.Request.Cookies[FormsAuthentication.FormsCookieName];
-                        if (authCookie != null) {
-                            var ticket = FormsAuthentication.Decrypt(authCookie.Value);
-                            if (ticket != null && WebUtility.UserData.ContainsKey(ticket.UserData)) {
-                                WebUtility.UserData[ticket.UserData].UpdateTime = DateTime.Now;
-                            }
-                        }
+                        var identifier = HttpContext.Current.Session.SessionID;
+                        if(WebUtility.UserData.ContainsKey(identifier))
+                            WebUtility.UserData[identifier].ExpiredTime = DateTime.Now.AddSeconds(WebUtility.CacheTimeout);
                     }
                 }
             } catch (Exception err) {

@@ -13,7 +13,6 @@ namespace Delta.PECS.WebCSC.Site {
     /// </summary>
     public class PageBase : System.Web.UI.Page {
         protected override void OnLoad(EventArgs e) {
-            if (!Page.User.Identity.IsAuthenticated) { Response.Redirect("~/Logout.aspx", true); }
             if (!X.IsAjaxRequest) {
                 var autoCompleteScript1 = new HtmlGenericControl("script");
                 autoCompleteScript1.Attributes.Add("type", "text/javascript");
@@ -39,11 +38,12 @@ namespace Delta.PECS.WebCSC.Site {
         /// </summary>
         public CscUserInfo UserData {
             get {
-                var authCookie = HttpContext.Current.Request.Cookies[FormsAuthentication.FormsCookieName];
-                if (authCookie == null) { Response.Redirect("~/Logout.aspx", true); }
-                var ticket = FormsAuthentication.Decrypt(authCookie.Value);
-                if (ticket == null || !WebUtility.UserData.ContainsKey(ticket.UserData)) { Response.Redirect("~/Logout.aspx", true); }
-                return WebUtility.UserData[ticket.UserData];
+                var identifier = Session.SessionID;
+                if(!WebUtility.UserData.ContainsKey(identifier)) { 
+                    Response.Redirect("~/SsoClient.aspx", true); 
+                }
+
+                return WebUtility.UserData[identifier];
             }
         }
 
@@ -51,11 +51,9 @@ namespace Delta.PECS.WebCSC.Site {
         /// Get Local Resource String
         /// </summary>
         public string GetLocalResourceString(string resourceKey) {
-            try {
-                var resource = GetLocalResourceObject(resourceKey);
-                if (resource != null) { return resource.ToString(); }
-                return String.Empty;
-            } catch { throw; }
+            var resource = GetLocalResourceObject(resourceKey);
+            if(resource != null) { return resource.ToString(); }
+            return String.Empty;
         }
     }
 
@@ -64,11 +62,6 @@ namespace Delta.PECS.WebCSC.Site {
     /// </summary>
     public class IFramePageBase : System.Web.UI.Page {
         protected override void OnLoad(EventArgs e) {
-            if (!Page.User.Identity.IsAuthenticated) {
-                ClientScript.RegisterStartupScript(this.GetType(), "responseScript", "window.parent.location.href='Logout.aspx';", true);
-                Response.End();
-            }
-
             if (!X.IsAjaxRequest) {
                 var autoCompleteScript1 = new HtmlGenericControl("script");
                 autoCompleteScript1.Attributes.Add("type", "text/javascript");
@@ -89,18 +82,13 @@ namespace Delta.PECS.WebCSC.Site {
         /// </summary>
         public CscUserInfo UserData {
             get {
-                var authCookie = HttpContext.Current.Request.Cookies[FormsAuthentication.FormsCookieName];
-                if (authCookie == null) {
-                    ClientScript.RegisterStartupScript(this.GetType(), "responseScript", "window.parent.location.href='Logout.aspx';", true);
+                var identifier = Session.SessionID;
+                if(!WebUtility.UserData.ContainsKey(identifier)) {
+                    ClientScript.RegisterStartupScript(this.GetType(), "responseScript", "window.parent.location.href='SsoClient.aspx';", true);
                     Response.End();
                 }
 
-                var ticket = FormsAuthentication.Decrypt(authCookie.Value);
-                if (ticket == null || !WebUtility.UserData.ContainsKey(ticket.UserData)) {
-                    ClientScript.RegisterStartupScript(this.GetType(), "responseScript", "window.parent.location.href='Logout.aspx';", true);
-                    Response.End();
-                }
-                return WebUtility.UserData[ticket.UserData];
+                return WebUtility.UserData[identifier];
             }
         }
 
@@ -108,11 +96,9 @@ namespace Delta.PECS.WebCSC.Site {
         /// Get Local Resource String
         /// </summary>
         public string GetLocalResourceString(string resourceKey) {
-            try {
-                var resource = GetLocalResourceObject(resourceKey);
-                if (resource != null) { return resource.ToString(); }
-                return String.Empty;
-            } catch { throw; }
+            var resource = GetLocalResourceObject(resourceKey);
+            if(resource != null) { return resource.ToString(); }
+            return String.Empty;
         }
     }
 
@@ -120,21 +106,17 @@ namespace Delta.PECS.WebCSC.Site {
     /// Check the master page whether the user is expired
     /// </summary>
     public class MasterPageBase : System.Web.UI.MasterPage {
-        protected override void OnLoad(EventArgs e) {
-            if (!Page.User.Identity.IsAuthenticated) { Response.Redirect("~/Logout.aspx", true); }
-            base.OnLoad(e);
-        }
-
         /// <summary>
         /// UserData
         /// </summary>
         public CscUserInfo UserData {
             get {
-                var authCookie = HttpContext.Current.Request.Cookies[FormsAuthentication.FormsCookieName];
-                if (authCookie == null) { Response.Redirect("~/Logout.aspx", true); }
-                var ticket = FormsAuthentication.Decrypt(authCookie.Value);
-                if (ticket == null || !WebUtility.UserData.ContainsKey(ticket.UserData)) { Response.Redirect("~/Logout.aspx", true); }
-                return WebUtility.UserData[ticket.UserData];
+                var identifier = Session.SessionID;
+                if(!WebUtility.UserData.ContainsKey(identifier)) {
+                    Response.Redirect("~/SsoClient.aspx", true);
+                }
+
+                return WebUtility.UserData[identifier];
             }
         }
 
@@ -142,11 +124,9 @@ namespace Delta.PECS.WebCSC.Site {
         /// Get Local Resource String
         /// </summary>
         public string GetLocalResourceString(string resourceKey) {
-            try {
-                var resource = GetLocalResourceObject(resourceKey);
-                if (resource != null) { return resource.ToString(); }
-                return String.Empty;
-            } catch { throw; }
+            var resource = GetLocalResourceObject(resourceKey);
+            if(resource != null) { return resource.ToString(); }
+            return String.Empty;
         }
     }
 }

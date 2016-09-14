@@ -13,9 +13,24 @@
         </sectionGroup>
       </sectionGroup>
     </sectionGroup>
+    <section name="casClientConfig" type="DotNetCasClient.Configuration.CasClientConfiguration, DotNetCasClient"/>
   </configSections>
   <appSettings configSource="AppSettings.config"/>
   <connectionStrings configSource="ConnectionStrings.config"/>
+  <casClientConfig
+    casServerLoginUrl="http://sso.cas.com:8080/cas/login"
+    casServerUrlPrefix="http://sso.cas.com:8080/cas"
+    serverName="http://localhost"
+    notAuthorizedUrl="~/NoAccess.htm"
+    cookiesRequiredUrl="~/ErrorPage.htm"
+    redirectAfterValidation="true"
+    gateway="false"
+    renew="false"
+    singleSignOut="true"
+    ticketTimeTolerance="5000"
+    ticketValidatorName="Cas20"
+    serviceTicketManager="CacheServiceTicketManager"
+    gatewayStatusCookieName="CasGatewayStatus" />
   <system.web>
     <compilation debug="true">
       <assemblies>
@@ -26,7 +41,14 @@
       </assemblies>
     </compilation>
     <authentication mode="Forms">
-      <forms name="DELTA.PECS.WEBCSC.AUTH" loginUrl="~/Login.aspx" defaultUrl="~/Default.aspx" protection="All" slidingExpiration="true"/>
+      <forms
+        name="DELTA.PECS.WEBCSC.AUTH"
+        loginUrl="http://sso.cas.com:8080/cas/login"
+        timeout="30"
+        defaultUrl="~/Default.aspx"
+        cookieless="UseCookies"
+        slidingExpiration="true"
+        path="/" />
     </authentication>
     <authorization>
       <deny users="?"/>
@@ -52,6 +74,7 @@
     <httpModules>
       <add name="ScriptModule" type="System.Web.Handlers.ScriptModule, System.Web.Extensions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31BF3856AD364E35"/>
       <add name="DirectRequestModule" type="Ext.Net.DirectRequestModule, Ext.Net"/>
+      <add name="DotNetCasClient" type="DotNetCasClient.CasAuthenticationModule,DotNetCasClient"/>
     </httpModules>
     <httpRuntime maxRequestLength="10240" executionTimeout="1800"/>
   </system.web>
@@ -103,8 +126,10 @@
     <modules>
       <remove name="ScriptModule"/>
       <remove name="DirectRequestModule"/>
+      <remove name="DotNetCasClient"/>
       <add name="ScriptModule" preCondition="managedHandler" type="System.Web.Handlers.ScriptModule, System.Web.Extensions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31BF3856AD364E35"/>
       <add name="DirectRequestModule" preCondition="managedHandler" type="Ext.Net.DirectRequestModule, Ext.Net"/>
+      <add name="DotNetCasClient" type="DotNetCasClient.CasAuthenticationModule,DotNetCasClient"/>
     </modules>
     <handlers>
       <remove name="WebServiceHandlerFactory-Integrated"/>

@@ -53,6 +53,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\CaspClient.dll</HintPath>
     </Reference>
+    <Reference Include="DotNetCasClient, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetCasClient.1.0.2\lib\net20\DotNetCasClient.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Ext.Net, Version=1.7.0.0, Culture=neutral, PublicKeyToken=2e12ce3d0176cd87, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Ext.Net.dll</HintPath>
@@ -64,6 +68,10 @@
     <Reference Include="Gma.QrCodeNet.Encoding.Net35, Version=0.4.0.0, Culture=neutral, PublicKeyToken=e8a75d24b142be49, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Gma.QrCodeNet.Encoding.Net35.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -356,13 +364,15 @@
     <Content Include="TrendAlarmManager.aspx" />
     <Content Include="UserDefindGroupSetting.aspx" />
     <Content Include="Video.aspx" />
-    <Content Include="Web.config" />
-    <Content Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
+    <None Include="Web.config.cas">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web.config.Debug.cas">
+      <DependentUpon>Web.config.cas</DependentUpon>
+    </None>
+    <None Include="Web.config.Release.cas">
+      <DependentUpon>Web.config.cas</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AcEvents.aspx.cs">
@@ -1128,9 +1138,7 @@
       <DependentUpon>Video.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="App_Browsers\IE10.browser" />
   </ItemGroup>
@@ -1205,10 +1213,18 @@
     <None Include="Install\Files\MobileClient.apk" />
     <Content Include="KeepAlive\Ping.ashx" />
     <Content Include="MasterPages\Main.Master" />
+    <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\WebDeployConfig.pubxml" />
     <None Include="Resources\doc\DataServiceInstall.pdf" />
     <None Include="Resources\doc\WebInstall.pdf" />
     <None Include="Resources\doc\WebInstruction.pdf" />
+    <None Include="Web.config" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Modules\App_LocalResources\HeaderControl.ascx.en-us.resx" />

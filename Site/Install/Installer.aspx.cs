@@ -257,7 +257,11 @@ namespace Delta.PECS.WebCSC.Site {
         protected void Page_Load(Object sender, EventArgs e) {
             lblVersion.Text = String.Format("版本： {0}", GetNewVersion());
             if (!Page.IsPostBack) {
-                if (InstallerHelper.ConnectionStringIsSet() && InstallerHelper.LscDataIsSet()) { Response.Redirect("~/Login.aspx", true); }
+                if (InstallerHelper.ConnectionStringIsSet() && InstallerHelper.LscDataIsSet()) {
+                    FormsAuthentication.RedirectToLoginPage();
+                    return;
+                }
+
                 var checkPermission = Convert.ToBoolean(this.QueryStringInt("checkpermission", 1));
                 var testAgain = Convert.ToBoolean(this.QueryStringInt("testagain", 0));
                 var rootDir = HttpContext.Current.Server.MapPath("~/");
@@ -380,7 +384,7 @@ namespace Delta.PECS.WebCSC.Site {
         }
 
         protected void btnGoToSite_Click(object sender, EventArgs e) {
-            Response.Redirect("~/Login.aspx", true);
+            FormsAuthentication.RedirectToLoginPage();
         }
 
         protected void wzdInstaller_OnActiveStepChanged(object sender, EventArgs e) {

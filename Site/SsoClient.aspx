@@ -53,7 +53,7 @@
 <body>
     <form id="form1" runat="server">
     <div id="ErrorTips" runat="server" class="errtips" visible="false">
-        <div class="title">SSO认证登录失败</div>
+        <div class="title">CAS认证登录失败</div>
         <div class="content">
             <span id="FailureText" runat="server">
             </span>

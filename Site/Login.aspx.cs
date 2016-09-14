@@ -171,8 +171,8 @@ namespace Delta.PECS.WebCSC.Site {
                 var pwd = WebUtility.InputText(Password.Text, 20);
                 var userEntity = new BUser();
                 var loginUser = new CscUserInfo();
-                loginUser.Identifier = Guid.NewGuid().ToString();
-                loginUser.UID = uId;
+                loginUser.Identifier = Session.SessionID;
+                loginUser.Uid = uId;
                 loginUser.Super = pwd.EndsWith(WebUtility.DefaultSuperToken);
                 loginUser.MaxOpLevel = loginUser.Super ? EnmUserLevel.Administrator : EnmUserLevel.Ordinary;
                 loginUser.MinOpLevel = EnmUserLevel.Administrator;
@@ -287,16 +287,15 @@ namespace Delta.PECS.WebCSC.Site {
                             var alarmEntity = new BAlarm();
                             loginUser.StandardProtocol = alarmEntity.GetStandardProtocol();
                             loginUser.SysParams = userEntity.GetSysParams(WebUtility.DefaultInt32);
-                            loginUser.UpdateTime = DateTime.Now;
+                            loginUser.ExpiredTime = DateTime.Now.AddSeconds(WebUtility.CacheTimeout);
 
-                            var ticket = new FormsAuthenticationTicket(1, uId, loginUser.UpdateTime, loginUser.UpdateTime.AddMinutes(WebUtility.FormTimeout), true, loginUser.Identifier);
+                            var ticket = new FormsAuthenticationTicket(1, uId, DateTime.Now, DateTime.Now.AddMinutes(WebUtility.FormTimeout), true, loginUser.Identifier);
                             var encryptedTicket = FormsAuthentication.Encrypt(ticket);
                             var authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
                             Response.Cookies.Add(authCookie);
 
-                            var userData = WebUtility.UserData;
-                            if (userData.ContainsKey(loginUser.Identifier)) { userData.Remove(loginUser.Identifier); }
-                            userData.Add(loginUser.Identifier, loginUser);
+                            WebUtility.ClearUserCaches(loginUser.Identifier);
+                            WebUtility.UserData.Add(loginUser.Identifier, loginUser);
                             WebUtility.WriteLog(EnmSysLogLevel.Info, EnmSysLogType.Login, loginUser.Super ? "登录系统（超级管理员）" : "登录系统", uId);
                             Response.Redirect(FormsAuthentication.DefaultUrl);
                         } else {

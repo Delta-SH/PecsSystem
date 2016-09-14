@@ -52,7 +52,7 @@ namespace Delta.PECS.WebCSC.Site {
         protected void BindStoreData(EventStore store) {
             try {
                 var calendarEntity = new BCalendar();
-                var calEvents = calendarEntity.GetCalendarEvents(UserData.UID);
+                var calEvents = calendarEntity.GetCalendarEvents(UserData.Uid);
                 var events = new List<Event>();
                 foreach (var calEvent in calEvents) {
                     var evt = new Event();

@@ -68,22 +68,12 @@ namespace Delta.PECS.WebCSC.Site {
 
                 #region 身份认证
                 try {
-                    if(Request.QueryString["Uid"] == null) {
-                        FailureText.InnerText = "错误消息：未获取到用户名，参数：Uid。";
-                        ErrorTips.Visible = true;
+                    if(!Page.User.Identity.IsAuthenticated) {
+                        FormsAuthentication.RedirectToLoginPage();
                         return;
                     }
 
-                    if(Request.QueryString["Password"] == null) {
-                        FailureText.InnerText = "错误消息：未获取到密码，参数：Password。";
-                        ErrorTips.Visible = true;
-                        return;
-                    }
-
-                    var uid = Request.QueryString["Uid"];
-                    var password = Request.QueryString["Password"];
-
-                    LoadUser(uid, password);
+                    LoadUser(Page.User.Identity.Name);
                 } catch(Exception err) {
                     FailureText.InnerText = "错误消息：" + err.Message;
                     ErrorTips.Visible = true;
@@ -92,18 +82,17 @@ namespace Delta.PECS.WebCSC.Site {
             }
         }
 
-        private void LoadUser(String uid, String password) {
+        private void LoadUser(string uid) {
             var userEntity = new BUser();
             var loginUser = new CscUserInfo();
-            loginUser.Identifier = Guid.NewGuid().ToString();
-            loginUser.UID = uid;
+            loginUser.Identifier = Session.SessionID;
+            loginUser.Uid = uid;
             loginUser.Super = false;
             loginUser.MaxOpLevel = loginUser.Super ? EnmUserLevel.Administrator : EnmUserLevel.Ordinary;
             loginUser.MinOpLevel = EnmUserLevel.Administrator;
             loginUser.LscUsers = new List<LscUserInfo>();
 
-            if(loginUser.Super) { password = password.Substring(0, password.Length - WebUtility.DefaultSuperToken.Length); }
-            var users = userEntity.GetUser(uid, password);
+            var users = userEntity.GetUser(uid, null);
             if(users != null && users.Count > 0) {
                 users = users.FindAll(u => { return u.Enabled && u.LimitTime >= DateTime.Now; });
                 if(users != null && users.Count > 0) {
@@ -135,29 +124,20 @@ namespace Delta.PECS.WebCSC.Site {
                         var alarmEntity = new BAlarm();
                         loginUser.StandardProtocol = alarmEntity.GetStandardProtocol();
                         loginUser.SysParams = userEntity.GetSysParams(WebUtility.DefaultInt32);
-                        loginUser.UpdateTime = DateTime.Now;
+                        loginUser.ExpiredTime = DateTime.Now.AddSeconds(WebUtility.CacheTimeout);
 
-                        var ticket = new FormsAuthenticationTicket(1, uid, loginUser.UpdateTime, loginUser.UpdateTime.AddMinutes(WebUtility.FormTimeout), true, loginUser.Identifier);
-                        var encryptedTicket = FormsAuthentication.Encrypt(ticket);
-                        var authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
-                        Response.Cookies.Add(authCookie);
-
-                        var userData = WebUtility.UserData;
-                        if(userData.ContainsKey(loginUser.Identifier)) { userData.Remove(loginUser.Identifier); }
-                        userData.Add(loginUser.Identifier, loginUser);
+                        WebUtility.ClearUserCaches(loginUser.Identifier);
+                        WebUtility.UserData.Add(loginUser.Identifier, loginUser);
                         WebUtility.WriteLog(EnmSysLogLevel.Info, EnmSysLogType.Login, loginUser.Super ? "SSO认证登录系统（超级管理员）" : "SSO认证登录系统", uid);
                         Response.Redirect(FormsAuthentication.DefaultUrl);
                     } else {
-                        FailureText.InnerText = "错误消息：用户群组无效，请与管理员联系。";
-                        ErrorTips.Visible = true;
+                        throw new Exception("用户群组无效，请与管理员联系。");
                     }
                 } else {
-                    FailureText.InnerText = "错误消息：用户已失效，请与管理员联系。";
-                    ErrorTips.Visible = true;
+                    throw new Exception("用户已失效，请与管理员联系。");
                 }
             } else {
-                FailureText.InnerText = "错误消息：用户名或密码错误，登录失败。";
-                ErrorTips.Visible = true;
+                throw new Exception("用户不存在，登录失败。");
             }
         }
     }

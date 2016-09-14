@@ -117,7 +117,7 @@ namespace Delta.PECS.WebCSC.Site {
                 var rowsCnt = 0;
                 var fromTime = DateTime.Parse(FromDate.Text);
                 var toTime = DateTime.Parse(ToDate.Text);
-                var _operator = UserData.UID;
+                var _operator = UserData.Uid;
                 string[] eventLevel = null;
                 string[] eventType = null;
                 if (LogLevelMultiCombo.SelectedItems.Count > 0) {
