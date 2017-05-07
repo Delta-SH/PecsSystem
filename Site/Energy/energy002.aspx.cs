@@ -497,7 +497,7 @@ namespace Delta.PECS.WebCSC.Site.Energy {
                 var gc = new GregorianCalendar();
                 foreach(var date in dates) {
                     details.Add(new EnergyDetailInfo02 {
-                        Period = string.Format("第{0}周", gc.GetWeekOfYear(date, CalendarWeekRule.FirstDay, DayOfWeek.Monday)),
+                        Period = string.Format("第{0}周", gc.GetWeekOfYear(date, CalendarWeekRule.FirstFullWeek, DayOfWeek.Monday)),
                         Start = date,
                         End = date.AddDays(6),
                         Value = 0

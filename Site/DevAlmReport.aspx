@@ -66,9 +66,9 @@
                                                         </Fields>
                                                     </ext:JsonReader>
                                                 </Reader>
-                                                <Listeners>
+                                                <%--<Listeners>
                                                     <Load Handler="#{DevTypeMultiCombo}.selectAll();" />
-                                                </Listeners>
+                                                </Listeners>--%>
                                             </ext:Store>
                                         </Store>
                                     </ext:MultiCombo>
@@ -152,6 +152,16 @@
                                             </ext:Store>
                                         </Store>
                                     </ext:MultiCombo>
+                                </Items>
+                            </ext:Toolbar>
+                            <ext:Toolbar ID="TopToolbar3" runat="server" Flat="true">
+                                <Items>
+                                    <ext:NumberField ID="MinNumberField" runat="server" MinValue="0" Width="180"
+                                        LabelWidth="50" FieldLabel="告警历时" EmptyText="分钟">
+                                    </ext:NumberField>
+                                    <ext:NumberField ID="MaxNumberField" runat="server" MinValue="0" Width="180" LabelWidth="50"
+                                        FieldLabel="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" LabelSeparator="~" EmptyText="分钟">
+                                    </ext:NumberField>
                                     <ext:ToolbarSpacer ID="ToolbarSpacer1" runat="server" Width="5" />
                                     <ext:SplitButton ID="QueryBtn" runat="server" Text="查询" Icon="Magnifier" StandOut="true">
                                         <Menu>

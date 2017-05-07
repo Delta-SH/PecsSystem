@@ -152,7 +152,7 @@ namespace Delta.PECS.WebCSC.Site {
                 foreach (var gti in groupNodes) {
                     if (gti.NodeType == EnmNodeType.Dev) {
                         var node = new Ext.Net.TreeNode();
-                        node.Text = WebUtility.GetGroupTreeName(gti, Page.User.Identity.Name);
+                        node.Text = WebUtility.GetGroupTreeName(gti, userData);
                         node.NodeID = String.Format("{0}&{1}", lscId, gti.NodeID);
                         node.IconCls = WebUtility.GetTreeIcon(gti.Status);
                         node.CustomAttributes.Add(new ConfigItem("TreeNodeType", ((int)gti.NodeType).ToString(), ParameterMode.Raw));
@@ -160,7 +160,7 @@ namespace Delta.PECS.WebCSC.Site {
                         e.Nodes.Add(node);
                     } else {
                         var node = new AsyncTreeNode();
-                        node.Text = WebUtility.GetGroupTreeName(gti, Page.User.Identity.Name);
+                        node.Text = WebUtility.GetGroupTreeName(gti, userData);
                         node.NodeID = String.Format("{0}&{1}", lscId, gti.NodeID);
                         node.IconCls = WebUtility.GetTreeIcon(gti.Status);
                         node.CustomAttributes.Add(new ConfigItem("TreeNodeType", ((int)gti.NodeType).ToString(), ParameterMode.Raw));
@@ -196,7 +196,7 @@ namespace Delta.PECS.WebCSC.Site {
                 foreach (var udg in groupNodes) {
                     if (udg.NodeType == EnmNodeType.Dev) {
                         var node = new Ext.Net.TreeNode();
-                        node.Text = WebUtility.GetGroupTreeName(udg, Page.User.Identity.Name);
+                        node.Text = WebUtility.GetGroupTreeName(udg, userData);
                         node.NodeID = String.Format("{0}&{1}&{2}", udg.LscID, udg.UDGroupID, udg.NodeID);
                         node.IconCls = WebUtility.GetTreeIcon(udg.Status);
                         node.CustomAttributes.Add(new ConfigItem("TreeNodeType", ((int)udg.NodeType).ToString(), ParameterMode.Raw));
@@ -204,7 +204,7 @@ namespace Delta.PECS.WebCSC.Site {
                         e.Nodes.Add(node);
                     } else {
                         var node = new AsyncTreeNode();
-                        node.Text = WebUtility.GetGroupTreeName(udg, Page.User.Identity.Name);
+                        node.Text = WebUtility.GetGroupTreeName(udg, userData);
                         node.NodeID = String.Format("{0}&{1}&{2}", udg.LscID, udg.UDGroupID, udg.NodeID);
                         node.IconCls = WebUtility.GetTreeIcon(udg.Status);
                         node.CustomAttributes.Add(new ConfigItem("TreeNodeType", ((int)udg.NodeType).ToString(), ParameterMode.Raw));
@@ -669,7 +669,9 @@ namespace Delta.PECS.WebCSC.Site {
                     default:
                         break;
                 }
-                RequestNodes(nodes);
+                //不请求具体的点，更改为请求设备下所有的点
+                //RequestNodes(nodes);
+                RequestNodesInDev(lscId, devId);
             } catch (Exception err) {
                 WebUtility.WriteLog(EnmSysLogLevel.Error, EnmSysLogType.Exception, err.ToString(), Page.User.Identity.Name);
                 WebUtility.ShowMessage(EnmErrType.Error, err.Message);
@@ -755,6 +757,30 @@ namespace Delta.PECS.WebCSC.Site {
                     orderEntity.AddOrders(orders);
                 }
             } catch (Exception err) {
+                WebUtility.WriteLog(EnmSysLogLevel.Error, EnmSysLogType.Exception, err.ToString(), Page.User.Identity.Name);
+                WebUtility.ShowMessage(EnmErrType.Error, err.Message);
+            }
+        }
+
+        private void RequestNodesInDev(int lsc, int device) {
+            try {
+                var orders = new List<OrderInfo>() {
+                    new OrderInfo() {
+                        LscID = lsc,
+                        TargetID = device,
+                        TargetType = EnmNodeType.Dev,
+                        OrderType = EnmActType.RequestNode,
+                        RelValue1 = WebUtility.DefaultString,
+                        RelValue2 = WebUtility.DefaultString,
+                        RelValue3 = WebUtility.DefaultString,
+                        RelValue4 = WebUtility.DefaultString,
+                        RelValue5 = WebUtility.DefaultString,
+                        UpdateTime = DateTime.Now
+                    }
+                };
+
+                new BOrder().AddOrders(orders);
+            } catch(Exception err) {
                 WebUtility.WriteLog(EnmSysLogLevel.Error, EnmSysLogType.Exception, err.ToString(), Page.User.Identity.Name);
                 WebUtility.ShowMessage(EnmErrType.Error, err.Message);
             }

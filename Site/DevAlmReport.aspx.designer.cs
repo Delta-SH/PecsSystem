@@ -220,6 +220,33 @@ namespace Delta.PECS.WebCSC.Site {
         protected global::Ext.Net.Store AlarmLevelStore;
         
         /// <summary>
+        /// TopToolbar3 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::Ext.Net.Toolbar TopToolbar3;
+        
+        /// <summary>
+        /// MinNumberField 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::Ext.Net.NumberField MinNumberField;
+        
+        /// <summary>
+        /// MaxNumberField 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::Ext.Net.NumberField MaxNumberField;
+        
+        /// <summary>
         /// ToolbarSpacer1 控件。
         /// </summary>
         /// <remarks>

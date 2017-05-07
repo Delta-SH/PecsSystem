@@ -23,14 +23,15 @@ namespace Delta.PECS.WebCSC.Site {
                     if (String.IsNullOrEmpty(sid)) { return; }
                     var staId = Int32.Parse(sid);
 
-                    var lscUser = UserData.LscUsers.Find(lu => { return lu.LscID == lscId; });
+                    var userData = UserData;
+                    var lscUser = userData.LscUsers.Find(lu => { return lu.LscID == lscId; });
                     if (lscUser == null) { return; }
 
                     var station = lscUser.Group.GroupNodes.Find(gti => gti.NodeType == EnmNodeType.Sta && gti.NodeID == staId);
                     if (station == null) { return; }
 
                     var root = new Ext.Net.TreeNode();
-                    root.Text = WebUtility.GetGroupTreeName(station, Page.User.Identity.Name);
+                    root.Text = WebUtility.GetGroupTreeName(station, userData);
                     root.NodeID = String.Format("{0}&{1}", lscId, station.NodeID);
                     root.IconCls = WebUtility.GetTreeIcon(station.Status);
                     root.CustomAttributes.Add(new ConfigItem("TreeNodeType", ((int)station.NodeType).ToString(), ParameterMode.Raw));
@@ -40,7 +41,7 @@ namespace Delta.PECS.WebCSC.Site {
                     var devices = lscUser.Group.GroupNodes.FindAll(gti => { return gti.NodeType == EnmNodeType.Dev && gti.LastNodeID == staId; });
                     foreach (var dev in devices) {
                         var node = new Ext.Net.TreeNode();
-                        node.Text = WebUtility.GetGroupTreeName(dev, Page.User.Identity.Name);
+                        node.Text = WebUtility.GetGroupTreeName(dev, userData);
                         node.NodeID = String.Format("{0}&{1}", lscId, dev.NodeID);
                         node.IconCls = WebUtility.GetTreeIcon(dev.Status);
                         node.CustomAttributes.Add(new ConfigItem("TreeNodeType", ((int)dev.NodeType).ToString(), ParameterMode.Raw));

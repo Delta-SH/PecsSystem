@@ -263,7 +263,7 @@ namespace Delta.PECS.WebCSC.Site {
                 }
 
                 //Create Columns
-                var columns = new String[] { "设备类型", "设备厂家", "告警名称", "告警数量", "设备数量" };
+                var columns = new String[] { "设备类型", "设备厂家", "告警名称", "告警数量", "设备数量", "告警时长" };
                 var plen = cols.Length;
                 var nlen = columns.Length;
                 if (columns.Length > 0) {
@@ -383,6 +383,9 @@ namespace Delta.PECS.WebCSC.Site {
             var values = WebUtility.StringSplit(CountItemField.RawValue.ToString());
             var beginTime = Convert.ToDateTime(BeginFromDate.Text);
             var endTime = Convert.ToDateTime(BeginToDate.Text);
+            var minInterval = MinNumberField.Number;
+            var maxInterval = MaxNumberField.Number;
+            if(maxInterval == 0) maxInterval = int.MaxValue;
 
             var levels = new Dictionary<Int32, String>();
             var devtyps = new Dictionary<Int32, String>();
@@ -455,11 +458,13 @@ namespace Delta.PECS.WebCSC.Site {
                     var lscUser = userData.LscUsers.Find(lu => { return lu.LscID == l.LscID; });
                     if (lscUser == null) { continue; }
 
-                    var alarms = WebUtility.GetUserAlarms(userData).FindAll(alarm => alarm.LscID == lscUser.LscID && alarm.StartTime >= beginTime && alarm.StartTime <= endTime);
-                    alarms.AddRange(new BAlarm().GetHisAlarms(lscUser.LscID, lscUser.LscName, userData.StandardProtocol, lscUser.Group.GroupNodes, beginTime, endTime));
+                    var alarms = new BAlarm().GetHisAlarms(lscUser.LscID, lscUser.LscName, userData.StandardProtocol, lscUser.Group.GroupNodes, beginTime, endTime).FindAll(a => {
+                        var interval = a.EndTime.Subtract(a.StartTime).TotalMinutes;
+                        return interval >= minInterval && interval <= maxInterval;
+                    });
                     if (levels.Count > 0)
                         alarms = alarms.FindAll(a => levels.ContainsKey((Int32)a.AlarmLevel));
-                    if(almIds.Count>0)
+                    if(almIds.Count > 0)
                         alarms = alarms.FindAll(a => almIds.ContainsKey(a.AlarmID));
 
                     var devices = new BOther().GetDevices(lscUser.LscID, lscUser.Group.GroupID);
@@ -496,6 +501,7 @@ namespace Delta.PECS.WebCSC.Site {
                         dr[4] = temp2[i].AlarmName;
                         dr[5] = temp2[i].Alarms.Count;
                         dr[6] = temp2[i].Devices.Count;
+                        dr[7] = WebUtility.GetDateTimeFromSec(temp2[i].Alarms.Sum(a => a.EndTime.Subtract(a.StartTime).TotalSeconds));
 
                         source2[String.Format("{0}-{1}", source1.Rows.Count, source1.Columns[5].ColumnName)] = temp2[i].Alarms;
                         source3[String.Format("{0}-{1}", source1.Rows.Count, source1.Columns[6].ColumnName)] = temp2[i].Devices;
@@ -534,8 +540,10 @@ namespace Delta.PECS.WebCSC.Site {
                     var lscUser = userData.LscUsers.Find(lu => { return lu.LscID == l.LscID; });
                     if (lscUser == null) { continue; }
 
-                    var alarms = WebUtility.GetUserAlarms(userData).FindAll(alarm => alarm.LscID == lscUser.LscID && alarm.StartTime >= beginTime && alarm.StartTime <= endTime);
-                    alarms.AddRange(new BAlarm().GetHisAlarms(lscUser.LscID, lscUser.LscName, userData.StandardProtocol, lscUser.Group.GroupNodes, beginTime, endTime));
+                    var alarms = new BAlarm().GetHisAlarms(lscUser.LscID, lscUser.LscName, userData.StandardProtocol, lscUser.Group.GroupNodes, beginTime, endTime).FindAll(a => {
+                        var interval = a.EndTime.Subtract(a.StartTime).TotalMinutes;
+                        return interval >= minInterval && interval <= maxInterval;
+                    });
                     if (levels.Count > 0)
                         alarms = alarms.FindAll(a => levels.ContainsKey((Int32)a.AlarmLevel));
                     if (almIds.Count > 0)
@@ -583,6 +591,7 @@ namespace Delta.PECS.WebCSC.Site {
                                 dr[5] = temp3[i].AlarmName;
                                 dr[6] = temp3[i].Alarms.Count;
                                 dr[7] = temp3[i].Devices.Count;
+                                dr[8] = WebUtility.GetDateTimeFromSec(temp3[i].Alarms.Sum(a => a.EndTime.Subtract(a.StartTime).TotalSeconds));
 
                                 source2[String.Format("{0}-{1}", source1.Rows.Count, source1.Columns[6].ColumnName)] = temp3[i].Alarms;
                                 source3[String.Format("{0}-{1}", source1.Rows.Count, source1.Columns[7].ColumnName)] = temp3[i].Devices;
@@ -623,8 +632,10 @@ namespace Delta.PECS.WebCSC.Site {
                     var lscUser = userData.LscUsers.Find(lu => { return lu.LscID == l.LscID; });
                     if (lscUser == null) { continue; }
 
-                    var alarms = WebUtility.GetUserAlarms(userData).FindAll(alarm => alarm.LscID == lscUser.LscID && alarm.StartTime >= beginTime && alarm.StartTime <= endTime);
-                    alarms.AddRange(new BAlarm().GetHisAlarms(lscUser.LscID, lscUser.LscName, userData.StandardProtocol, lscUser.Group.GroupNodes, beginTime, endTime));
+                    var alarms = new BAlarm().GetHisAlarms(lscUser.LscID, lscUser.LscName, userData.StandardProtocol, lscUser.Group.GroupNodes, beginTime, endTime).FindAll(a => {
+                        var interval = a.EndTime.Subtract(a.StartTime).TotalMinutes;
+                        return interval >= minInterval && interval <= maxInterval;
+                    });
                     if (levels.Count > 0)
                         alarms = alarms.FindAll(a => levels.ContainsKey((Int32)a.AlarmLevel));
                     if (almIds.Count > 0)
@@ -673,6 +684,7 @@ namespace Delta.PECS.WebCSC.Site {
                                 dr[6] = temp3[i].AlarmName;
                                 dr[7] = temp3[i].Alarms.Count;
                                 dr[8] = temp3[i].Devices.Count;
+                                dr[9] = WebUtility.GetDateTimeFromSec(temp3[i].Alarms.Sum(a => a.EndTime.Subtract(a.StartTime).TotalSeconds));
 
                                 source2[String.Format("{0}-{1}", source1.Rows.Count, source1.Columns[7].ColumnName)] = temp3[i].Alarms;
                                 source3[String.Format("{0}-{1}", source1.Rows.Count, source1.Columns[8].ColumnName)] = temp3[i].Devices;
@@ -713,8 +725,10 @@ namespace Delta.PECS.WebCSC.Site {
                     var lscUser = userData.LscUsers.Find(lu => { return lu.LscID == l.LscID; });
                     if (lscUser == null) { continue; }
 
-                    var alarms = WebUtility.GetUserAlarms(userData).FindAll(alarm => alarm.LscID == lscUser.LscID && alarm.StartTime >= beginTime && alarm.StartTime <= endTime);
-                    alarms.AddRange(new BAlarm().GetHisAlarms(lscUser.LscID, lscUser.LscName, userData.StandardProtocol, lscUser.Group.GroupNodes, beginTime, endTime));
+                    var alarms = new BAlarm().GetHisAlarms(lscUser.LscID, lscUser.LscName, userData.StandardProtocol, lscUser.Group.GroupNodes, beginTime, endTime).FindAll(a => {
+                        var interval = a.EndTime.Subtract(a.StartTime).TotalMinutes;
+                        return interval >= minInterval && interval <= maxInterval;
+                    });
                     if (levels.Count > 0)
                         alarms = alarms.FindAll(a => levels.ContainsKey((Int32)a.AlarmLevel));
                     if (almIds.Count > 0)
@@ -764,6 +778,7 @@ namespace Delta.PECS.WebCSC.Site {
                                 dr[7] = temp3[i].AlarmName;
                                 dr[8] = temp3[i].Alarms.Count;
                                 dr[9] = temp3[i].Devices.Count;
+                                dr[10] = WebUtility.GetDateTimeFromSec(temp3[i].Alarms.Sum(a => a.EndTime.Subtract(a.StartTime).TotalSeconds));
 
                                 source2[String.Format("{0}-{1}", source1.Rows.Count, source1.Columns[8].ColumnName)] = temp3[i].Alarms;
                                 source3[String.Format("{0}-{1}", source1.Rows.Count, source1.Columns[9].ColumnName)] = temp3[i].Devices;

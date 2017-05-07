@@ -660,7 +660,7 @@ namespace Delta.PECS.WebCSC.Site {
         /// Method to get group tree name
         /// </summary>
         /// <param name="gti">gti</param>
-        public static string GetGroupTreeName(GroupTreeInfo gti, string uid) {
+        public static string GetGroupTreeName(GroupTreeInfo gti, CscUserInfo udata) {
             var remarks = ItemSplit(gti.Remark);
             switch (gti.NodeType) {
                 case EnmNodeType.Area:
@@ -672,7 +672,7 @@ namespace Delta.PECS.WebCSC.Site {
                         var staFeatures = remarks[1].Trim();
                         var staTypeName = remarks[2].Trim();
 
-                        var values = GetGroupNodeDisplayValue(uid);
+                        var values = GetGroupNodeDisplayValue(udata);
                         if((values & 1) > 0 && !String.IsNullOrEmpty(mid)) {
                             name = String.Format("{0}_{1}", mid, name);
                         }
@@ -694,7 +694,8 @@ namespace Delta.PECS.WebCSC.Site {
                         var productor = remarks[0].Trim();
                         var devTypeName = remarks[1].Trim();
 
-                        if (!String.IsNullOrEmpty(productor)) {
+                        var values = GetGroupNodeDisplayValue(udata);
+                        if((values & 8) > 0 && !String.IsNullOrEmpty(productor)) {
                             name = String.Format("{0}({1})", name, productor);
                         }
 
@@ -711,7 +712,7 @@ namespace Delta.PECS.WebCSC.Site {
         /// Method to get group tree name
         /// </summary>
         /// <param name="gti">gti</param>
-        public static string GetGroupTreeName(UDGroupTreeInfo gti, string uid) {
+        public static string GetGroupTreeName(UDGroupTreeInfo gti, CscUserInfo udata) {
             var remarks = ItemSplit(gti.Remark);
             switch (gti.NodeType) {
                 case EnmNodeType.Area:
@@ -723,7 +724,7 @@ namespace Delta.PECS.WebCSC.Site {
                         var staFeatures = remarks[1].Trim();
                         var staTypeName = remarks[2].Trim();
 
-                        var values = GetGroupNodeDisplayValue(uid);
+                        var values = GetGroupNodeDisplayValue(udata);
                         if((values & 1) > 0 && !String.IsNullOrEmpty(mid)) {
                             name = String.Format("{0}_{1}", mid, name);
                         }
@@ -745,7 +746,8 @@ namespace Delta.PECS.WebCSC.Site {
                         var productor = remarks[0].Trim();
                         var devTypeName = remarks[1].Trim();
 
-                        if (!String.IsNullOrEmpty(productor)) {
+                        var values = GetGroupNodeDisplayValue(udata);
+                        if((values & 8) > 0 && !String.IsNullOrEmpty(productor)) {
                             name = String.Format("{0}({1})", name, productor);
                         }
 
@@ -1894,19 +1896,14 @@ namespace Delta.PECS.WebCSC.Site {
         /// </summary>
         /// <param name="uid"></param>
         /// <returns></returns>
-        public static int GetGroupNodeDisplayValue(string uid) {
+        public static int GetGroupNodeDisplayValue(CscUserInfo udata) {
             var values = 0;
-            var parms = new BUser().GetSysParams(50000001);
-            if(parms.Count > 0) {
-                var param1 = parms.Find(p => p.ParaData == 0);
-                if(param1 != null && param1.ParaDisplay != null && !string.IsNullOrEmpty(param1.ParaDisplay.Trim())) {
-                    var displays = Newtonsoft.Json.JsonConvert.DeserializeObject<List<IDValuePair<string, int>>>(param1.ParaDisplay);
-                    if(displays != null && displays.Count > 0) {
-                        var current = displays.Find(d => d.ID.Equals(uid, StringComparison.CurrentCultureIgnoreCase));
-                        if(current != null) {
-                            values = current.Value;
-                        }
-                    }
+            var param = udata.SysParams.Find(p => p.ParaCode == 50000001 && p.ParaData == 0);
+            if(param != null && param.ParaDisplay != null && !string.IsNullOrEmpty(param.ParaDisplay.Trim())) {
+                var displays = Newtonsoft.Json.JsonConvert.DeserializeObject<List<IDValuePair<string, int>>>(param.ParaDisplay);
+                if(displays != null && displays.Count > 0) {
+                    var current = displays.Find(d => d.ID.Equals(udata.Uid, StringComparison.CurrentCultureIgnoreCase));
+                    if(current != null) values = current.Value;
                 }
             }
 

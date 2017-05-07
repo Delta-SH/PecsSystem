@@ -581,11 +581,16 @@
         <Items>
             <ext:FormPanel ID="GroupNodeDisplayFormPanel" runat="server" Border="false" LabelWidth="100" Padding="10" ButtonAlign="Right" MonitorValid="true">
                 <Items>
-                    <ext:CheckboxGroup ID="DisplayCheckboxGroup" runat="server" ColumnsNumber="1" FieldLabel="局站节点参数">
+                    <ext:CheckboxGroup ID="StaDisplayCheckboxGroup" runat="server" ColumnsNumber="1" FieldLabel="局站节点参数">
                         <Items>
                             <ext:Checkbox ID="middisplay" runat="server" BoxLabel="显示局站MID" InputValue="1" />
                             <ext:Checkbox ID="stafeaturesdisplay" runat="server" BoxLabel="显示局站特征" InputValue="2"  />
                             <ext:Checkbox ID="statypedisplay" runat="server" BoxLabel="显示局站类型" InputValue="4"  />
+                        </Items>
+                    </ext:CheckboxGroup>
+                    <ext:CheckboxGroup ID="DevDisplayCheckboxGroup" runat="server" ColumnsNumber="1" FieldLabel="设备节点参数">
+                        <Items>
+                            <ext:Checkbox ID="productordisplay" runat="server" BoxLabel="显示设备厂家" InputValue="8" />
                         </Items>
                     </ext:CheckboxGroup>
                 </Items>
@@ -604,6 +609,44 @@
             </ext:Button>
         </Buttons>
     </ext:Window>
+    <ext:TaskManager ID="GlobalTaskManager" runat="server" AutoRunDelay="2000">
+        <Tasks>
+            <ext:Task AutoRun="true" Interval="15000">
+                <Listeners>
+                    <Update Handler="getLscStates();" />
+                </Listeners>
+            </ext:Task>
+        </Tasks>
+    </ext:TaskManager>
     </form>
+
+    <script type="text/javascript">
+        var getLscStates = function () {
+            X.GetLscStates({
+                success: function (result) {
+                    if (!Ext.isEmpty(result, false)) {
+                        var messages = Ext.util.JSON.decode(result, true);
+                        if (messages && messages.length > 0) {
+                            var content = "";
+                            messages.forEach(function (value, index, array) {
+                                content += String.format("<div>{0}</div>", value);
+                            });
+                            Ext.net.Notification.show({
+                                title: '系统警告',
+                                html: content,
+                                width: 300,
+                                autoHeight: true,
+                                autoHide: false,
+                                resizable: true,
+                                draggable: true,
+                                closeVisible: true,
+                                bodyStyle: "padding:3px;line-height:21px;text-align:left;color:#ff0000;"
+                            });
+                        }
+                    }
+                }
+            });
+        }
+    </script>
 </body>
 </html>

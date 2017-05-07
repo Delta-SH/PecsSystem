@@ -208,6 +208,7 @@ namespace Delta.PECS.WebCSC.Site {
                                 middisplay.Checked = (current.Value & 1) > 0;
                                 stafeaturesdisplay.Checked = (current.Value & 2) > 0;
                                 statypedisplay.Checked = (current.Value & 4) > 0;
+                                productordisplay.Checked = (current.Value & 8) > 0;
                             }
                         }
                     }
@@ -381,6 +382,41 @@ namespace Delta.PECS.WebCSC.Site {
         }
 
         /// <summary>
+        /// Get Lsc States
+        /// </summary>
+        [DirectMethod(Timeout = 300000)]
+        public string GetLscStates() {
+            var userData = UserData;
+            var lscEntity = new BLsc();
+            var newStates = new List<LscInfo>();
+            foreach(var lscUser in userData.LscUsers) {
+                var lsc = lscEntity.GetLsc(lscUser.LscID);
+                if(lsc == null) continue;
+                if(lsc.Connected) continue;
+                newStates.Add(lsc);
+            }
+
+            if(newStates.Count == 0) {
+                Session.Remove("LscStates");
+                return string.Empty;
+            }
+
+            var oldStates = new List<LscInfo>();
+            if(Session["LscStates"] != null)
+                oldStates = Newtonsoft.Json.JsonConvert.DeserializeObject<List<LscInfo>>(Session["LscStates"].ToString());
+
+            var messages = new List<string>();
+            var show = false;
+            foreach(var dc in newStates.OrderByDescending(d => d.ChangedTime)) {
+                if(!oldStates.Any(o => o.LscID == dc.LscID && o.ChangedTime == dc.ChangedTime)) show = true;
+                messages.Add(string.Format("{0}<br/>[{1}] 服务器通信中断", WebUtility.GetDateString(dc.ChangedTime), dc.LscName));
+            }
+
+            Session["LscStates"] = Newtonsoft.Json.JsonConvert.SerializeObject(newStates);
+            return show ? Newtonsoft.Json.JsonConvert.SerializeObject(messages) : string.Empty;
+        }
+
+        /// <summary>
         /// Ok Button Click
         /// </summary>
         protected void OkButton_Click(object sender, DirectEventArgs e) {
@@ -448,6 +484,8 @@ namespace Delta.PECS.WebCSC.Site {
                     value += int.Parse(stafeaturesdisplay.InputValue);
                 if(statypedisplay.Checked)
                     value += int.Parse(statypedisplay.InputValue);
+                if(productordisplay.Checked)
+                    value += int.Parse(productordisplay.InputValue);
 
                 var current = new IDValuePair<string, int>(Page.User.Identity.Name, value);
                 var param1 = new BUser().GetSysParams(50000001).Find(p => p.ParaData == 0);
@@ -476,7 +514,9 @@ namespace Delta.PECS.WebCSC.Site {
                 }
 
                 param1.ParaDisplay = Newtonsoft.Json.JsonConvert.SerializeObject(displays);
-                new BUser().UpdateSysParams(new List<SysParamInfo>() { param1 });
+                var userEntity = new BUser();
+                userEntity.UpdateSysParams(new List<SysParamInfo>() { param1 });
+                UserData.SysParams = userEntity.GetSysParams(WebUtility.DefaultInt32);
                 WebUtility.ShowMessage(EnmErrType.Info, "数据保存完成");
             } catch(Exception err) {
                 WebUtility.WriteLog(EnmSysLogLevel.Error, EnmSysLogType.Exception, err.ToString(), Page.User.Identity.Name);

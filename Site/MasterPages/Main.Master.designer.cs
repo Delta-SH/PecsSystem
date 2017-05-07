@@ -1849,13 +1849,13 @@ namespace Delta.PECS.WebCSC.Site {
         protected global::Ext.Net.FormPanel GroupNodeDisplayFormPanel;
         
         /// <summary>
-        /// DisplayCheckboxGroup 控件。
+        /// StaDisplayCheckboxGroup 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::Ext.Net.CheckboxGroup DisplayCheckboxGroup;
+        protected global::Ext.Net.CheckboxGroup StaDisplayCheckboxGroup;
         
         /// <summary>
         /// middisplay 控件。
@@ -1885,6 +1885,24 @@ namespace Delta.PECS.WebCSC.Site {
         protected global::Ext.Net.Checkbox statypedisplay;
         
         /// <summary>
+        /// DevDisplayCheckboxGroup 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::Ext.Net.CheckboxGroup DevDisplayCheckboxGroup;
+        
+        /// <summary>
+        /// productordisplay 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::Ext.Net.Checkbox productordisplay;
+        
+        /// <summary>
         /// SettingButton 控件。
         /// </summary>
         /// <remarks>
@@ -1901,5 +1919,14 @@ namespace Delta.PECS.WebCSC.Site {
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
         protected global::Ext.Net.Button CloseButton;
+        
+        /// <summary>
+        /// GlobalTaskManager 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::Ext.Net.TaskManager GlobalTaskManager;
     }
 }

@@ -1351,9 +1351,9 @@ namespace Delta.PECS.WebCSC.SQLServerDAL
             parms[1].Value = fromTime;
             parms[2].Value = toTime;
 
-            //var sql = @"SELECT [LscID],[AicID],MAX([Value]) AS [Value],GETDATE() AS [UpdateTime] FROM [dbo].[TH_AIV] GROUP BY [LscID],[AicID]";
+            var sql = @"SELECT [LscID],[AicID],MAX([Value]) AS [Value],GETDATE() AS [UpdateTime] FROM [dbo].[TH_AIV] GROUP BY [LscID],[AicID]";
             var nodes = new List<HisAIVInfo>();
-            using(var rdr = SqlHelper.ExecuteReader(SqlHelper.HisConnectionStringLocalTransaction, CommandType.Text, SqlText.SQL_SELECT_NODE_GETMAXHISAIV, parms)) {
+            using(var rdr = SqlHelper.ExecuteReader(SqlHelper.HisConnectionStringLocalTransaction, CommandType.Text, sql /*SqlText.SQL_SELECT_NODE_GETMAXHISAIV*/, parms)) {
                 while (rdr.Read()) {
                     var node = new HisAIVInfo();
                     node.LscID = ComUtility.DBNullInt32Handler(rdr["LscID"]);

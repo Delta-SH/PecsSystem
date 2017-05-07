@@ -599,8 +599,8 @@ namespace Delta.PECS.WebCSC.Site {
                     row["告警历时"] = WebUtility.GetDateTimeInterval(alarms[i].StartTime, alarms[i].EndTime);
                     row["动环监控告警ID"] = alarms[i].NMAlarmID;
                     row["工程预约"] = WebUtility.GetBooleanName(!String.IsNullOrEmpty(alarms[i].ProjName));
-                    row["主告警"] = WebUtility.GetBooleanName(alarms[i].AuxSet.Equals("MAlm"));
-                    row["关联告警"] = WebUtility.GetBooleanName(alarms[i].AuxSet.Equals("Conn"));
+                    row["主告警"] = WebUtility.GetBooleanName(alarms[i].AuxAlarmDesc.Equals("MAlm"));
+                    row["关联告警"] = WebUtility.GetBooleanName(alarms[i].AuxAlarmDesc.Equals("Conn"));
                     row["翻转次数"] = alarms[i].TurnCount;
                     row["ColorColumn"] = WebUtility.GetExcelAlarmColor(alarms[i].AlarmLevel);
                     datas.Rows.Add(row);
