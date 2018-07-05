@@ -226,6 +226,7 @@
                                                     <Click Handler="return false;" />
                                                 </Listeners>
                                             </ext:MenuItem>
+                                            <ext:MenuItem ID="ReportMenuItem15" runat="server" Text="告警屏蔽统计" Icon="ApplicationViewDetail" Href="AlmMasking.aspx" HrefTarget="_blank" />
                                             <ext:MenuSeparator ID="ReportSeparator2" runat="server" Hidden="true" />
                                             <ext:MenuItem ID="ReportMenuItem5" runat="server" Text="操作记录" Icon="ApplicationViewDetail" Href="HisOperatingEvents.aspx" HrefTarget="_blank" Hidden="true" />
                                             <ext:MenuItem ID="ReportMenuItem6" runat="server" Text="门禁记录" Icon="ApplicationViewDetail" Href="HisAccessRecords.aspx" HrefTarget="_blank" Hidden="true" />
@@ -341,6 +342,20 @@
                                                             <ext:MenuItem ID="Report116MenuItem" runat="server" Text="直流系统可用度" Icon="ApplicationViewDetail" Href="KPI/report116.aspx" HrefTarget="_blank" />
                                                             <ext:MenuItem ID="Report111MenuItem" runat="server" Text="监控故障处理及时率" Icon="ApplicationViewDetail" Href="KPI/report111.aspx" HrefTarget="_blank" />
                                                             <ext:MenuItem ID="Report117MenuItem" runat="server" Text="蓄电池核对性放电及时率" Icon="ApplicationViewDetail" Href="KPI/report117.aspx" HrefTarget="_blank" />
+                                                        </Items>
+                                                    </ext:Menu>
+                                                </Menu>
+                                                <Listeners>
+                                                    <Click Handler="return false;" />
+                                                </Listeners>
+                                            </ext:MenuItem>
+                                            <ext:MenuItem ID="OtherMenuItem12" runat="server" Text="订制指标" Icon="TextListBullets">
+                                                <Menu>
+                                                    <ext:Menu ID="KPIReportMenu1xx_3" runat="server">
+                                                        <Items>
+                                                            <ext:MenuItem ID="Report120MenuItem" runat="server" Text="蓄电池单体电压达标率" Icon="ApplicationViewDetail" Href="KPI/report120.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="Report121MenuItem" runat="server" Text="核心机房温度达标率" Icon="ApplicationViewDetail" Href="KPI/report121.aspx" HrefTarget="_blank" />
+                                                            <ext:MenuItem ID="Report122MenuItem" runat="server" Text="汇聚机房温度达标率" Icon="ApplicationViewDetail" Href="KPI/report122.aspx" HrefTarget="_blank" />
                                                         </Items>
                                                     </ext:Menu>
                                                 </Menu>

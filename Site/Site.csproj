@@ -106,6 +106,7 @@
     <Content Include="ActiveAlarms.aspx" />
     <Content Include="ACVFilterSetting.aspx" />
     <Content Include="AlarmWnd.aspx" />
+    <Content Include="AlmMasking.aspx" />
     <Content Include="AlmStandardizationReport.aspx" />
     <Content Include="AppointmentManager.aspx" />
     <Content Include="App_Themes\Install\Default.css" />
@@ -125,6 +126,7 @@
     <Content Include="ClientLogin.aspx" />
     <Content Include="DBSetting.aspx" />
     <Content Include="Default.aspx" />
+    <Content Include="DetailReport120.aspx" />
     <Content Include="DevAlmReport.aspx" />
     <Content Include="DevAvailabilityReport.aspx" />
     <Content Include="DevCount.aspx" />
@@ -161,8 +163,8 @@
     <Content Include="Home.aspx" />
     <Content Include="ImportantAlmReport.aspx" />
     <Content Include="Install\Installer.aspx" />
-    <Content Include="Install\Scripts\V3.6.1.0 Build170301\WebCSC_his_upgrade.sql" />
-    <Content Include="Install\Scripts\V3.6.1.0 Build170301\WebCSC_upgrade.sql" />
+    <Content Include="Install\Scripts\V3.6.3.0 Build180424\WebCSC_his_upgrade.sql" />
+    <Content Include="Install\Scripts\V3.6.3.0 Build180424\WebCSC_upgrade.sql" />
     <Content Include="Install\Scripts\WebCSC_createData.sql" />
     <Content Include="Install\Scripts\WebCSC_createDatabase.sql" />
     <Content Include="Install\Scripts\WebCSC_createHisData.sql" />
@@ -199,6 +201,9 @@
     <Content Include="KPI\report115.aspx" />
     <Content Include="KPI\report116.aspx" />
     <Content Include="KPI\report117.aspx" />
+    <Content Include="KPI\report120.aspx" />
+    <Content Include="KPI\report121.aspx" />
+    <Content Include="KPI\report122.aspx" />
     <Content Include="LoadAlarmManager.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="Logout.aspx" />
@@ -350,7 +355,7 @@
     <Content Include="Resources\My97DatePicker\开发包\skin\whyGreen\bg.jpg" />
     <Content Include="Resources\My97DatePicker\开发包\skin\whyGreen\datepicker.css" />
     <Content Include="Resources\My97DatePicker\开发包\skin\whyGreen\img.gif" />
-    <Content Include="Resources\sql\LscScripts.sql" />
+    <Content Include="Resources\sql\LscScript.sql" />
     <Content Include="RReport001.aspx" />
     <Content Include="ServiceLogs.aspx" />
     <Content Include="Speaker.aspx" />
@@ -409,6 +414,13 @@
     </Compile>
     <Compile Include="AlarmWnd.aspx.designer.cs">
       <DependentUpon>AlarmWnd.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AlmMasking.aspx.cs">
+      <DependentUpon>AlmMasking.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AlmMasking.aspx.designer.cs">
+      <DependentUpon>AlmMasking.aspx</DependentUpon>
     </Compile>
     <Compile Include="AlmStandardizationReport.aspx.cs">
       <DependentUpon>AlmStandardizationReport.aspx</DependentUpon>
@@ -488,6 +500,13 @@
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DetailReport120.aspx.cs">
+      <DependentUpon>DetailReport120.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DetailReport120.aspx.designer.cs">
+      <DependentUpon>DetailReport120.aspx</DependentUpon>
     </Compile>
     <Compile Include="DevAlmReport.aspx.cs">
       <DependentUpon>DevAlmReport.aspx</DependentUpon>
@@ -939,6 +958,27 @@
     </Compile>
     <Compile Include="KPI\report117.aspx.designer.cs">
       <DependentUpon>report117.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="KPI\report120.aspx.cs">
+      <DependentUpon>report120.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="KPI\report120.aspx.designer.cs">
+      <DependentUpon>report120.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="KPI\report121.aspx.cs">
+      <DependentUpon>report121.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="KPI\report121.aspx.designer.cs">
+      <DependentUpon>report121.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="KPI\report122.aspx.cs">
+      <DependentUpon>report122.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="KPI\report122.aspx.designer.cs">
+      <DependentUpon>report122.aspx</DependentUpon>
     </Compile>
     <Compile Include="LoadAlarmManager.aspx.cs">
       <DependentUpon>LoadAlarmManager.aspx</DependentUpon>

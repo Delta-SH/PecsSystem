@@ -18,7 +18,7 @@ using Delta.PECS.WebCSC.Model;
 namespace Delta.PECS.WebCSC.Site {
     public partial class Installer : System.Web.UI.Page {
         #region Fields
-        private List<string> upgradeableVersions = new List<string>() { "V3.6.1.0 Build170301" };
+        private List<string> upgradeableVersions = new List<string>() { "V3.6.2.2 Build180316", "V3.6.2.3 Build180404", "V3.6.3.0 Build180424", "V3.6.3.1 Build180705" };
         private string currentVersion = WebConfigurationManager.AppSettings["CurrentVersion"];
         private string newVersion = WebConfigurationManager.AppSettings["UpdateVersion"];
         #endregion

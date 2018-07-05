@@ -1029,5 +1029,37 @@ namespace Delta.PECS.WebCSC.SQLServerDAL
             }
             return records;
         }
+
+        public List<MaskingInfo> GetMaskings(int lscId, string lscName, string connectionString, DateTime fromTime, DateTime toTime) {
+            SqlParameter[] parms = { new SqlParameter("@FromTime", SqlDbType.DateTime),
+                                     new SqlParameter("@ToTime", SqlDbType.DateTime) };
+
+            parms[0].Value = fromTime;
+            parms[1].Value = toTime;
+
+            var records = new List<MaskingInfo>();
+            SqlHelper.TestConnection(connectionString);
+            using (var rdr = SqlHelper.ExecuteReader(connectionString, CommandType.Text, SqlText.SQL_SELECT_OTHER_GetMaskings, parms)) {
+                while (rdr.Read()) {
+                    records.Add(new MaskingInfo {
+                        LscID = lscId,
+                        LscName = lscName,
+                        Area1ID = ComUtility.DBNullInt32Handler(rdr["Area1ID"]),
+                        Area1Name = ComUtility.DBNullStringHandler(rdr["Area1Name"]),
+                        Area2ID = ComUtility.DBNullInt32Handler(rdr["Area2ID"]),
+                        Area2Name = ComUtility.DBNullStringHandler(rdr["Area2Name"]),
+                        Area3ID = ComUtility.DBNullInt32Handler(rdr["Area3ID"]),
+                        Area3Name = ComUtility.DBNullStringHandler(rdr["Area3Name"]),
+                        StaID = ComUtility.DBNullInt32Handler(rdr["StaID"]),
+                        StaName = ComUtility.DBNullStringHandler(rdr["StaName"]),
+                        MaskID = ComUtility.DBNullInt32Handler(rdr["MaskID"]),
+                        MaskName = ComUtility.DBNullStringHandler(rdr["MaskName"]),
+                        MaskType = ComUtility.DBNullNodeTypeHandler(rdr["MaskType"]),
+                        OpTime = ComUtility.DBNullDateTimeHandler(rdr["OpTime"])
+                    });
+                }
+            }
+            return records;
+        }
     }
 }

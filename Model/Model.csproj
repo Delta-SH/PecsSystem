@@ -83,6 +83,7 @@
     <Compile Include="LscInfo.cs" />
     <Compile Include="LscParamInfo.cs" />
     <Compile Include="LscUserInfo.cs" />
+    <Compile Include="MaskingInfo.cs" />
     <Compile Include="NodeInfo.cs" />
     <Compile Include="NormalDevRateInfo.cs" />
     <Compile Include="OpEventInfo.cs" />

@@ -1,5 +1,5 @@
 /*
-* Lsc Sql Script Library
+* 增加工程管理、资管接口功能
 * Copyright 2015, Delta
 * Author: Steven
 * Date: 2015/10/10
@@ -7,6 +7,7 @@
 
 --■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 --新增表[dbo].[TM_Projects]
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TM_Projects]') AND type in (N'U'))
 DROP TABLE [dbo].[TM_Projects]
 GO
 
@@ -39,6 +40,7 @@ GO
 
 --■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 --新增表[dbo].[RM_StaInfo]
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[RM_StaInfo]') AND type in (N'U'))
 DROP TABLE [dbo].[RM_StaInfo]
 GO
 
@@ -67,6 +69,7 @@ GO
 
 --■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 --新增表[dbo].[RM_DevInfo]
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[RM_DevInfo]') AND type in (N'U'))
 DROP TABLE [dbo].[RM_DevInfo]
 GO
 

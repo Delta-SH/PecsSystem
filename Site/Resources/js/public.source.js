@@ -1674,6 +1674,15 @@ var DevWnd = {
     }
 };
 
+var DetailWnd120 = {
+    showGridRowContextMenu: function (el, rowIndex, e) {
+        e.preventDefault();
+        el.getSelectionModel().selectRow(rowIndex);
+        WndGridRowMenu.dataRecord = el.store.getAt(rowIndex);
+        WndGridRowMenu.showAt(e.getXY());
+    }
+};
+
 var TrendMgr = {
     GetGridRowClass: function(record) {
         if (!TrendGridRowMenuItem3.checked) { return false; }
@@ -1974,6 +1983,42 @@ var KPIReport117 = {
             if (!Ext.isEmpty(record)) {
                 rowIndex = record.data.ID - 1;
                 X.report117.ShowGridCellDetail(LanguageSet.StaWndName, record.data.LscID, column.dataIndex);
+            }
+        }
+    }
+};
+
+var KPIReport120 = {
+    GridCellDblClick: function (grid, rowIndex, columnIndex, e) {
+        var column = grid.getColumnModel().config[columnIndex];
+        if (column.dblClickEnabled && column.dblClickEnabled === "1") {
+            var record = grid.store.getAt(rowIndex);
+            if (!Ext.isEmpty(record)) {
+                X.report120.ShowGridCellDetail("", record.data.LscID, column.dataIndex);
+            }
+        }
+    }
+};
+
+var KPIReport121 = {
+    GridCellDblClick: function (grid, rowIndex, columnIndex, e) {
+        var column = grid.getColumnModel().config[columnIndex];
+        if (column.dblClickEnabled && column.dblClickEnabled === "1") {
+            var record = grid.store.getAt(rowIndex);
+            if (!Ext.isEmpty(record)) {
+                X.report121.ShowGridCellDetail("", record.data.LscID, record.data.Date, column.dataIndex);
+            }
+        }
+    }
+};
+
+var KPIReport122 = {
+    GridCellDblClick: function (grid, rowIndex, columnIndex, e) {
+        var column = grid.getColumnModel().config[columnIndex];
+        if (column.dblClickEnabled && column.dblClickEnabled === "1") {
+            var record = grid.store.getAt(rowIndex);
+            if (!Ext.isEmpty(record)) {
+                X.report122.ShowGridCellDetail("", record.data.LscID, record.data.Date, column.dataIndex);
             }
         }
     }

@@ -427,6 +427,8 @@ namespace Delta.PECS.WebCSC.Site {
             var source2 = new Dictionary<String, List<AlarmInfo>>();
             var source3 = new Dictionary<String, List<DeviceInfo>>();
 
+            var total1 = new List<AlarmInfo>();
+            var total2 = new List<DeviceInfo>();
             if (countType.Equals("0")) {
                 #region Lsc
                 foreach (var v in values) {
@@ -506,7 +508,25 @@ namespace Delta.PECS.WebCSC.Site {
                         source2[String.Format("{0}-{1}", source1.Rows.Count, source1.Columns[5].ColumnName)] = temp2[i].Alarms;
                         source3[String.Format("{0}-{1}", source1.Rows.Count, source1.Columns[6].ColumnName)] = temp2[i].Devices;
                         source1.Rows.Add(dr);
+
+                        total1.AddRange(temp2[i].Alarms);
+                        total2.AddRange(temp2[i].Devices);
                     }
+                }
+
+                if (total1.Count > 0) {
+                    var dr = source1.NewRow();
+                    dr[1] = "总计";
+                    dr[2] = "--";
+                    dr[3] = "--";
+                    dr[4] = "--";
+                    dr[5] = total1.Count;
+                    dr[6] = total2.Count;
+                    dr[7] = WebUtility.GetDateTimeFromSec(total1.Sum(a => a.EndTime.Subtract(a.StartTime).TotalSeconds));
+
+                    source2[String.Format("{0}-{1}", source1.Rows.Count, source1.Columns[5].ColumnName)] = total1;
+                    source3[String.Format("{0}-{1}", source1.Rows.Count, source1.Columns[6].ColumnName)] = total2;
+                    source1.Rows.Add(dr);
                 }
                 #endregion
             } else if (countType.Equals("1")) {
@@ -596,9 +616,28 @@ namespace Delta.PECS.WebCSC.Site {
                                 source2[String.Format("{0}-{1}", source1.Rows.Count, source1.Columns[6].ColumnName)] = temp3[i].Alarms;
                                 source3[String.Format("{0}-{1}", source1.Rows.Count, source1.Columns[7].ColumnName)] = temp3[i].Devices;
                                 source1.Rows.Add(dr);
+
+                                total1.AddRange(temp3[i].Alarms);
+                                total2.AddRange(temp3[i].Devices);
                             }
                         }
                     }
+                }
+
+                if (total1.Count > 0) {
+                    var dr = source1.NewRow();
+                    dr[1] = "总计";
+                    dr[2] = "--";
+                    dr[3] = "--";
+                    dr[4] = "--";
+                    dr[5] = "--";
+                    dr[6] = total1.Count;
+                    dr[7] = total2.Count;
+                    dr[8] = WebUtility.GetDateTimeFromSec(total1.Sum(a => a.EndTime.Subtract(a.StartTime).TotalSeconds));
+
+                    source2[String.Format("{0}-{1}", source1.Rows.Count, source1.Columns[6].ColumnName)] = total1;
+                    source3[String.Format("{0}-{1}", source1.Rows.Count, source1.Columns[7].ColumnName)] = total2;
+                    source1.Rows.Add(dr);
                 }
                 #endregion
             } else if (countType.Equals("2")) {
@@ -689,9 +728,29 @@ namespace Delta.PECS.WebCSC.Site {
                                 source2[String.Format("{0}-{1}", source1.Rows.Count, source1.Columns[7].ColumnName)] = temp3[i].Alarms;
                                 source3[String.Format("{0}-{1}", source1.Rows.Count, source1.Columns[8].ColumnName)] = temp3[i].Devices;
                                 source1.Rows.Add(dr);
+
+                                total1.AddRange(temp3[i].Alarms);
+                                total2.AddRange(temp3[i].Devices);
                             }
                         }
                     }
+                }
+
+                if (total1.Count > 0) {
+                    var dr = source1.NewRow();
+                    dr[1] = "总计";
+                    dr[2] = "--";
+                    dr[3] = "--";
+                    dr[4] = "--";
+                    dr[5] = "--";
+                    dr[6] = "--";
+                    dr[7] = total1.Count;
+                    dr[8] = total2.Count;
+                    dr[9] = WebUtility.GetDateTimeFromSec(total1.Sum(a => a.EndTime.Subtract(a.StartTime).TotalSeconds));
+
+                    source2[String.Format("{0}-{1}", source1.Rows.Count, source1.Columns[7].ColumnName)] = total1;
+                    source3[String.Format("{0}-{1}", source1.Rows.Count, source1.Columns[8].ColumnName)] = total2;
+                    source1.Rows.Add(dr);
                 }
                 #endregion
             } else if (countType.Equals("3")) {
@@ -783,9 +842,30 @@ namespace Delta.PECS.WebCSC.Site {
                                 source2[String.Format("{0}-{1}", source1.Rows.Count, source1.Columns[8].ColumnName)] = temp3[i].Alarms;
                                 source3[String.Format("{0}-{1}", source1.Rows.Count, source1.Columns[9].ColumnName)] = temp3[i].Devices;
                                 source1.Rows.Add(dr);
+
+                                total1.AddRange(temp3[i].Alarms);
+                                total2.AddRange(temp3[i].Devices);
                             }
                         }
                     }
+                }
+
+                if (total1.Count > 0) {
+                    var dr = source1.NewRow();
+                    dr[1] = "总计";
+                    dr[2] = "--";
+                    dr[3] = "--";
+                    dr[4] = "--";
+                    dr[5] = "--";
+                    dr[6] = "--";
+                    dr[7] = "--";
+                    dr[8] = total1.Count;
+                    dr[9] = total2.Count;
+                    dr[10] = WebUtility.GetDateTimeFromSec(total1.Sum(a => a.EndTime.Subtract(a.StartTime).TotalSeconds));
+
+                    source2[String.Format("{0}-{1}", source1.Rows.Count, source1.Columns[8].ColumnName)] = total1;
+                    source3[String.Format("{0}-{1}", source1.Rows.Count, source1.Columns[9].ColumnName)] = total2;
+                    source1.Rows.Add(dr);
                 }
                 #endregion
             }

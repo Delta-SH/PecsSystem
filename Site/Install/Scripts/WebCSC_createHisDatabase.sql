@@ -218,13 +218,17 @@ CREATE TABLE [dbo].[TH_DoorPunch](
 	[StaName] [varchar](40) NULL,
 	[DevName] [varchar](40) NULL,
 	[EmpName] [varchar](40) NULL,
+	[EmpType] [varchar](40) NULL,
 	[EmpNO] [varchar](20) NULL,
+	[DepName] [varchar](40) NULL,
+	[DepId] [varchar](20) NULL,
 	[PunchTime] [datetime] NULL,
 	[PunchNO] [varchar](10) NULL,
 	[Status] [varchar](160) NULL,
 	[Remark] [varchar](60) NULL,
 	[Direction] [int] NULL,
-	[GrantPunch] [int] NULL
+	[GrantPunch] [int] NULL,
+	[CreatedTime] [datetime] NULL
 ) ON [PRIMARY]
 END
 GO
@@ -1288,12 +1292,16 @@ CREATE PROCEDURE [dbo].[PI_TH_DoorPunch]
     @DevName varchar(40), 
     @EmpName varchar(40),
     @EmpNO varchar(20),
+    @EmpType varchar(40),
+    @DepName varchar(40),
+	@DepId varchar(20),
     @PunchTime datetime,
     @PunchNO varchar(10), 
     @Status varchar(160), 
     @Remark varchar(60), 
     @Direction int,
-    @GrantPunch int
+    @GrantPunch int,
+    @CreatedTime datetime
 AS
 BEGIN
 	DECLARE @NAME varchar(40);
@@ -1318,12 +1326,16 @@ BEGIN
 		[DevName] [varchar](40) NULL,
 		[EmpName] [varchar](40) NULL,
 		[EmpNO] [varchar](20) NULL,
+		[EmpType] [varchar](40) NULL,
+	    [DepName] [varchar](40) NULL,
+	    [DepId] [varchar](20) NULL,
 		[PunchTime] [datetime] NULL,
 		[PunchNO] [varchar](10) NULL,
 		[Status] [varchar](160) NULL,
 		[Remark] [varchar](60) NULL,
 		[Direction] [int] NULL,
-		[GrantPunch] [int] NULL
+		[GrantPunch] [int] NULL,
+		[CreatedTime] [datetime] NULL
 		) ON [PRIMARY]'
 		EXEC(@SQL)
 	END
@@ -1337,12 +1349,16 @@ BEGIN
            ,@DevName1 
            ,@EmpName1 
            ,@EmpNO1 
+           ,@EmpType1
+           ,@DepName1
+           ,@DepId1
            ,@PunchTime1 
            ,@PunchNO1 
            ,@Status1 
            ,@Remark1 
            ,@Direction1
            ,@GrantPunch1
+           ,@CreatedTime1
     )';
     
     SELECT @ParmDefinition=N'
@@ -1355,12 +1371,16 @@ BEGIN
 	    @DevName1 varchar(40), 
 	    @EmpName1 varchar(40),
 	    @EmpNO1 varchar(20),
+	    @EmpType1 varchar(40),
+        @DepName1 varchar(40),
+	    @DepId1 varchar(20),
 	    @PunchTime1 datetime,
 	    @PunchNO1 varchar(10), 
 	    @Status1 varchar(160), 
 	    @Remark1 varchar(60), 
 	    @Direction1 int,
-	    @GrantPunch1 int';
+	    @GrantPunch1 int,
+	    @CreatedTime1 datetime';
 	    
 	EXECUTE sp_executesql @SQL,@ParmDefinition,
 	        @LscID1=@LscID 
@@ -1372,12 +1392,16 @@ BEGIN
            ,@DevName1=@DevName
            ,@EmpName1=@EmpName
            ,@EmpNO1=@EmpNO
+           ,@EmpType1=@EmpType
+           ,@DepName1=@DepName
+           ,@DepId1=@DepId
            ,@PunchTime1=@PunchTime
            ,@PunchNO1=@PunchNO
            ,@Status1=@Status
            ,@Remark1=@Remark
            ,@Direction1=@Direction
-           ,@GrantPunch1=@GrantPunch;
+           ,@GrantPunch1=@GrantPunch
+           ,@CreatedTime1=@CreatedTime;
 END
 GO
 

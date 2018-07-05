@@ -25,9 +25,9 @@ CREATE TABLE [dbo].[TA_Alarm](
 	[Area2Name] [nvarchar](50) NULL,
 	[Area3Name] [nvarchar](50) NULL,
 	[Area4Name] [nvarchar](50) NULL,
-	[StaName] [nvarchar](50) NULL,
-	[DevName] [nvarchar](50) NULL,
-	[DevDesc] [nvarchar](50) NULL,
+	[StaName] [nvarchar](100) NULL,
+	[DevName] [nvarchar](100) NULL,
+	[DevDesc] [nvarchar](512) NULL,
 	[NodeID] [int] NULL,
 	[NodeType] [int] NULL,
 	[NodeName] [nvarchar](50) NULL,
@@ -51,7 +51,7 @@ CREATE TABLE [dbo].[TA_Alarm](
 (
 	[LscID] ASC,
 	[SerialNO] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 
@@ -113,8 +113,8 @@ CREATE TABLE [dbo].[TA_FrequencyAlarm](
 	[Area1Name] [nvarchar](50) NULL,
 	[Area2Name] [nvarchar](50) NULL,
 	[Area3Name] [nvarchar](50) NULL,
-	[StaName] [nvarchar](50) NULL,
-	[DevName] [nvarchar](50) NULL,
+	[StaName] [nvarchar](100) NULL,
+	[DevName] [nvarchar](100) NULL,
 	[NodeID] [int] NOT NULL,
 	[NodeType] [int] NOT NULL,
 	[NodeName] [nvarchar](50) NULL,
@@ -138,7 +138,7 @@ CREATE TABLE [dbo].[TA_FrequencyAlarm](
 	[LscID] ASC,
 	[NodeID] ASC,
 	[NodeType] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 
@@ -163,9 +163,9 @@ CREATE TABLE [dbo].[TA_LoadAlarm](
 	[Area1Name] [nvarchar](50) NULL,
 	[Area2Name] [nvarchar](50) NULL,
 	[Area3Name] [nvarchar](50) NULL,
-	[StaName] [nvarchar](50) NULL,
+	[StaName] [nvarchar](100) NULL,
 	[DevID] [int] NOT NULL,
-	[DevName] [nvarchar](50) NULL,
+	[DevName] [nvarchar](100) NULL,
 	[DevTypeID] [int] NULL,
 	[AlarmStatus] [int] NULL,
 	[AlarmLevel] [int] NULL,
@@ -186,7 +186,7 @@ CREATE TABLE [dbo].[TA_LoadAlarm](
 (
 	[LscID] ASC,
 	[DevID] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 
@@ -281,8 +281,8 @@ CREATE TABLE [dbo].[TA_TrendAlarm](
 	[Area1Name] [nvarchar](50) NULL,
 	[Area2Name] [nvarchar](50) NULL,
 	[Area3Name] [nvarchar](50) NULL,
-	[StaName] [nvarchar](50) NULL,
-	[DevName] [nvarchar](50) NULL,
+	[StaName] [nvarchar](100) NULL,
+	[DevName] [nvarchar](100) NULL,
 	[NodeID] [int] NOT NULL,
 	[NodeName] [nvarchar](50) NULL,
 	[AlarmType] [nvarchar](20) NULL,
@@ -305,7 +305,7 @@ CREATE TABLE [dbo].[TA_TrendAlarm](
 (
 	[LscID] ASC,
 	[NodeID] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 
@@ -781,8 +781,8 @@ CREATE TABLE [dbo].[TM_DEV](
 	[DevID] [int] NOT NULL,
 	[StaID] [int] NULL,
 	[Enabled] [bit] NULL,
-	[DevName] [varchar](40) NULL,
-	[DevDesc] [varchar](40) NULL,
+	[DevName] [varchar](100) NULL,
+	[DevDesc] [varchar](512) NULL,
 	[DevTypeID] [int] NULL,
 	[ProductorID] [int] NULL,
 	[AlarmDevTypeID] [int] NULL,
@@ -798,7 +798,7 @@ CREATE TABLE [dbo].[TM_DEV](
 (
 	[LscID] ASC,
 	[DevID] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 
@@ -1080,8 +1080,8 @@ GO
 CREATE TABLE [dbo].[TM_STA](
 	[LscID] [int] NOT NULL,
 	[StaID] [int] NOT NULL,
-	[StaName] [varchar](40) NULL,
-	[StaDesc] [varchar](40) NULL,
+	[StaName] [varchar](100) NULL,
+	[StaDesc] [varchar](512) NULL,
 	[StaAddress] [varchar](80) NULL,
 	[LinkMan] [varchar](40) NULL,
 	[LinkManPhone] [varchar](20) NULL,
@@ -1104,7 +1104,7 @@ CREATE TABLE [dbo].[TM_STA](
 (
 	[LscID] ASC,
 	[StaID] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 
@@ -1298,17 +1298,17 @@ CREATE TABLE [dbo].[TR_RTU](
 	[RtuID] [int] NOT NULL,
 	[SSID] [int] NULL,
 	[RID] [int] NULL,
-	[DevName] [varchar](40) NULL,
-	[FileName] [varchar](40) NULL,
+	[DevName] [varchar](100) NULL,
+	[FileName] [varchar](100) NULL,
 	[Port] [varchar](20) NULL,
-	[StaName] [varchar](40) NULL,
+	[StaName] [varchar](100) NULL,
 	[RSID] [int] NULL,
 	[Protocol] [varchar](10) NULL,
  CONSTRAINT [PK_TR_RTU] PRIMARY KEY CLUSTERED 
 (
 	[LscID] ASC,
 	[RtuID] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 

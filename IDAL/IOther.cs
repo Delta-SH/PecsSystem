@@ -193,5 +193,7 @@ namespace Delta.PECS.WebCSC.IDAL
         List<AcEventInfo> GetPubInvalidCardEvent(int lscId, string lscName, string connectionString, DateTime fromTime, DateTime toTime);
 
         List<AcEventInfo> GetPubValidCardEvent(int lscId, string lscName, string connectionString, DateTime fromTime, DateTime toTime);
+
+        List<MaskingInfo> GetMaskings(int lscId, string lscName, string connectionString, DateTime fromTime, DateTime toTime);
     }
 }

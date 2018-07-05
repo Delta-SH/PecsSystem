@@ -31,6 +31,7 @@ namespace Delta.PECS.WebCSC.Site {
                 }
 
                 #region 验证注册信息
+                /*
                 try {
                     var sp = new BUser().GetSysParams(20000001);
                     if (sp == null || sp.Count == 0) {
@@ -129,6 +130,7 @@ namespace Delta.PECS.WebCSC.Site {
                     WebUtility.WriteLog(EnmSysLogLevel.Error, EnmSysLogType.Exception, err.ToString(), Page.User.Identity.Name);
                     WebUtility.ShowMessage(EnmErrType.Error, err.Message);
                 }
+                 */
                 #endregion
             }
         }
@@ -184,6 +186,7 @@ namespace Delta.PECS.WebCSC.Site {
                     users = users.FindAll(u => { return u.Enabled && u.LimitTime >= DateTime.Now; });
                     if (users != null && users.Count > 0) {
                         #region 验证注册信息
+                        /*
                         var sp = new BUser().GetSysParams(20000001);
                         if (sp == null || sp.Count == 0) {
                             Verification.Text = String.Empty;
@@ -257,6 +260,7 @@ namespace Delta.PECS.WebCSC.Site {
                             WebUtility.WriteLog(EnmSysLogLevel.Info, EnmSysLogType.Login, FailureText.InnerText, uId);
                             return;
                         }
+                         * */
                         #endregion
 
                         var groupEntity = new BGroup();

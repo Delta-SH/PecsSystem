@@ -715,6 +715,15 @@ namespace Delta.PECS.WebCSC.Site {
         protected global::Ext.Net.MenuItem ReportMenuItem4Item5;
         
         /// <summary>
+        /// ReportMenuItem15 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::Ext.Net.MenuItem ReportMenuItem15;
+        
+        /// <summary>
         /// ReportSeparator2 控件。
         /// </summary>
         /// <remarks>
@@ -1361,6 +1370,51 @@ namespace Delta.PECS.WebCSC.Site {
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
         protected global::Ext.Net.MenuItem Report117MenuItem;
+        
+        /// <summary>
+        /// OtherMenuItem12 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::Ext.Net.MenuItem OtherMenuItem12;
+        
+        /// <summary>
+        /// KPIReportMenu1xx_3 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::Ext.Net.Menu KPIReportMenu1xx_3;
+        
+        /// <summary>
+        /// Report120MenuItem 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::Ext.Net.MenuItem Report120MenuItem;
+        
+        /// <summary>
+        /// Report121MenuItem 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::Ext.Net.MenuItem Report121MenuItem;
+        
+        /// <summary>
+        /// Report122MenuItem 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::Ext.Net.MenuItem Report122MenuItem;
         
         /// <summary>
         /// OtherSeparator2 控件。

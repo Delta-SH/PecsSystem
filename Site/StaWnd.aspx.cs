@@ -11,6 +11,7 @@ using System.Xml;
 using Ext.Net;
 using Delta.PECS.WebCSC.Model;
 using Delta.PECS.WebCSC.BLL;
+using Delta.PECS.WebCSC.Site.KPI;
 
 namespace Delta.PECS.WebCSC.Site {
     [DirectMethodProxyID(IDMode = DirectMethodProxyIDMode.Alias, Alias = "StaWndClass")]
@@ -173,6 +174,18 @@ namespace Delta.PECS.WebCSC.Site {
                 case "kpi_report_117":
                     stations = GetReport117Data(userData, Request.QueryString["LscID"], Request.QueryString["DataIndex"]);
                     break;
+                case "kpi_report_121_1":
+                    stations = GetReport1211Data(userData, Request.QueryString["LscID"], Request.QueryString["Date"]);
+                    break;
+                case "kpi_report_121_2":
+                    stations = GetReport1212Data(userData, Request.QueryString["LscID"], Request.QueryString["Date"]);
+                    break;
+                case "kpi_report_122_1":
+                    stations = GetReport1221Data(userData, Request.QueryString["LscID"], Request.QueryString["Date"]);
+                    break;
+                case "kpi_report_122_2":
+                    stations = GetReport1222Data(userData, Request.QueryString["LscID"], Request.QueryString["Date"]);
+                    break;
                 default:
                     break;
             }
@@ -283,6 +296,46 @@ namespace Delta.PECS.WebCSC.Site {
             var key = String.Format("{0}-{1}", lscId, dataIndex);
             if(!data.ContainsKey(key)) { return null; }
             return data[key];
+        }
+
+        private List<StationInfo> GetReport1211Data(CscUserInfo userData, string lscId, string date) {
+            if (String.IsNullOrEmpty(lscId) || String.IsNullOrEmpty(date)) { return null; }
+            var cacheKey = WebUtility.GetCacheKeyName(userData, "kpi-report-121");
+            var data = HttpRuntime.Cache[cacheKey] as List<Report121Entity>;
+            if (data == null) { return null; }
+            var current = data.Find(d => lscId.Equals(d.LscID) && date.Equals(d.Date));
+            if (current == null) { return null; }
+            return current.Gstations;
+        }
+
+        private List<StationInfo> GetReport1212Data(CscUserInfo userData, string lscId, string date) {
+            if (String.IsNullOrEmpty(lscId) || String.IsNullOrEmpty(date)) { return null; }
+            var cacheKey = WebUtility.GetCacheKeyName(userData, "kpi-report-121");
+            var data = HttpRuntime.Cache[cacheKey] as List<Report121Entity>;
+            if (data == null) { return null; }
+            var current = data.Find(d => lscId.Equals(d.LscID.ToString()) && date.Equals(d.Date));
+            if (current == null) { return null; }
+            return current.Stations;
+        }
+
+        private List<StationInfo> GetReport1221Data(CscUserInfo userData, string lscId, string date) {
+            if (String.IsNullOrEmpty(lscId) || String.IsNullOrEmpty(date)) { return null; }
+            var cacheKey = WebUtility.GetCacheKeyName(userData, "kpi-report-122");
+            var data = HttpRuntime.Cache[cacheKey] as List<Report122Entity>;
+            if (data == null) { return null; }
+            var current = data.Find(d => lscId.Equals(d.LscID) && date.Equals(d.Date));
+            if (current == null) { return null; }
+            return current.Gstations;
+        }
+
+        private List<StationInfo> GetReport1222Data(CscUserInfo userData, string lscId, string date) {
+            if (String.IsNullOrEmpty(lscId) || String.IsNullOrEmpty(date)) { return null; }
+            var cacheKey = WebUtility.GetCacheKeyName(userData, "kpi-report-122");
+            var data = HttpRuntime.Cache[cacheKey] as List<Report122Entity>;
+            if (data == null) { return null; }
+            var current = data.Find(d => lscId.Equals(d.LscID.ToString()) && date.Equals(d.Date));
+            if (current == null) { return null; }
+            return current.Stations;
         }
     }
 }

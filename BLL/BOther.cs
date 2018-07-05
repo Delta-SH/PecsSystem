@@ -348,5 +348,13 @@ namespace Delta.PECS.WebCSC.BLL
                 throw;
             }
         }
+
+        public List<MaskingInfo> GetMaskings(int lscId, string lscName, string connectionString, DateTime fromTime, DateTime toTime) {
+            try {
+                return otherDal.GetMaskings(lscId, lscName, connectionString, fromTime, toTime);
+            } catch {
+                throw;
+            }
+        }
     }
 }

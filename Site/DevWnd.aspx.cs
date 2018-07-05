@@ -11,6 +11,7 @@ using System.Xml;
 using Ext.Net;
 using Delta.PECS.WebCSC.Model;
 using Delta.PECS.WebCSC.BLL;
+using Delta.PECS.WebCSC.Site.KPI;
 
 namespace Delta.PECS.WebCSC.Site {
     [DirectMethodProxyID(IDMode = DirectMethodProxyIDMode.Alias, Alias = "DevWndClass")]
@@ -177,6 +178,9 @@ namespace Delta.PECS.WebCSC.Site {
                 case "kpi_report_114":
                     devices = GetReport114Data(userData, Request.QueryString["LscID"], Request.QueryString["DataIndex"]);
                     break;
+                case "kpi_report_120":
+                    devices = GetReport120Data(userData, Request.QueryString["LscID"]);
+                    break;
                 default:
                     break;
             }
@@ -255,6 +259,16 @@ namespace Delta.PECS.WebCSC.Site {
             var key = String.Format("{0}-{1}", lscId, dataIndex);
             if(!data.ContainsKey(key)) { return null; }
             return data[key];
+        }
+
+        private List<DeviceInfo> GetReport120Data(CscUserInfo userData, string lscId) {
+            if (String.IsNullOrEmpty(lscId)) { return null; }
+            var cacheKey = WebUtility.GetCacheKeyName(userData, "kpi-report-120");
+            var data = HttpRuntime.Cache[cacheKey] as List<Report120Entity>;
+            if (data == null) { return null; }
+            var current = data.Find(d => lscId.Equals(d.LscID.ToString()));
+            if (current == null) { return null; }
+            return current.Devices;
         }
     }
 }

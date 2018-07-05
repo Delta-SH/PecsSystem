@@ -16,6 +16,7 @@ namespace Delta.PECS.WebCSC.Site {
         protected void Page_Load(object sender, EventArgs e) {
             if (!Page.IsPostBack) {
                 #region 注册信息
+                /*
                 try {
                     var sp = new BUser().GetSysParams(20000001);
                     if (sp == null || sp.Count == 0) {
@@ -66,6 +67,7 @@ namespace Delta.PECS.WebCSC.Site {
                     FailureText.InnerText = "错误消息：" + err.Message;
                     ErrorTips.Visible = true;
                 }
+                 * */
                 #endregion
 
                 #region 身份认证

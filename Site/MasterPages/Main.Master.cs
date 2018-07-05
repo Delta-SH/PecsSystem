@@ -24,7 +24,8 @@ namespace Delta.PECS.WebCSC.Site {
                     //河南定制报表
                     var hn = WebConfigurationManager.AppSettings["Kpi-HeNan-Enable"];
                     OtherMenuItem9.Visible = 
-                    OtherMenuItem10.Visible = hn != null && hn.Trim().Equals("1");
+                    OtherMenuItem10.Visible =
+                    OtherMenuItem12.Visible = hn != null && hn.Trim().Equals("1");
 
                     var nm = WebConfigurationManager.AppSettings["Menjin-NeiMeng-Enable"];
                     ReportMenuItem14.Visible = nm != null && nm.Trim().Equals("1");
@@ -85,6 +86,7 @@ namespace Delta.PECS.WebCSC.Site {
                         ReportMenuItem13.Visible = false;
                         ReportMenuItem14.Visible = false;
                         ToolbarSeparator4.Visible = false;
+                        ReportMenuItem15.Visible = false;
 
                         OtherMenuButton.Visible = false;
                         OtherMenuItem1.Visible = false;

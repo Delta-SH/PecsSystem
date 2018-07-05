@@ -74,7 +74,7 @@ namespace Delta.PECS.WebCSC.DBUtility
             SELECT * FROM tpGroupStation
             UNION ALL
             SELECT * FROM tpGroupDevice
-        ) AS T ORDER BY T.[NodeType],T.[TreeIndex];
+        ) AS T ORDER BY T.[NodeType],T.[NodeName];
         DROP TABLE #GroupNodes;";
         public const string SQL_SELECT_GROUP_GETUDGROUPS = @"SELECT [LscID],[UserID],[UDGroupID],[UDGroupName],[Enabled] FROM [dbo].[TU_UDGroup] WHERE [LscID] = @LscID AND [UserID] = @UserID ORDER BY [UDGroupID];";
         public const string SQL_SELECT_GROUP_GETUDGROUPTREENODES = @"
@@ -112,7 +112,7 @@ namespace Delta.PECS.WebCSC.DBUtility
             SELECT * FROM tpGroupStation
             UNION ALL
             SELECT * FROM tpGroupDevice
-        ) AS T ORDER BY T.[NodeType],T.[TreeIndex];";
+        ) AS T ORDER BY T.[NodeType],T.[NodeName];";
         public const string SQL_INSERT_GROUP_SAVECSCUDGROUPTREENODES1 = @"
         DELETE FROM [dbo].[TU_UDGroup] WHERE [LscID] = @LscID AND [UserID] = @UserID AND [UDGroupID] = @UDGroupID;
         DELETE FROM [dbo].[TU_UDGroupTree] WHERE [LscID] = @LscID AND [UserID] = @UserID AND [UDGroupID] = @UDGroupID;
@@ -158,7 +158,6 @@ namespace Delta.PECS.WebCSC.DBUtility
         DELETE FROM [dbo].[TR_RTU] WHERE [LscID] = @LscID;
         DELETE FROM [dbo].[TM_SIC] WHERE [LscID] = @LscID;
         DELETE FROM [dbo].[TM_SubSic] WHERE [LscID] = @LscID;
-        DELETE FROM [dbo].[TM_ProjBooking] WHERE [LscID] = @LscID;
         DELETE FROM [dbo].[TA_Alarm] WHERE [LscID] = @LscID;
         DELETE FROM [dbo].[TA_Node] WHERE [LscID] = @LscID;
         DELETE FROM [dbo].[TA_Order] WHERE [LscID] = @LscID;";
@@ -1305,14 +1304,14 @@ namespace Delta.PECS.WebCSC.DBUtility
         SELECT TL.[LscID],TL.[LscName],TAAA.[AreaID] AS Area1ID,TAAA.[AreaName] AS Area1Name,TAA.[AreaID] AS Area2ID,TAA.[AreaName] AS Area2Name,TA.[AreaID] AS Area3ID,TA.[AreaName] AS Area3Name FROM [dbo].[TM_AREA] TA
         INNER JOIN [dbo].[TM_LSC] TL ON TA.[NodeLevel] = 3 AND TA.[LscID] = @LscID AND TA.[LscID] = TL.[LscID]
         LEFT OUTER JOIN [dbo].[TM_AREA] TAA ON TAA.[NodeLevel] = 2 AND TA.[LscID] = TAA.[LscID] AND TA.[LastAreaID] = TAA.[AreaID]
-        LEFT OUTER JOIN [dbo].[TM_AREA] TAAA ON TAAA.[NodeLevel] = 1 AND TAA.[LscID] = TAAA.[LscID] AND TAA.[LastAreaID] = TAAA.[AreaID];";
+        LEFT OUTER JOIN [dbo].[TM_AREA] TAAA ON TAAA.[NodeLevel] = 1 AND TAA.[LscID] = TAAA.[LscID] AND TAA.[LastAreaID] = TAAA.[AreaID] ORDER BY TA.[AreaName];";
         public const string SQL_SELECT_OTHER_GETAREASBYGROUPID = @"
         SELECT [LscID],[NodeID],[GroupID],[NodeType],[LastNodeID],[TreeIndex] INTO #GroupNodes FROM [dbo].[Fun_GetGroupTree](@LscID, @GroupID);
         SELECT TL.[LscID],TL.[LscName],TAAA.[AreaID] AS Area1ID,TAAA.[AreaName] AS Area1Name,TAA.[AreaID] AS Area2ID,TAA.[AreaName] AS Area2Name,TA.[AreaID] AS Area3ID,TA.[AreaName] AS Area3Name FROM [dbo].[TM_AREA] TA
         INNER JOIN [dbo].[TM_LSC] TL ON TA.[NodeLevel] = 3 AND TA.[LscID] = @LscID AND TA.[LscID] = TL.[LscID]
         INNER JOIN #GroupNodes TGT ON TA.[NodeLevel] = 3 AND TGT.[GroupID] = @GroupID AND TGT.[NodeType] = @AreaType AND TA.[LscID] = TGT.[LscID] AND TA.[AreaID] = TGT.[NodeID]
         LEFT OUTER JOIN [dbo].[TM_AREA] TAA ON TAA.[NodeLevel] = 2 AND TA.[LscID] = TAA.[LscID] AND TA.[LastAreaID] = TAA.[AreaID]
-        LEFT OUTER JOIN [dbo].[TM_AREA] TAAA ON TAAA.[NodeLevel] = 1 AND TAA.[LscID] = TAAA.[LscID] AND TAA.[LastAreaID] = TAAA.[AreaID];
+        LEFT OUTER JOIN [dbo].[TM_AREA] TAAA ON TAAA.[NodeLevel] = 1 AND TAA.[LscID] = TAAA.[LscID] AND TAA.[LastAreaID] = TAAA.[AreaID] ORDER BY TA.[AreaName];
         DROP TABLE #GroupNodes;";
         public const string SQL_SELECT_OTHER_GETAREASBYNODELEVEL = @"
         SELECT [LscID],[NodeID],[GroupID],[NodeType],[LastNodeID],[TreeIndex] INTO #GroupNodes FROM [dbo].[Fun_GetGroupTree](@LscID, @GroupID);
@@ -1320,14 +1319,14 @@ namespace Delta.PECS.WebCSC.DBUtility
         BEGIN
             SELECT TL.[LscID],TL.[LscName],TA.[AreaID] AS Area1ID,TA.[AreaName] AS Area1Name,NULL AS Area2ID,NULL AS Area2Name,NULL AS Area3ID,NULL AS Area3Name FROM [dbo].[TM_AREA] TA
             INNER JOIN [dbo].[TM_LSC] TL ON TA.[NodeLevel] = 1 AND TA.[LscID] = @LscID AND TA.[LscID] = TL.[LscID]
-            INNER JOIN #GroupNodes TGT ON TA.[NodeLevel] = 1 AND TGT.[GroupID] = @GroupID AND TGT.[NodeType] = @AreaType AND TA.[LscID] = TGT.[LscID] AND TA.[AreaID] = TGT.[NodeID];
+            INNER JOIN #GroupNodes TGT ON TA.[NodeLevel] = 1 AND TGT.[GroupID] = @GroupID AND TGT.[NodeType] = @AreaType AND TA.[LscID] = TGT.[LscID] AND TA.[AreaID] = TGT.[NodeID] ORDER BY TA.[AreaName];
         END
         ELSE IF(@NodeLevel = 2)
         BEGIN
             SELECT TL.[LscID],TL.[LscName],TAA.[AreaID] AS Area1ID,TAA.[AreaName] AS Area1Name,TA.[AreaID] AS Area2ID,TA.[AreaName] AS Area2Name,NULL AS Area3ID,NULL AS Area3Name FROM [dbo].[TM_AREA] TA
             INNER JOIN [dbo].[TM_LSC] TL ON TA.[NodeLevel] = 2 AND TA.[LscID] = @LscID AND TA.[LscID] = TL.[LscID]
             INNER JOIN #GroupNodes TGT ON TA.[NodeLevel] = 2 AND TGT.[GroupID] = @GroupID AND TGT.[NodeType] = @AreaType AND TA.[LscID] = TGT.[LscID] AND TA.[AreaID] = TGT.[NodeID]
-            LEFT OUTER JOIN [dbo].[TM_AREA] TAA ON TAA.[NodeLevel] = 1 AND TA.[LscID] = TAA.[LscID] AND TA.[LastAreaID] = TAA.[AreaID];
+            LEFT OUTER JOIN [dbo].[TM_AREA] TAA ON TAA.[NodeLevel] = 1 AND TA.[LscID] = TAA.[LscID] AND TA.[LastAreaID] = TAA.[AreaID] ORDER BY TA.[AreaName];
         END
         ELSE IF(@NodeLevel = 3)
         BEGIN
@@ -1335,7 +1334,7 @@ namespace Delta.PECS.WebCSC.DBUtility
             INNER JOIN [dbo].[TM_LSC] TL ON TA.[NodeLevel] = 3 AND TA.[LscID] = @LscID AND TA.[LscID] = TL.[LscID]
             INNER JOIN #GroupNodes TGT ON TA.[NodeLevel] = 3 AND TGT.[GroupID] = @GroupID AND TGT.[NodeType] = @AreaType AND TA.[LscID] = TGT.[LscID] AND TA.[AreaID] = TGT.[NodeID]
             LEFT OUTER JOIN [dbo].[TM_AREA] TAA ON TAA.[NodeLevel] = 2 AND TA.[LscID] = TAA.[LscID] AND TA.[LastAreaID] = TAA.[AreaID]
-            LEFT OUTER JOIN [dbo].[TM_AREA] TAAA ON TAAA.[NodeLevel] = 1 AND TAA.[LscID] = TAAA.[LscID] AND TAA.[LastAreaID] = TAAA.[AreaID];
+            LEFT OUTER JOIN [dbo].[TM_AREA] TAAA ON TAAA.[NodeLevel] = 1 AND TAA.[LscID] = TAAA.[LscID] AND TAA.[LastAreaID] = TAAA.[AreaID] ORDER BY TA.[AreaName];
         END
         DROP TABLE #GroupNodes;";
         public const string SQL_SELECT_OTHER_GETAREA = @"
@@ -1354,7 +1353,7 @@ namespace Delta.PECS.WebCSC.DBUtility
         LEFT OUTER JOIN [dbo].[TM_Building] TB ON TS.[LscID] = TB.[LscID] AND TS.[BuildingID] = TB.[BuildingID]
         LEFT OUTER JOIN [dbo].[TM_AREA] TA ON TS.[LscID] = TA.[LscID] AND TS.[AreaID] = TA.[AreaID]
         LEFT OUTER JOIN [dbo].[TM_AREA] TAA ON TA.[LscID] = TAA.[LscID] AND TA.[LastAreaID] = TAA.[AreaID] AND TAA.[NodeLevel] = 2
-        LEFT OUTER JOIN [dbo].[TM_AREA] TAAA ON TAA.[LscID] = TAAA.[LscID] AND TAA.[LastAreaID] = TAAA.[AreaID] AND TAAA.[NodeLevel] = 1;";
+        LEFT OUTER JOIN [dbo].[TM_AREA] TAAA ON TAA.[LscID] = TAAA.[LscID] AND TAA.[LastAreaID] = TAAA.[AreaID] AND TAAA.[NodeLevel] = 1 ORDER BY TS.[StaName];";
         public const string SQL_SELECT_OTHER_GETSTATIONSBYGROUPID = @"
         SELECT [LscID],[NodeID],[GroupID],[NodeType],[LastNodeID],[TreeIndex] INTO #GroupNodes FROM [dbo].[Fun_GetGroupTree](@LscID, @GroupID);
         SELECT TL.[LscID],TL.[LscName],TAAA.[AreaID] AS Area1ID,TAAA.[AreaName] AS Area1Name,TAA.[AreaID] AS Area2ID,TAA.[AreaName] AS Area2Name,
@@ -1367,7 +1366,7 @@ namespace Delta.PECS.WebCSC.DBUtility
         LEFT OUTER JOIN [dbo].[TM_Building] TB ON TS.[LscID] = TB.[LscID] AND TS.[BuildingID] = TB.[BuildingID]
         LEFT OUTER JOIN [dbo].[TM_AREA] TA ON TS.[LscID] = TA.[LscID] AND TS.[AreaID] = TA.[AreaID]
         LEFT OUTER JOIN [dbo].[TM_AREA] TAA ON TA.[LscID] = TAA.[LscID] AND TA.[LastAreaID] = TAA.[AreaID] AND TAA.[NodeLevel] = 2
-        LEFT OUTER JOIN [dbo].[TM_AREA] TAAA ON TAA.[LscID] = TAAA.[LscID] AND TAA.[LastAreaID] = TAAA.[AreaID] AND TAAA.[NodeLevel] = 1;
+        LEFT OUTER JOIN [dbo].[TM_AREA] TAAA ON TAA.[LscID] = TAAA.[LscID] AND TAA.[LastAreaID] = TAAA.[AreaID] AND TAAA.[NodeLevel] = 1 ORDER BY TS.[StaName];
         DROP TABLE #GroupNodes;";
         public const string SQL_SELECT_OTHER_GETSTATION = @"
         SELECT TL.[LscID],TL.[LscName],TAAA.[AreaID] AS Area1ID,TAAA.[AreaName] AS Area1Name,TAA.[AreaID] AS Area2ID,TAA.[AreaName] AS Area2Name,
@@ -1394,7 +1393,7 @@ namespace Delta.PECS.WebCSC.DBUtility
         LEFT OUTER JOIN [dbo].[TM_STA] TS ON TD.[LscID] = TS.[LscID] AND TD.[StaID] = TS.[StaID]
         LEFT OUTER JOIN [dbo].[TM_AREA] TA ON TS.[LscID] = TA.[LscID] AND TS.[AreaID] = TA.[AreaID] AND TA.[NodeLevel] = 3
         LEFT OUTER JOIN [dbo].[TM_AREA] TAA ON TA.[LscID] = TAA.[LscID] AND TA.[LastAreaID] = TAA.[AreaID] AND TAA.[NodeLevel] = 2
-        LEFT OUTER JOIN [dbo].[TM_AREA] TAAA ON TAA.[LscID] = TAAA.[LscID] AND TAA.[LastAreaID] = TAAA.[AreaID] AND TAAA.[NodeLevel] = 1;";
+        LEFT OUTER JOIN [dbo].[TM_AREA] TAAA ON TAA.[LscID] = TAAA.[LscID] AND TAA.[LastAreaID] = TAAA.[AreaID] AND TAAA.[NodeLevel] = 1 ORDER BY TD.[DevName];";
         public const string SQL_SELECT_OTHER_GETDEVICESBYGROUPID = @"
         SELECT [LscID],[NodeID],[GroupID],[NodeType],[LastNodeID],[TreeIndex] INTO #GroupNodes FROM [dbo].[Fun_GetGroupTree](@LscID, @GroupID);
         SELECT TL.[LscID],TL.[LscName],TAAA.[AreaID] AS [Area1ID],TAAA.[AreaName] AS [Area1Name],TAA.[AreaID] AS [Area2ID],TAA.[AreaName] AS [Area2Name],
@@ -1411,7 +1410,7 @@ namespace Delta.PECS.WebCSC.DBUtility
         LEFT OUTER JOIN [dbo].[TM_STA] TS ON TD.[LscID] = TS.[LscID] AND TD.[StaID] = TS.[StaID]
         LEFT OUTER JOIN [dbo].[TM_AREA] TA ON TS.[LscID] = TA.[LscID] AND TS.[AreaID] = TA.[AreaID] AND TA.[NodeLevel] = 3
         LEFT OUTER JOIN [dbo].[TM_AREA] TAA ON TA.[LscID] = TAA.[LscID] AND TA.[LastAreaID] = TAA.[AreaID] AND TAA.[NodeLevel] = 2
-        LEFT OUTER JOIN [dbo].[TM_AREA] TAAA ON TAA.[LscID] = TAAA.[LscID] AND TAA.[LastAreaID] = TAAA.[AreaID] AND TAAA.[NodeLevel] = 1;
+        LEFT OUTER JOIN [dbo].[TM_AREA] TAAA ON TAA.[LscID] = TAAA.[LscID] AND TAA.[LastAreaID] = TAAA.[AreaID] AND TAAA.[NodeLevel] = 1 ORDER BY TD.[DevName];
         DROP TABLE #GroupNodes;";
         public const string SQL_SELECT_OTHER_GETDEVICESBYALARMID = @"
         DECLARE @SplitTable TABLE([ID] [INT] NOT NULL);
@@ -1731,6 +1730,49 @@ namespace Delta.PECS.WebCSC.DBUtility
         LEFT OUTER JOIN [dbo].[NK_PubUserInfo] PUI ON PAE.[UserID] = PUI.[UserID] AND PAE.[NetGroupID] = PUI.[NetGroupID]
         LEFT OUTER JOIN [dbo].[NK_LwsNetPoint] LNP ON PAE.[NetGroupID] = LNP.[NetGroupID] AND PAE.[SubPointID] = LNP.[SubPointID] AND PAE.[ControlMachineAddress] = LNP.[ControlMachineAddress] AND PAE.[PointAddress] = LNP.[PointAddress]
         WHERE PAE.[NetGroupID] = 0 AND PAE.[EventTime] BETWEEN @FromTime AND @ToTime ORDER BY PAE.[EventTime] DESC;";
+        public const string SQL_SELECT_OTHER_GetMaskings = @"
+        ;WITH Sta AS (
+	        SELECT TAAA.[AreaID] AS [Area1ID],TAAA.[AreaName] AS [Area1Name],TAA.[AreaID] AS [Area2ID],TAA.[AreaName] AS [Area2Name],TA.[AreaID] AS [Area3ID],TA.[AreaName] AS [Area3Name],
+	        S.[StaID],S.[StaName],M.[NodeID] AS [MaskID],S.[StaName] AS [MaskName],M.[NodeType] AS [MaskType],M.[OpTime] FROM [dbo].[TM_Masking] M
+	        INNER JOIN [dbo].[TM_STA] S ON M.[NodeID] = S.[StaID]
+	        LEFT OUTER JOIN [dbo].[TM_AREA] TA ON S.[AreaID] = TA.[AreaID] AND TA.[NodeLevel] = 3
+            LEFT OUTER JOIN [dbo].[TM_AREA] TAA ON TA.[LastAreaID] = TAA.[AreaID] AND TAA.[NodeLevel] = 2
+            LEFT OUTER JOIN [dbo].[TM_AREA] TAAA ON TAA.[LastAreaID] = TAAA.[AreaID] AND TAAA.[NodeLevel] = 1
+	        WHERE M.NodeType = 0 AND M.OpTime BETWEEN @FromTime AND @ToTime
+        ),
+        Dev AS (
+	        SELECT TAAA.[AreaID] AS [Area1ID],TAAA.[AreaName] AS [Area1Name],TAA.[AreaID] AS [Area2ID],TAA.[AreaName] AS [Area2Name],TA.[AreaID] AS [Area3ID],TA.[AreaName] AS [Area3Name],
+	        S.[StaID],S.[StaName],M.[NodeID] AS [MaskID],D.[DevName] AS [MaskName],M.[NodeType] AS [MaskType],M.[OpTime] FROM [dbo].[TM_Masking] M
+	        INNER JOIN [dbo].[TM_DEV] D ON M.[NodeID] = D.[DevID]
+	        INNER JOIN [dbo].[TM_STA] S ON D.[StaID] = S.[StaID]
+	        LEFT OUTER JOIN [dbo].[TM_AREA] TA ON S.[AreaID] = TA.[AreaID] AND TA.[NodeLevel] = 3
+            LEFT OUTER JOIN [dbo].[TM_AREA] TAA ON TA.[LastAreaID] = TAA.[AreaID] AND TAA.[NodeLevel] = 2
+            LEFT OUTER JOIN [dbo].[TM_AREA] TAAA ON TAA.[LastAreaID] = TAAA.[AreaID] AND TAAA.[NodeLevel] = 1
+	        WHERE M.NodeType = 1 AND M.OpTime BETWEEN @FromTime AND @ToTime
+        ),
+        DI AS (
+	        SELECT TAAA.[AreaID] AS [Area1ID],TAAA.[AreaName] AS [Area1Name],TAA.[AreaID] AS [Area2ID],TAA.[AreaName] AS [Area2Name],TA.[AreaID] AS [Area3ID],TA.[AreaName] AS [Area3Name],
+	        S.[StaID],S.[StaName],M.[NodeID] AS [MaskID],D.[DevName] + ','+N.[DicName] AS [MaskName],M.[NodeType] AS [MaskType],M.[OpTime] FROM [dbo].[TM_Masking] M
+	        INNER JOIN [dbo].[TM_DIC] N ON M.[NodeID] = N.[DicID]
+	        INNER JOIN [dbo].[TM_DEV] D ON N.[DevID] = D.[DevID]
+	        INNER JOIN [dbo].[TM_STA] S ON D.[StaID] = S.[StaID]
+	        LEFT OUTER JOIN [dbo].[TM_AREA] TA ON S.[AreaID] = TA.[AreaID] AND TA.[NodeLevel] = 3
+            LEFT OUTER JOIN [dbo].[TM_AREA] TAA ON TA.[LastAreaID] = TAA.[AreaID] AND TAA.[NodeLevel] = 2
+            LEFT OUTER JOIN [dbo].[TM_AREA] TAAA ON TAA.[LastAreaID] = TAAA.[AreaID] AND TAAA.[NodeLevel] = 1
+	        WHERE M.NodeType = 2 AND M.OpTime BETWEEN @FromTime AND @ToTime
+        ),
+        AI AS (
+	        SELECT TAAA.[AreaID] AS [Area1ID],TAAA.[AreaName] AS [Area1Name],TAA.[AreaID] AS [Area2ID],TAA.[AreaName] AS [Area2Name],TA.[AreaID] AS [Area3ID],TA.[AreaName] AS [Area3Name],
+	        S.[StaID],S.[StaName],M.[NodeID] AS [MaskID],D.[DevName] + ','+N.[AicName] AS [MaskName],M.[NodeType] AS [MaskType],M.[OpTime] FROM [dbo].[TM_Masking] M
+	        INNER JOIN [dbo].[TM_AIC] N ON M.[NodeID] = N.[AicID]
+	        INNER JOIN [dbo].[TM_DEV] D ON N.[DevID] = D.[DevID]
+	        INNER JOIN [dbo].[TM_STA] S ON D.[StaID] = S.[StaID]
+	        LEFT OUTER JOIN [dbo].[TM_AREA] TA ON S.[AreaID] = TA.[AreaID] AND TA.[NodeLevel] = 3
+            LEFT OUTER JOIN [dbo].[TM_AREA] TAA ON TA.[LastAreaID] = TAA.[AreaID] AND TAA.[NodeLevel] = 2
+            LEFT OUTER JOIN [dbo].[TM_AREA] TAAA ON TAA.[LastAreaID] = TAAA.[AreaID] AND TAAA.[NodeLevel] = 1
+	        WHERE M.NodeType = 3 AND M.OpTime BETWEEN @FromTime AND @ToTime
+        )
+        SELECT * FROM Sta UNION ALL SELECT * FROM Dev UNION ALL SELECT * FROM DI UNION ALL SELECT * FROM AI;";
         //Log SQL Text
         public const string SQL_INSERT_LOG_ADDSYSLOGS = @"INSERT INTO [dbo].[TH_SysLog]([EventTime],[EventLevel],[EventType],[Message],[Url],[ClientIP],[Operator]) VALUES(@EventTime,@EventLevel,@EventType,@Message,@Url,@ClientIP,@Operator);";
         //PreAlarm SQL Text
